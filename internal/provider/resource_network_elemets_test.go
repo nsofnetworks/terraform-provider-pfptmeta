@@ -1,6 +1,10 @@
 package provider
 
 import (
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"net/http"
 	"regexp"
 	"testing"
 
@@ -11,6 +15,7 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
+		CheckDestroy:      checkNetworkElementDestroyed,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccResourceMappedSubnet,
@@ -52,6 +57,7 @@ func TestAccResourceMappedService(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
+		CheckDestroy:      checkNetworkElementDestroyed,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccResourceMappedService,
@@ -84,6 +90,28 @@ func TestAccResourceMappedService(t *testing.T) {
 			},
 		},
 	})
+}
+
+func checkNetworkElementDestroyed(s *terraform.State) error {
+	c := provider.Meta().(*client.Client)
+
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type != "pfptmeta_network_element" {
+			continue
+		}
+		neId := rs.Primary.ID
+		_, err := client.GetNetworkElement(c, neId)
+		if err == nil {
+			return fmt.Errorf("network element %s still exists", neId)
+		}
+		errResponse, ok := err.(*client.ErrorResponse)
+		if ok && errResponse.Status == http.StatusNotFound {
+			return nil
+		}
+		return fmt.Errorf("failed to verify network element %s was destroyed: %s", neId, err)
+	}
+
+	return nil
 }
 
 const testAccResourceMappedSubnet = `
