@@ -123,7 +123,7 @@ func GetNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) 
 
 func DeleteNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) {
 	url := fmt.Sprintf("%s%s/%s", c.BaseURL, networkElementsEndpoint, neID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Delete(url, nil)
 	if err != nil {
 		return nil, err
 	}
