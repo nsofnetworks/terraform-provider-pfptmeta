@@ -15,13 +15,13 @@ const (
 )
 
 type MappedHost struct {
-	MappedHost string             `json:"mapped_host"`
-	Name       ResponseOnlyString `json:"name"`
+	MappedHost string `json:"mapped_host"`
+	Name       string `json:"name,omitempty"`
 }
 
 type MappedDomain struct {
-	MappedDomain string             `json:"mapped_domain"`
-	Name         ResponseOnlyString `json:"name"`
+	MappedDomain string `json:"mapped_domain"`
+	Name         string `json:"name,omitempty"`
 }
 
 type NetworkElementBody struct {

@@ -6,15 +6,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-type ResponseOnlyString string
-
-// MarshalJSON When setting a new mapped domain or MappedHost to network element
-// the name goes in the query params and not in the body.
-// This method makes sure that when marshaling a MappedDomain it will not include the name
-func (ResponseOnlyString) MarshalJSON() ([]byte, error) {
-	return []byte(`""`), nil
-}
-
 type Tag struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
