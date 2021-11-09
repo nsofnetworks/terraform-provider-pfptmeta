@@ -55,7 +55,6 @@ func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interfa
 	return diags
 }
 func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewNetworkElementBody(d)
@@ -63,31 +62,22 @@ func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	if d.HasChange("tags") {
-		err = setTags(networkElement.ID, d, c)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-	}
-	networkElement, err = client.GetNetworkElement(c, networkElement.ID)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+	d.SetId(networkElement.ID)
 	err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	tags := client.ConvertTagsListToMap(networkElement.Tags)
-	err = d.Set("tags", tags)
-	if err != nil {
-		return diag.FromErr(err)
+	if d.HasChange("tags") {
+		err = setTags(networkElement.ID, d, c)
+		networkElementsRead(nil, d, meta)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
-	d.SetId(networkElement.ID)
-	return diags
+	return networkElementsRead(nil, d, meta)
 }
 
 func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
 	networkElement, err := client.GetNetworkElement(c, id)
@@ -103,28 +93,19 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 		if err != nil {
 			return diag.FromErr(err)
 		}
-	}
-	if d.HasChange("tags") {
-		err = setTags(networkElement.ID, d, c)
+		err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
 		if err != nil {
 			return diag.FromErr(err)
 		}
 	}
-	networkElement, err = client.GetNetworkElement(c, networkElement.ID)
-	if err != nil {
-		return diag.FromErr(err)
+	if d.HasChange("tags") {
+		err = setTags(networkElement.ID, d, c)
+		networkElementsRead(nil, d, meta)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
-	err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	tags := client.ConvertTagsListToMap(networkElement.Tags)
-	err = d.Set("tags", tags)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	d.SetId(networkElement.ID)
-	return diags
+	return networkElementsRead(nil, d, meta)
 }
 
 func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
