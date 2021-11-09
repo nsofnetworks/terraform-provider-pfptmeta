@@ -6,6 +6,14 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
+  mapped_domains {
+    name          = "test.com"
+    mapped_domain = "test.com"
+  }
+  mapped_domains {
+    name          = "test1.com"
+    mapped_domain = "test1.com"
+  }
 }
 
 resource "pfptmeta_network_element" "mapped-service" {
