@@ -116,6 +116,9 @@ func CreateNetworkElement(c *Client, ne *NetworkElementBody) (*NetworkElementRes
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
 	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
 	return parseNetworkElement(resp)
 }
 
@@ -126,6 +129,9 @@ func UpdateNetworkElement(c *Client, neId string, ne *NetworkElementBody) (*Netw
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
 	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
 	return parseNetworkElement(resp)
 }
 
