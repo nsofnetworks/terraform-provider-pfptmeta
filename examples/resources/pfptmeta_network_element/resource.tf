@@ -32,4 +32,5 @@ resource "pfptmeta_network_element" "mapped-service" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
+  aliases = ["alias1.mapped.service.com", "alias2.mapped.service.com"]
 }

@@ -47,6 +47,7 @@ resource "pfptmeta_network_element" "mapped-service" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
+  aliases = ["alias1.mapped.service.com", "alias2.mapped.service.com"]
 }
 ```
 
@@ -59,6 +60,7 @@ resource "pfptmeta_network_element" "mapped-service" {
 
 ### Optional
 
+- **aliases** (Set of String)
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
 - **mapped_domains** (Block Set) DNS suffixes to be resolved within this Mapped Subnet (see [below for nested schema](#nestedblock--mapped_domains))
@@ -69,7 +71,6 @@ resource "pfptmeta_network_element" "mapped-service" {
 
 ### Read-Only
 
-- **aliases** (List of String)
 - **auto_aliases** (List of String)
 - **created_at** (String)
 - **dns_name** (String)

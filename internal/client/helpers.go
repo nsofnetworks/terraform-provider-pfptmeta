@@ -42,7 +42,7 @@ func isKeyExluded(key string, excludedKeys []string) bool {
 	return false
 }
 
-func resourceTypeSetToStringSlice(s *schema.Set) []string {
+func ResourceTypeSetToStringSlice(s *schema.Set) []string {
 	valuesList := s.List()
 	values := make([]string, len(valuesList))
 	for i := 0; i < len(valuesList); i++ {

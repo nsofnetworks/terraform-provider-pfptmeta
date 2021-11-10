@@ -16,9 +16,9 @@ func TestResourceTypeSetToStringSlice(t *testing.T) {
 	for _, i := range []string{"element1", "element2", "element3"} {
 		s.Add(i)
 	}
-	assert.Contains(t, resourceTypeSetToStringSlice(s), "element1")
-	assert.Contains(t, resourceTypeSetToStringSlice(s), "element2")
-	assert.Contains(t, resourceTypeSetToStringSlice(s), "element3")
+	assert.Contains(t, ResourceTypeSetToStringSlice(s), "element1")
+	assert.Contains(t, ResourceTypeSetToStringSlice(s), "element2")
+	assert.Contains(t, ResourceTypeSetToStringSlice(s), "element3")
 }
 
 func TestConvertTagsListToMap(t *testing.T) {

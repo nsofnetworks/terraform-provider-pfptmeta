@@ -64,7 +64,7 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 	mappedSubnetsExists := d.HasChange("mapped_subnets")
 	if mappedSubnetsExists {
 		_, mappedSubnets := d.GetChange("mapped_subnets")
-		listMappedSubnets := resourceTypeSetToStringSlice(mappedSubnets.(*schema.Set))
+		listMappedSubnets := ResourceTypeSetToStringSlice(mappedSubnets.(*schema.Set))
 		res.MappedSubnets = listMappedSubnets
 	}
 	mappedServiceExists := d.HasChange("mapped_service")
