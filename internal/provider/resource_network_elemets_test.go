@@ -59,6 +59,18 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 					resource.TestMatchResourceAttr(
 						"pfptmeta_network_element.mapped-subnet", "mapped_domains.0.mapped_domain", regexp.MustCompile("step1.test[\\d]*.com$"),
 					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.name", regexp.MustCompile("step1.host[\\d]*.com$"),
+					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.name", regexp.MustCompile("step1.host[\\d]*.com$"),
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.mapped_host", "10.0.0.1",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.mapped_host", "10.0.0.1",
+					),
 				),
 			},
 			{
@@ -75,6 +87,12 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 					),
 					resource.TestMatchResourceAttr(
 						"pfptmeta_network_element.mapped-subnet", "mapped_domains.0.mapped_domain", regexp.MustCompile("step2.test[\\d]*.com$"),
+					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.name", regexp.MustCompile("step2.host[\\d]*.com$"),
+					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.name", regexp.MustCompile("step2.host[\\d]*.com$"),
 					),
 				),
 			},
@@ -157,8 +175,16 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     mapped_domain = "step1.test.com"
   }
   mapped_domains {
-    name = "step1.test1.com"
+    name          = "step1.test1.com"
     mapped_domain = "step1.test1.com"
+  }
+  mapped_hosts {
+    name        = "step1.host.com"
+    mapped_host = "10.0.0.1"
+  }
+  mapped_hosts {
+    name        = "step1.host1.com"
+    mapped_host = "10.0.0.1"
   }
 }
 `
@@ -179,6 +205,14 @@ resource "pfptmeta_network_element" "mapped-subnet" {
   mapped_domains {
     name = "step2.test1.com"
     mapped_domain = "step2.test1.com"
+  }
+  mapped_hosts {
+    name        = "step2.host.com"
+    mapped_host = "10.0.0.1"
+  }
+  mapped_hosts {
+    name        = "step2.host1.com"
+    mapped_host = "10.0.0.1"
   }
 }
 `

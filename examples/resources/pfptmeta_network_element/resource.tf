@@ -14,6 +14,14 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     name          = "test1.com"
     mapped_domain = "test1.com"
   }
+  mapped_hosts {
+    name        = "host.com"
+    mapped_host = "10.0.0.1"
+  }
+  mapped_hosts {
+    name        = "host1.com"
+    mapped_host = "10.0.0.2"
+  }
 }
 
 resource "pfptmeta_network_element" "mapped-service" {

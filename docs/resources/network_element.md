@@ -29,6 +29,14 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     name          = "test1.com"
     mapped_domain = "test1.com"
   }
+  mapped_hosts {
+    name        = "host.com"
+    mapped_host = "10.0.0.1"
+  }
+  mapped_hosts {
+    name        = "host1.com"
+    mapped_host = "10.0.0.2"
+  }
 }
 
 resource "pfptmeta_network_element" "mapped-service" {
@@ -54,6 +62,7 @@ resource "pfptmeta_network_element" "mapped-service" {
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
 - **mapped_domains** (Block Set) DNS suffixes to be resolved within this Mapped Subnet (see [below for nested schema](#nestedblock--mapped_domains))
+- **mapped_hosts** (Block Set) Additional domain names for specific hosts in the mapped subnet (see [below for nested schema](#nestedblock--mapped_hosts))
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **tags** (Map of String) Key/value attributes that can be used to group elements together to Smart Groups, and placed as target or sources in Policies
@@ -67,7 +76,6 @@ resource "pfptmeta_network_element" "mapped-service" {
 - **expires_at** (String)
 - **groups** (List of String)
 - **id** (String) The ID of this resource.
-- **mapped_hosts** (List of Object) Additional domain names for specific hosts in the mapped subnet (see [below for nested schema](#nestedatt--mapped_hosts))
 - **modified_at** (String)
 - **net_id** (Number)
 - **type** (String)
@@ -81,12 +89,12 @@ Required:
 - **name** (String) Internal DNS suffix
 
 
-<a id="nestedatt--mapped_hosts"></a>
+<a id="nestedblock--mapped_hosts"></a>
 ### Nested Schema for `mapped_hosts`
 
-Read-Only:
+Required:
 
-- **mapped_host** (String)
-- **name** (String)
+- **mapped_host** (String) Hostname
+- **name** (String) Remote hostname or IP
 
 

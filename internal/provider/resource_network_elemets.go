@@ -60,20 +60,22 @@ func resourceNetworkElement() *schema.Resource {
 			},
 			"mapped_hosts": {
 				Description: "Additional domain names for specific hosts in the mapped subnet",
-				Type:        schema.TypeList,
+				Type:        schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"mapped_host": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Description: "Hostname",
+							Type:        schema.TypeString,
+							Required:    true,
 						},
 						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Description: "Remote hostname or IP",
+							Type:        schema.TypeString,
+							Required:    true,
 						},
 					},
 				},
-				Computed: true,
+				Optional: true,
 			},
 			"created_at": {
 				Type:     schema.TypeString,

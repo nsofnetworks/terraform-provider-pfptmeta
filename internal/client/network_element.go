@@ -19,6 +19,12 @@ type MappedHost struct {
 	Name       string `json:"name,omitempty"`
 }
 
+// ReqBody returns a body with mapped_host only because the name of the mapped host should be in the path params only
+func (mh *MappedHost) ReqBody() ([]byte, error) {
+	mh.Name = ""
+	return json.Marshal(mh)
+}
+
 type MappedDomain struct {
 	MappedDomain string `json:"mapped_domain"`
 	Name         string `json:"name,omitempty"`
@@ -191,7 +197,7 @@ func DeleteMappedDomain(c *Client, neID, name string) error {
 
 func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) error {
 	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
-	body, err := json.Marshal(mappedHost)
+	body, err := mappedHost.ReqBody()
 	if err != nil {
 		return fmt.Errorf("could not convert MappedHost to json")
 	}
@@ -202,8 +208,8 @@ func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) error {
 	return nil
 }
 
-func DeleteMappedHost(c *Client, neID string, mappedHost *MappedHost) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
+func DeleteMappedHost(c *Client, neID, name string) error {
+	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, name)
 	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err
