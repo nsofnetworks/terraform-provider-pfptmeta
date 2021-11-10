@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
@@ -59,6 +60,10 @@ func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interf
 	c := meta.(*client.Client)
 
 	body := client.NewNetworkElementBody(d)
+	err := validateNetworkElementBody(body, false)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	networkElement, err := client.CreateNetworkElement(c, body)
 	if err != nil {
 		return diag.FromErr(err)
@@ -83,6 +88,10 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 	}
 	if d.HasChanges("name", "description", "enabled", "mapped_subnets", "mapped_service") {
 		body := client.NewNetworkElementBody(d)
+		err = validateNetworkElementBody(body, true)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 		networkElement, err = client.UpdateNetworkElement(c, id, body)
 		if err != nil {
 			return diag.FromErr(err)
@@ -282,4 +291,25 @@ func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.Net
 		diags = append(diags, updateAliases(networkElement.ID, d, c)...)
 	}
 	return diags
+}
+
+// validateNetworkElementBody validates network element body does can be applied to mapped subnet, mapped service or a device without conflicts
+// 'update' arg indicates whether the given body will be used to create a new network element
+// or to update an existing one
+func validateNetworkElementBody(body *client.NetworkElementBody, update bool) error {
+	if update {
+		if body.OwnerID != "" {
+			return fmt.Errorf("\"owner_id\" cannot be updated")
+		}
+		if body.Platform != "" {
+			return fmt.Errorf("\"platform\" cannot be updated")
+		}
+	}
+	if body.MappedSubnets != nil && body.OwnerID != "" ||
+		body.OwnerID != "" && body.MappedService != "" ||
+		body.MappedSubnets != nil && body.MappedService != "" {
+		return fmt.Errorf(
+			"network element can only have one of \"mapped_subnets\", \"mapped_service\" or \"owner_id\"")
+	}
+	return nil
 }

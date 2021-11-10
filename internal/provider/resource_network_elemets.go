@@ -120,6 +120,17 @@ func resourceNetworkElement() *schema.Resource {
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
+			"platform": {
+				Description:      "One of ['Android', 'macOS', 'iOS', 'Linux', 'Windows', 'ChromeOS', 'Unknown']",
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateDiagFunc: validateENUM("Android", "macOS", "iOS", "Linux", "Windows", "ChromeOS", "Unknown"),
+			},
+			"owner_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 		},
 	}
 }

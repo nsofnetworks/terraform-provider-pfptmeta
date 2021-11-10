@@ -34,3 +34,11 @@ resource "pfptmeta_network_element" "mapped-service" {
   }
   aliases = ["alias1.mapped.service.com", "alias2.mapped.service.com"]
 }
+
+resource "pfptmeta_network_element" "device" {
+  name        = "my device"
+  description = "some details about the device"
+  owner_id    = "usr-12345"
+  platform    = "Linux"
+  aliases     = ["alias1.device.com", "alias2.device.com"]
+}

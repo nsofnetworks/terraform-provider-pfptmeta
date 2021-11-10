@@ -156,6 +156,42 @@ func TestAccResourceMappedService(t *testing.T) {
 	})
 }
 
+func TestAccResourceDevice(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		CheckDestroy:      checkNetworkElementDestroyed,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccResourceDevice,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.device", "id", regexp.MustCompile("^ne-.*$"),
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.device", "name", "acc tests device",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.device", "description", "some details about the device",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.device", "owner_id", "usr-LdjvfnK5713B8K1",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.device", "platform", "Linux",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_network_element.device", "type", "Device",
+					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_network_element.device", "net_id", regexp.MustCompile("^[\\d]+$"),
+					),
+				),
+			},
+		},
+	})
+}
+
 func checkNetworkElementDestroyed(s *terraform.State) error {
 	c := provider.Meta().(*client.Client)
 
@@ -259,3 +295,12 @@ resource "pfptmeta_network_element" "mapped-service" {
   aliases = ["step2.mapped.service1.com", "step2.mapped.service2.com"]
 }
 `
+
+const testAccResourceDevice = `
+resource "pfptmeta_network_element" "device" {
+  name        = "acc tests device"
+  description = "some details about the device"
+  owner_id    = "usr-LdjvfnK5713B8K1"
+  platform    = "Linux"
+  aliases     = ["alias.device.com"]
+}`

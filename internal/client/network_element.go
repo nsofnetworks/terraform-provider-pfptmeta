@@ -42,6 +42,8 @@ type NetworkElementBody struct {
 	Enabled       *bool    `json:"enabled,omitempty"`
 	MappedSubnets []string `json:"mapped_subnets,omitempty"`
 	MappedService string   `json:"mapped_service,omitempty"`
+	Platform      string   `json:"platform,omitempty"`
+	OwnerID       string   `json:"owner_id,omitempty"`
 }
 
 func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
@@ -71,6 +73,12 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 	if mappedServiceExists {
 		_, mappedService := d.GetChange("mapped_service")
 		res.MappedService = mappedService.(string)
+	}
+	if d.HasChange("platform") {
+		res.Platform = d.Get("platform").(string)
+	}
+	if d.HasChange("owner_id") {
+		res.OwnerID = d.Get("owner_id").(string)
 	}
 	return res
 }

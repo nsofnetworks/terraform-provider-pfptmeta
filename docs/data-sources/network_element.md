@@ -43,6 +43,8 @@ output "mapped_subnet" {
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **name** (String)
 - **net_id** (Number)
+- **owner_id** (String)
+- **platform** (String)
 - **tags** (Map of String) Key/value attributes that can be used to group elements together to Smart Groups, and placed as target or sources in Policies
 - **type** (String)
 
