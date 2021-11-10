@@ -72,12 +72,9 @@ resource "pfptmeta_network_element" "mapped-service" {
 ### Read-Only
 
 - **auto_aliases** (List of String)
-- **created_at** (String)
 - **dns_name** (String)
-- **expires_at** (String)
 - **groups** (List of String)
 - **id** (String) The ID of this resource.
-- **modified_at** (String)
 - **net_id** (Number)
 - **type** (String)
 

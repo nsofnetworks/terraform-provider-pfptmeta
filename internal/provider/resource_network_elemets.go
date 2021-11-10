@@ -77,18 +77,6 @@ func resourceNetworkElement() *schema.Resource {
 				},
 				Optional: true,
 			},
-			"created_at": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"modified_at": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"expires_at": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"dns_name": {
 				Type:     schema.TypeString,
 				Computed: true,

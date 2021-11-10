@@ -84,9 +84,6 @@ type NetworkElementResponse struct {
 	AutoAliases   []string       `json:"auto_aliases"`
 	Groups        []string       `json:"groups"`
 	Type          string         `json:"type"`
-	CreatedAt     string         `json:"created_at"`
-	ModifiedAt    string         `json:"modified_at,omitempty"`
-	ExpiresAt     string         `json:"expires_at,omitempty"`
 	Tags          []Tag          `json:"tags,omitempty"`
 	Aliases       []string       `json:"aliases"`
 	MappedDomains []MappedDomain `json:"mapped_domains"`
