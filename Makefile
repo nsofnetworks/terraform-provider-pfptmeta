@@ -27,9 +27,16 @@ verify_clean: mod-tidy generate
 	git diff --stat --exit-code || (echo "Uncommitted files found" && exit 1)
 
 
-local-release: verify_clean tests
-	gpg --batch --import $(GPG_SECRET_PATH) && goreleaser release --rm-dist --snapshot
-
-
 release: verify_clean tests
 	gpg --batch --import $(GPG_SECRET_PATH) && goreleaser release --rm-dist
+
+
+LAST_VERSION:=$(shell git describe --tags --abbrev=0)
+VERSION_PARTS:=$(subst ., ,$(LAST_VERSION))
+MAJOR:=0
+MINOR:=0
+PATCH:=$(word 3, $(VERSION_PARTS))
+NEXT_PATCH:=$(shell echo $$(($(PATCH)+1)))
+
+tag_version: verify_clean
+	git tag "$(MAJOR).$(MINOR).$(NEXT_PATCH)"
