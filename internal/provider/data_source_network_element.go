@@ -26,7 +26,7 @@ func dataSourceNetworkElement() *schema.Resource {
 				Computed: true,
 			},
 			"tags": {
-				Description: "Key/value attributes that can be used to group elements together to Smart Groups, and placed as target or sources in Policies",
+				Description: "Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies",
 				Type:        schema.TypeMap,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
@@ -49,7 +49,7 @@ func dataSourceNetworkElement() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_hosts": {
-				Description: "Additional domain names for specific hosts in the mapped subnet",
+				Description: "Additional domain names for specific hosts on the mapped subnet",
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{

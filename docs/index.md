@@ -3,18 +3,17 @@
 page_title: "pfptmeta Provider"
 subcategory: ""
 description: |-
-    The pfptmeta provider provides resources to interact with Proofpoint-metanetworks API.
+The pfptmeta provider allows resources to interact with Proofpoint-metanetworks API.
 ---
 
 # pfptmeta Provider
-
-The pfptmeta provider provides resources to interact with Proofpoint-metanetworks API.
-
-In order to use the provider you must generate an API key in the **Proofpoint Admin Console** under **Administration** -> **API Keys**.
+The pfptmeta provider allows resources to interact with Proofpoint-metanetworks API.
+To use the provider, you must generate an API key in the **Proofpoint Admin Console** under **Administration** -> **API Keys**.
 There are three ways to configure the provider:
-- Using the `api_key`, `api_secret`, `org` keys like shown in the example below.
+- Using the `api_key`, `api_secret`, `org` keys, as illustrated in the example below.
 - Using `PFPTMETA_API_KEY`, `PFPTMETA_API_SECRET`, and `PFPTMETA_ORG_SHORTNAME` env variables.
-- Using a json file placed under the current user's home directory named `~/.pfptmeta/credentials.json` that with the following format:
+- Using a json file placed under the current user's home directory named `~/.pfptmeta/credentials.json` in the following format:
+
 ```json
 {
   "api_key": "<api-key>",

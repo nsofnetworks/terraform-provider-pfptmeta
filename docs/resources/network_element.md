@@ -72,12 +72,12 @@ resource "pfptmeta_network_element" "device" {
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
 - **mapped_domains** (Block Set) DNS suffixes to be resolved within this Mapped Subnet (see [below for nested schema](#nestedblock--mapped_domains))
-- **mapped_hosts** (Block Set) Additional domain names for specific hosts in the mapped subnet (see [below for nested schema](#nestedblock--mapped_hosts))
+- **mapped_hosts** (Block Set) Additional domain names for specific hosts on the mapped subnet (see [below for nested schema](#nestedblock--mapped_hosts))
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **owner_id** (String)
 - **platform** (String) One of ['Android', 'macOS', 'iOS', 'Linux', 'Windows', 'ChromeOS', 'Unknown']
-- **tags** (Map of String) Key/value attributes that can be used to group elements together to Smart Groups, and placed as target or sources in Policies
+- **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
 
 ### Read-Only
 

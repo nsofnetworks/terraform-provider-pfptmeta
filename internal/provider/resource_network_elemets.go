@@ -33,7 +33,7 @@ func resourceNetworkElement() *schema.Resource {
 				Optional: true,
 			},
 			"tags": {
-				Description: "Key/value attributes that can be used to group elements together to Smart Groups, and placed as target or sources in Policies",
+				Description: "Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies",
 				Type:        schema.TypeMap,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Optional:    true,
@@ -59,7 +59,7 @@ func resourceNetworkElement() *schema.Resource {
 				Default:  nil,
 			},
 			"mapped_hosts": {
-				Description: "Additional domain names for specific hosts in the mapped subnet",
+				Description: "Additional domain names for specific hosts on the mapped subnet",
 				Type:        schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
