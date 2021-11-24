@@ -16,18 +16,18 @@ func contains(v string, a []string) bool {
 }
 
 // validateENUM validates ENUM values
-func validateENUM(enum... string) func(interface{}, cty.Path) diag.Diagnostics {
+func validateENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
-	var diags diag.Diagnostics
-	inputString := input.(string)
-	switch {
-	case contains(inputString, enum):
-		return diags
-	default:
-		return append(diags, diag.Diagnostic{
-			Severity: diag.Error,
-			Summary:  fmt.Sprintf("\"%s\" is not one of %+v", inputString, enum),
-		})
+		var diags diag.Diagnostics
+		inputString := input.(string)
+		switch {
+		case contains(inputString, enum):
+			return diags
+		default:
+			return append(diags, diag.Diagnostic{
+				Severity: diag.Error,
+				Summary:  fmt.Sprintf("\"%s\" is not one of %+v", inputString, enum),
+			})
+		}
 	}
-}
 }

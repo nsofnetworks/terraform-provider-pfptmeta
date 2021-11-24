@@ -11,13 +11,13 @@ func TestValidateENUM(t *testing.T) {
 		ShouldError bool
 	}{
 		"positive-test": {
-			Input: "test1",
-			Enum:  []string{"test3", "test2", "test1"},
+			Input:       "test1",
+			Enum:        []string{"test3", "test2", "test1"},
 			ShouldError: false,
 		},
 		"negative-test": {
-			Input: "test4",
-			Enum:  []string{"test3", "test2", "test1"},
+			Input:       "test4",
+			Enum:        []string{"test3", "test2", "test1"},
 			ShouldError: true,
 		},
 	}
