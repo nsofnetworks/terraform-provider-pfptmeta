@@ -40,6 +40,7 @@ func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interfa
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
+			return diags
 		} else {
 			return diag.FromErr(err)
 		}
