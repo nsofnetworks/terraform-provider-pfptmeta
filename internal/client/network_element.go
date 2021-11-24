@@ -48,29 +48,24 @@ type NetworkElementBody struct {
 
 func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 	res := &NetworkElementBody{}
-	nameExists := d.HasChange("name")
-	if nameExists {
+	if d.HasChange("name") {
 		name := d.Get("name")
 		res.Name = name.(string)
 	}
-	descExists := d.HasChange("description")
-	if descExists {
+	if d.HasChange("description") {
 		description := d.Get("description")
 		res.Description = description.(string)
 	}
-	enabledExists := d.HasChange("enabled")
-	if enabledExists {
+	if d.HasChange("enabled") {
 		enabled := d.Get("enabled").(bool)
 		res.Enabled = &enabled
 	}
-	mappedSubnetsExists := d.HasChange("mapped_subnets")
-	if mappedSubnetsExists {
+	if d.HasChange("mapped_subnets") {
 		_, mappedSubnets := d.GetChange("mapped_subnets")
 		listMappedSubnets := ResourceTypeSetToStringSlice(mappedSubnets.(*schema.Set))
 		res.MappedSubnets = listMappedSubnets
 	}
-	mappedServiceExists := d.HasChange("mapped_service")
-	if mappedServiceExists {
+	if d.HasChange("mapped_service") {
 		_, mappedService := d.GetChange("mapped_service")
 		res.MappedService = mappedService.(string)
 	}
