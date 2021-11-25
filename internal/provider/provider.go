@@ -33,9 +33,11 @@ func New(version string) func() *schema.Provider {
 			},
 			DataSourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element": dataSourceNetworkElement(),
+				"pfptmeta_protocol_group":  dataSourceProtocolGroups(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element": resourceNetworkElement(),
+				"pfptmeta_protocol_group":  resourceProtocolGroup(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
