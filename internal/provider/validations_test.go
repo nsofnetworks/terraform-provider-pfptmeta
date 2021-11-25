@@ -142,3 +142,33 @@ func TestValidateHostname(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateIntRange(t *testing.T) {
+	cases := map[string]struct {
+		Input       int
+		Min         int
+		Max         int
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       2,
+			Min:         1,
+			Max:         2,
+			ShouldError: false,
+		},
+		"negative-test": {
+			Input:       3,
+			Min:         1,
+			Max:         2,
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := validateIntRange(tc.Min, tc.Max)(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}

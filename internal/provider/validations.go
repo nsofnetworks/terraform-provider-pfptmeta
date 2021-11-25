@@ -104,3 +104,18 @@ func validateWildcardHostName() func(interface{}, cty.Path) diag.Diagnostics {
 		return validateHostName()(inputString, nil)
 	}
 }
+
+// validateIntRange that integer value is between specified range
+func validateIntRange(min, max int) func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) diag.Diagnostics {
+		var diags diag.Diagnostics
+		inputInt := input.(int)
+		if inputInt < min {
+			return diag.Errorf("%d is lower than minimum value %d", inputInt, min)
+		}
+		if inputInt > max {
+			return diag.Errorf("%d is lower than maximum value %d", inputInt, min)
+		}
+		return diags
+	}
+}
