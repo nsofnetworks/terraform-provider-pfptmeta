@@ -27,7 +27,7 @@ verify_clean: mod-tidy generate
 	git diff --stat --exit-code || (echo "Uncommitted files found" && exit 1)
 
 
-release: verify_clean tests
+release:
 	gpg --batch --import $(GPG_SECRET_PATH) && goreleaser release --rm-dist
 
 

@@ -1,4 +1,4 @@
-pipeline {
+    pipeline {
     options {
         ansiColor('xterm')
       }
@@ -12,6 +12,7 @@ pipeline {
           PFPTMETA_ORG_SHORTNAME = 'tftests'
           VERBOSE = 'true'
           WORKING_DIR = '/home/ubuntu/workspace/terraform-provider-pfptmeta'
+          GITHUB_TOKEN = credentials('GitHub-API-Key')
         }
 
     stages {
@@ -34,9 +35,11 @@ pipeline {
                   withCredentials([
                       sshUserPrivateKey(credentialsId: 'TF_PROVIDER_GPG_KEY', usernameVariable: 'GPG_PRIVATE_KEY', keyFileVariable: 'GPG_SECRET_PATH'),
                       string(credentialsId: 'TF_PROVIDER_GPG_FINGERPRINT', variable: 'GPG_FINGERPRINT')]) {
-                        sh "cd ${env.WORKING_DIR} && git fetch -a && make tag_version"
-                        sh "cd ${env.WORKING_DIR} && git push --tags"
-                        sh "cd ${env.WORKING_DIR} && make release"
+                        sh """#!/bin/bash
+                              cd ${env.WORKING_DIR}
+                              git fetch -a && make tag_version
+                              make release
+                          """
                 }
             }
         }
