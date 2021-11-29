@@ -2,9 +2,11 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io"
 	"io/ioutil"
@@ -107,7 +109,7 @@ func parseCredentialsFile(credentials *Credentials) (*Credentials, error) {
 type Client struct {
 	Credentials       *Credentials
 	Token             *Token
-	HTTPClient        *http.Client
+	HTTP              *retryablehttp.Client
 	BaseURL           string
 	TokenCreationTime int64
 	UserAgent         string
@@ -129,16 +131,31 @@ func parseHttpError(resp *http.Response) error {
 	return errorResponse
 }
 
+// RetryPolicy is a callback for Client.CheckRetry, which
+// will status codes 409, 502, 504.
+func RetryPolicy(ctx context.Context, resp *http.Response, _ error) (bool, error) {
+	// do not retry on context.Canceled or context.DeadlineExceeded
+	if ctx.Err() != nil {
+		return false, ctx.Err()
+	}
+
+	switch resp.StatusCode {
+	case http.StatusConflict, http.StatusBadGateway, http.StatusGatewayTimeout, http.StatusTooManyRequests:
+		return true, nil
+	}
+	return false, nil
+}
+
 func NewClient(d *schema.ResourceData, userAgent string) (*Client, error) {
 	client := &Client{
-		HTTPClient: &http.Client{
-			Transport: &http.Transport{
-				MaxIdleConnsPerHost: maxIdleConnections,
-			},
-			Timeout: time.Duration(requestTimeout) * time.Second,
-		},
+		HTTP:      retryablehttp.NewClient(),
 		UserAgent: userAgent,
 	}
+	client.HTTP.HTTPClient = &http.Client{
+		Transport: &http.Transport{MaxIdleConnsPerHost: maxIdleConnections},
+		Timeout:   time.Duration(requestTimeout) * time.Second,
+	}
+	client.HTTP.CheckRetry = RetryPolicy
 	if url := os.Getenv(baseUrlEnvVar); url != "" {
 		client.BaseURL = url
 	} else {
@@ -163,7 +180,7 @@ func (c *Client) tokenRequest() error {
 		return fmt.Errorf("could not convert credentials to json: %v", err)
 	}
 	url := fmt.Sprintf("%s%s", c.BaseURL, oauthURL)
-	resp, err := c.HTTPClient.Post(url, "application/json", bytes.NewReader(jsonData))
+	resp, err := c.HTTP.Post(url, "application/json", bytes.NewReader(jsonData))
 	if err != nil {
 		return fmt.Errorf("error while trying to create access token: %v", err)
 	}
@@ -201,7 +218,11 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	case http.MethodPatch:
 		r.Header.Set("Content-Type", "application/merge-patch+json")
 	}
-	resp, err := c.HTTPClient.Do(r)
+	retryableRequest, err := retryablehttp.FromRequest(r)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.HTTP.Do(retryableRequest)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute %s request to %s: %v", r.Method, r.URL, err)
 	}
@@ -244,11 +265,13 @@ func (c *Client) Delete(url string, queryParams url.Values) (*http.Response, err
 }
 
 func (c *Client) Post(url string, body io.Reader) (*http.Response, error) {
+	var resp *http.Response
+	var err error
 	req, err := http.NewRequest(http.MethodPost, url, body)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req)
+	resp, err = c.SendRequest(req)
 	if err != nil {
 		return nil, err
 	}
@@ -256,11 +279,13 @@ func (c *Client) Post(url string, body io.Reader) (*http.Response, error) {
 }
 
 func (c *Client) Patch(url string, body io.Reader) (*http.Response, error) {
+	var resp *http.Response
+	var err error
 	req, err := http.NewRequest(http.MethodPatch, url, body)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req)
+	resp, err = c.SendRequest(req)
 	if err != nil {
 		return nil, err
 	}

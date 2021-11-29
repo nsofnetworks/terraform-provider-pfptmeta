@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -13,6 +14,8 @@ import (
 	"testing"
 	"time"
 )
+
+var retryCounter int = 0
 
 func TestParseHttpError(t *testing.T) {
 	errorResponse := &ErrorResponse{
@@ -39,14 +42,13 @@ func TestParseHttpError(t *testing.T) {
 func TestDoRequest(t *testing.T) {
 	server := configureServer(t)
 	client := &Client{
-		HTTPClient: &http.Client{
-			Transport: &http.Transport{
-				MaxIdleConnsPerHost: maxIdleConnections,
-			},
-			Timeout: time.Duration(requestTimeout) * time.Second,
-		},
+		HTTP:        retryablehttp.NewClient(),
 		BaseURL:     server.URL,
 		Credentials: &Credentials{},
+	}
+	client.HTTP.HTTPClient = &http.Client{
+		Transport: &http.Transport{MaxIdleConnsPerHost: maxIdleConnections},
+		Timeout:   time.Duration(requestTimeout) * time.Second,
 	}
 	req, _ := http.NewRequest(http.MethodGet, server.URL+"/v1/test", nil)
 
@@ -75,6 +77,38 @@ func TestDoRequest(t *testing.T) {
 	})
 }
 
+func TestRetry(t *testing.T) {
+	server := configureServer(t)
+	client := &Client{
+		HTTP:        retryablehttp.NewClient(),
+		BaseURL:     server.URL,
+		Credentials: &Credentials{},
+	}
+	client.HTTP.HTTPClient = &http.Client{
+		Transport: &http.Transport{MaxIdleConnsPerHost: maxIdleConnections},
+		Timeout:   time.Duration(requestTimeout) * time.Second,
+	}
+	client.HTTP.CheckRetry = RetryPolicy
+	client.HTTP.Backoff = func(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
+		return time.Duration(1)
+	}
+	req, _ := http.NewRequest(http.MethodGet, server.URL+"/v1/patch_200", nil)
+	resp, err := client.SendRequest(req)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Nil(t, err)
+	assert.Equal(t, 1, retryCounter)
+	req, _ = http.NewRequest(http.MethodGet, server.URL+"/v1/patch_400", nil)
+	resp, err = client.SendRequest(req)
+	assert.Nil(t, resp)
+	assert.NotNil(t, err)
+	assert.Equal(t, 2, retryCounter)
+	req, _ = http.NewRequest(http.MethodGet, server.URL+"/v1/patch_409", nil)
+	resp, err = client.SendRequest(req)
+	assert.Nil(t, resp)
+	assert.NotNil(t, err)
+	assert.Equal(t, 7, retryCounter)
+}
+
 func configureServer(t *testing.T) *httptest.Server {
 	tokenCounter := 1
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
@@ -93,6 +127,31 @@ func configureServer(t *testing.T) *httptest.Server {
 		case "/v1/test":
 			assert.Regexp(t, regexp.MustCompile("Bearer token-[\\d]"), req.Header.Get("Authorization"))
 			rw.Write([]byte("ok"))
+		case "/v1/patch_409":
+			errorResponse := &ErrorResponse{
+				Detail: "error details",
+				Status: 409,
+				Title:  "title",
+				Type:   "type",
+			}
+			bytesRes, _ := json.Marshal(errorResponse)
+			retryCounter++
+			rw.WriteHeader(http.StatusConflict)
+			rw.Write(bytesRes)
+		case "/v1/patch_200":
+			retryCounter++
+			rw.Write([]byte("ok"))
+		case "/v1/patch_400":
+			errorResponse := &ErrorResponse{
+				Detail: "error details",
+				Status: 400,
+				Title:  "title",
+				Type:   "type",
+			}
+			bytesRes, _ := json.Marshal(errorResponse)
+			retryCounter++
+			rw.WriteHeader(http.StatusBadRequest)
+			rw.Write(bytesRes)
 		}
 	}))
 	return server
