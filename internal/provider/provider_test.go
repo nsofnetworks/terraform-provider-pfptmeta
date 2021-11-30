@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
@@ -47,6 +48,30 @@ func testAccPreCheck(t *testing.T) {
 		t.Fatalf("PFPTMETA_ORG_SHORTNAME env var must be set")
 	}
 
+}
+
+func validateResourceDestroyed(resource, resourcePath string) func(s *terraform.State) error {
+	return func(s *terraform.State) error {
+		c := provider.Meta().(*client.Client)
+		resourceType := fmt.Sprintf("pfptmeta_%s", resource)
+
+		for _, rs := range s.RootModule().Resources {
+			if rs.Type != resourceType {
+				continue
+			}
+			neId := rs.Primary.ID
+			_, err := c.GetResource(resourcePath, neId)
+			if err == nil {
+				return fmt.Errorf("%s %s still exists", resource, neId)
+			}
+			errResponse, ok := err.(*client.ErrorResponse)
+			if ok && errResponse.Status == http.StatusNotFound {
+				return nil
+			}
+			return fmt.Errorf("failed to verify %s %s was destroyed: %s",resource, neId, err)
+		}
+		return nil
+	}
 }
 
 func TestConfigure(t *testing.T) {

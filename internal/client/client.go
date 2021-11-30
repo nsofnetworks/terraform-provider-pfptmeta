@@ -271,3 +271,12 @@ func (c *Client) Put(url string, body io.Reader) (*http.Response, error) {
 	}
 	return resp, nil
 }
+
+func (c *Client) GetResource(resourceUrl, ID string) (*http.Response, error) {
+	u := fmt.Sprintf("%s/%s/%s", c.BaseURL, resourceUrl, ID)
+	resp, err := c.Get(u, nil)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
