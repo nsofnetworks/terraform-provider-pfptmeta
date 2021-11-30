@@ -58,7 +58,7 @@ There are two types of tests that can be executed:
 
 Acceptance tests are expressed in terms of Test Cases, each using one or more Terraform configurations designed to create a set of resources under test, and then verify the actual infrastructure created.
 
-*Note:* Acceptance tests create real resources, and often cost money to run, see more about it [here](https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html)
+*Note:* Acceptance tests create real resources, see more about it [here](https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html)
 
 In order to run the full suite of Acceptance tests:
 - Configure the authentication env variables or configuration file specified in [provider documentation](docs/index.md).
