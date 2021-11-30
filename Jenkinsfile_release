@@ -34,10 +34,12 @@
               steps {
                   withCredentials([
                       sshUserPrivateKey(credentialsId: 'TF_PROVIDER_GPG_KEY', usernameVariable: 'GPG_PRIVATE_KEY', keyFileVariable: 'GPG_SECRET_PATH'),
-                      string(credentialsId: 'TF_PROVIDER_GPG_FINGERPRINT', variable: 'GPG_FINGERPRINT')]) {
-                        sh """#!/bin/bash
+                      string(credentialsId: 'TF_PROVIDER_GPG_FINGERPRINT', variable: 'GPG_FINGERPRINT'),
+                      gitUsernamePassword(credentialsId: 'Github-Token')]){
+                          sh """#!/bin/bash
                               cd ${env.WORKING_DIR}
                               git fetch -a && make tag_version
+                              git push origin --tags
                               make release
                           """
                 }
