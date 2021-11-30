@@ -17,13 +17,14 @@ import (
 )
 
 const (
-	baseUrlEnvVar      string = "PFPTMETA_BASE_URL"
-	baseURL            string = "https://api.metanetworks.com"
-	oauthURL           string = "/v1/oauth/token"
-	maxIdleConnections int    = 10
-	requestTimeout     int    = 15
-	configPath         string = ".pfptmeta/credentials.json"
-	grantType          string = "client_credentials"
+	baseUrlEnvVar             string = "PFPTMETA_BASE_URL"
+	baseURL                   string = "https://api.metanetworks.com"
+	oauthURL                  string = "/v1/oauth/token"
+	maxIdleConnections        int    = 10
+	requestTimeout            int    = 15
+	configPath                string = ".pfptmeta/credentials.json"
+	grantType                 string = "client_credentials"
+	eventuallyConsistentSleep        = time.Millisecond * 300
 )
 
 type Config struct {
@@ -206,6 +207,12 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	}
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusIMUsed {
 		return nil, parseHttpError(resp)
+	}
+	// Sometimes after writing it can take up to 100 milliseconds for the resource to actually be consistent in all documentdb server instances.
+	// To make sure the next read will be consistent we will sleep after writing finishes.
+	switch r.Method {
+	case http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete:
+		time.Sleep(eventuallyConsistentSleep)
 	}
 	return resp, nil
 }
