@@ -77,10 +77,6 @@ func resourceNetworkElement() *schema.Resource {
 				},
 				Optional: true,
 			},
-			"dns_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"mapped_subnets": {
 				Description: "CIDRs that will be mapped to the subnet",
 				Type:        schema.TypeSet,
@@ -90,10 +86,6 @@ func resourceNetworkElement() *schema.Resource {
 			"mapped_service": {
 				Type:     schema.TypeString,
 				Optional: true,
-			},
-			"net_id": {
-				Type:     schema.TypeInt,
-				Computed: true,
 			},
 			"type": {
 				Type:     schema.TypeString,

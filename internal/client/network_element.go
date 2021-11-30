@@ -81,9 +81,6 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 type NetworkElementResponse struct {
 	NetworkElementBody
 	ID            string         `json:"id"`
-	OrgID         string         `json:"org_id"`
-	DnsName       string         `json:"dns_name"`
-	NetID         int            `json:"net_id"`
 	AutoAliases   []string       `json:"auto_aliases"`
 	Groups        []string       `json:"groups"`
 	Type          string         `json:"type"`

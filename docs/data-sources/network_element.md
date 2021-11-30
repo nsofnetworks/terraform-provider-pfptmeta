@@ -34,7 +34,6 @@ output "mapped_subnet" {
 - **aliases** (List of String)
 - **auto_aliases** (List of String)
 - **description** (String)
-- **dns_name** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
 - **groups** (List of String)
 - **mapped_domains** (List of Object) DNS suffixes to be resolved within this Mapped Subnet (see [below for nested schema](#nestedatt--mapped_domains))
@@ -42,7 +41,6 @@ output "mapped_subnet" {
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **name** (String)
-- **net_id** (Number)
 - **owner_id** (String)
 - **platform** (String)
 - **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies

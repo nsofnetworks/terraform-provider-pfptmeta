@@ -34,9 +34,6 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-subnet", "type", "Mapped Subnet",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "net_id", regexp.MustCompile("^[\\d]+$"),
-					),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-subnet", "tags.tag_name1", "tag_value1",
 					),
@@ -120,9 +117,6 @@ func TestAccResourceMappedService(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-service", "type", "Mapped Service",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-service", "net_id", regexp.MustCompile("^[\\d]+$"),
-					),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-service", "tags.tag_name1", "tag_value1",
 					),
@@ -178,9 +172,6 @@ func TestAccResourceDevice(t *testing.T) {
 					),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.device", "type", "Device",
-					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.device", "net_id", regexp.MustCompile("^[\\d]+$"),
 					),
 				),
 			},

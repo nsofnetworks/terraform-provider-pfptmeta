@@ -82,10 +82,8 @@ resource "pfptmeta_network_element" "device" {
 ### Read-Only
 
 - **auto_aliases** (List of String)
-- **dns_name** (String)
 - **groups** (List of String)
 - **id** (String) The ID of this resource.
-- **net_id** (Number)
 - **type** (String)
 
 <a id="nestedblock--mapped_domains"></a>

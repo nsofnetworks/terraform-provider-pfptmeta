@@ -68,7 +68,7 @@ func validateResourceDestroyed(resource, resourcePath string) func(s *terraform.
 			if ok && errResponse.Status == http.StatusNotFound {
 				return nil
 			}
-			return fmt.Errorf("failed to verify %s %s was destroyed: %s",resource, neId, err)
+			return fmt.Errorf("failed to verify %s %s was destroyed: %s", resource, neId, err)
 		}
 		return nil
 	}

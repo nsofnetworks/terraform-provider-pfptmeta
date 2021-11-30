@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-var networkElementExcludedKeys = []string{"id", "tags", "org_id"}
+var networkElementExcludedKeys = []string{"id", "tags"}
 
 func setTags(neId string, d *schema.ResourceData, c *client.Client) error {
 	rawTags := d.Get("tags").(map[string]interface{})
