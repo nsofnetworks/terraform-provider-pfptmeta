@@ -35,8 +35,10 @@ LAST_VERSION:=$(shell git describe --tags --abbrev=0)
 VERSION_PARTS:=$(subst ., ,$(LAST_VERSION))
 MAJOR:=0
 MINOR:=0
-PATCH:=$(word 3, $(VERSION_PARTS))
+PATCH_AND_LABEL:=$(word 3, $(VERSION_PARTS))
+PATCH_AND_LABEL_PARTS:=$(subst -, ,$(PATCH_AND_LABEL))
+PATCH:=$(word 1, $(PATCH_AND_LABEL_PARTS))
 NEXT_PATCH:=$(shell echo $$(($(PATCH)+1)))
 
-tag_version: verify_clean
-	git tag "$(MAJOR).$(MINOR).$(NEXT_PATCH)"
+tag_version:
+	git tag "$(MAJOR).$(MINOR).$(NEXT_PATCH)$(if $(LABEL),"-$(LABEL)")"

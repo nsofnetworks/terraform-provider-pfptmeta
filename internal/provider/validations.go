@@ -37,7 +37,7 @@ func validateENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnostics {
 	}
 }
 
-func validateID(numeric bool, prefixes... string) func(interface{}, cty.Path) diag.Diagnostics{
+func validateID(numeric bool, prefixes ...string) func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
 		var diags diag.Diagnostics
 		ID := input.(string)
@@ -62,7 +62,7 @@ func validateID(numeric bool, prefixes... string) func(interface{}, cty.Path) di
 	}
 }
 
-func validatePattern(pattern *regexp.Regexp) func(interface{}, cty.Path) diag.Diagnostics{
+func validatePattern(pattern *regexp.Regexp) func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
 		var diags diag.Diagnostics
 		inputString := input.(string)

@@ -92,12 +92,12 @@ func TestValidatePattern(t *testing.T) {
 	}{
 		"positive-test": {
 			Input:       "test123",
-			pattern:    regexp.MustCompile("test[\\d]+"),
+			pattern:     regexp.MustCompile("test[\\d]+"),
 			ShouldError: false,
 		},
 		"negative-test": {
 			Input:       "abcd",
-			pattern:    regexp.MustCompile("[\\d]+"),
+			pattern:     regexp.MustCompile("[\\d]+"),
 			ShouldError: true,
 		},
 	}
