@@ -99,11 +99,6 @@ func resourceNetworkElement() *schema.Resource {
 				Optional:    true,
 				Default:     true,
 			},
-			"aliases": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
-			},
 			"auto_aliases": {
 				Type:     schema.TypeList,
 				Computed: true,

@@ -84,11 +84,6 @@ func dataSourceNetworkElement() *schema.Resource {
 				Type:        schema.TypeBool,
 				Computed:    true,
 			},
-			"aliases": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
-			},
 			"auto_aliases": {
 				Type:     schema.TypeList,
 				Computed: true,

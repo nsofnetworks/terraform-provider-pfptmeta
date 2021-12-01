@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-var networkElementExcludedKeys = []string{"id", "tags"}
+var networkElementExcludedKeys = []string{"id", "tags", "aliases"}
 
 func setTags(neId string, d *schema.ResourceData, c *client.Client) error {
 	rawTags := d.Get("tags").(map[string]interface{})
@@ -223,47 +223,6 @@ func parseMappedHosts(mhs *schema.Set) []*client.MappedHost {
 	return resp
 }
 
-func updateAliases(neID string, d *schema.ResourceData, c *client.Client) diag.Diagnostics {
-	var diags diag.Diagnostics
-	oldA, newA := d.GetChange("aliases")
-	oldASet := oldA.(*schema.Set)
-	newASet := newA.(*schema.Set)
-	AliasesToDelete := client.ResourceTypeSetToStringSlice(oldASet.Difference(newASet))
-	AliasesToWrite := client.ResourceTypeSetToStringSlice(newASet.Difference(oldASet))
-	var wg sync.WaitGroup
-	wg.Add(len(AliasesToWrite) + len(AliasesToDelete))
-	diagsChan := make(chan diag.Diagnostics, len(AliasesToWrite)+len(AliasesToDelete))
-	for _, a := range AliasesToDelete {
-		a := a
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.DeleteNetworkElementAlias(c, neID, a)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)...)
-			}
-			diagsChan <- diags
-		}()
-	}
-	for _, a := range AliasesToWrite {
-		a := a
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.AssignNetworkElementAlias(c, neID, a)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)[0])
-			}
-			diagsChan <- diags
-		}()
-	}
-	wg.Wait()
-	close(diagsChan)
-	diags = append(diags, <-diagsChan...)
-	diags = append(diags, networkElementsRead(nil, d, c)...)
-	return diags
-}
-
 func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.NetworkElementResponse, c *client.Client) diag.Diagnostics {
 	var diags diag.Diagnostics
 	if d.HasChange("tags") {
@@ -278,9 +237,6 @@ func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.Net
 	}
 	if d.HasChange("mapped_hosts") {
 		diags = append(diags, updateMappedHosts(networkElement.ID, d, c)...)
-	}
-	if d.HasChange("aliases") {
-		diags = append(diags, updateAliases(networkElement.ID, d, c)...)
 	}
 	return diags
 }

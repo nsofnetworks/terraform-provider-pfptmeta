@@ -31,7 +31,6 @@ output "mapped_subnet" {
 
 ### Read-Only
 
-- **aliases** (List of String)
 - **auto_aliases** (List of String)
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain

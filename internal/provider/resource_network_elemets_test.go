@@ -123,23 +123,6 @@ func TestAccResourceMappedService(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-service", "tags.tag_name2", "tag_value2",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-service", "aliases.0", regexp.MustCompile("^step1.mapped.service[12]+.com$"),
-					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-service", "aliases.1", regexp.MustCompile("^step1.mapped.service[12]+.com$"),
-					),
-				),
-			},
-			{
-				Config: testAccResourceMappedServiceStep2,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-service", "aliases.0", regexp.MustCompile("^step2.mapped.service[12]+.com$"),
-					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-service", "aliases.1", regexp.MustCompile("^step2.mapped.service[12]+.com$"),
-					),
 				),
 			},
 		},
@@ -244,20 +227,6 @@ resource "pfptmeta_network_element" "mapped-service" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
-  aliases = ["step1.mapped.service1.com", "step1.mapped.service2.com"]
-}
-`
-
-const testAccResourceMappedServiceStep2 = `
-resource "pfptmeta_network_element" "mapped-service" {
-  name           = "mapped service name"
-  description    = "some details about the mapped service"
-  mapped_service = "mapped.service.com"
-  tags = {
-    tag_name1 = "tag_value1"
-    tag_name2 = "tag_value2"
-  }
-  aliases = ["step2.mapped.service1.com", "step2.mapped.service2.com"]
 }
 `
 
@@ -267,5 +236,4 @@ resource "pfptmeta_network_element" "device" {
   description = "some details about the device"
   owner_id    = "usr-LdjvfnK5713B8K1"
   platform    = "Linux"
-  aliases     = ["alias.device.com"]
 }`

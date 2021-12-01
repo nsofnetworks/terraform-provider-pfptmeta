@@ -158,24 +158,6 @@ func AssignNetworkElementTags(c *Client, neID string, tags []*Tag) error {
 	return nil
 }
 
-func AssignNetworkElementAlias(c *Client, neID, alias string) error {
-	url := fmt.Sprintf("%s%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
-	_, err := c.Put(url, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func DeleteNetworkElementAlias(c *Client, neID, alias string) error {
-	url := fmt.Sprintf("%s%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
-	_, err := c.Delete(url, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func SetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) error {
 	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
 	body, err := mappedDomain.ReqBody()
