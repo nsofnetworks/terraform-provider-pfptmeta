@@ -21,14 +21,6 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
-  mapped_domains {
-    name          = "test.com"
-    mapped_domain = "test.com"
-  }
-  mapped_domains {
-    name          = "test1.com"
-    mapped_domain = "test1.com"
-  }
   mapped_hosts {
     name        = "host.com"
     mapped_host = "10.0.0.1"
@@ -68,7 +60,6 @@ resource "pfptmeta_network_element" "device" {
 
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
-- **mapped_domains** (Block Set) DNS suffixes to be resolved within this Mapped Subnet (see [below for nested schema](#nestedblock--mapped_domains))
 - **mapped_hosts** (Block Set) Additional domain names for specific hosts on the mapped subnet (see [below for nested schema](#nestedblock--mapped_hosts))
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
@@ -82,15 +73,6 @@ resource "pfptmeta_network_element" "device" {
 - **groups** (List of String)
 - **id** (String) The ID of this resource.
 - **type** (String)
-
-<a id="nestedblock--mapped_domains"></a>
-### Nested Schema for `mapped_domains`
-
-Required:
-
-- **mapped_domain** (String) Meta DNS suffix
-- **name** (String) Internal DNS suffix
-
 
 <a id="nestedblock--mapped_hosts"></a>
 ### Nested Schema for `mapped_hosts`

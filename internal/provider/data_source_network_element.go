@@ -31,23 +31,6 @@ func dataSourceNetworkElement() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
-			"mapped_domains": {
-				Description: "DNS suffixes to be resolved within this Mapped Subnet",
-				Type:        schema.TypeList,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"mapped_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-				Computed: true,
-			},
 			"mapped_hosts": {
 				Description: "Additional domain names for specific hosts on the mapped subnet",
 				Type:        schema.TypeList,

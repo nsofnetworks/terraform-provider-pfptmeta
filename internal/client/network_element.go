@@ -25,17 +25,6 @@ func (mh *MappedHost) ReqBody() ([]byte, error) {
 	return json.Marshal(mh)
 }
 
-type MappedDomain struct {
-	MappedDomain string `json:"mapped_domain"`
-	Name         string `json:"name,omitempty"`
-}
-
-// ReqBody returns a body with mapped_domain only because the name of the mapped domain should be in the path params only
-func (md *MappedDomain) ReqBody() ([]byte, error) {
-	md.Name = ""
-	return json.Marshal(md)
-}
-
 type NetworkElementBody struct {
 	Name          string   `json:"name,omitempty"`
 	Description   string   `json:"description,omitempty"`
@@ -80,14 +69,13 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 
 type NetworkElementResponse struct {
 	NetworkElementBody
-	ID            string         `json:"id"`
-	AutoAliases   []string       `json:"auto_aliases"`
-	Groups        []string       `json:"groups"`
-	Type          string         `json:"type"`
-	Tags          []Tag          `json:"tags,omitempty"`
-	Aliases       []string       `json:"aliases"`
-	MappedDomains []MappedDomain `json:"mapped_domains"`
-	MappedHosts   []MappedHost   `json:"mapped_hosts"`
+	ID          string       `json:"id"`
+	AutoAliases []string     `json:"auto_aliases"`
+	Groups      []string     `json:"groups"`
+	Type        string       `json:"type"`
+	Tags        []Tag        `json:"tags,omitempty"`
+	Aliases     []string     `json:"aliases"`
+	MappedHosts []MappedHost `json:"mapped_hosts"`
 }
 
 func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
@@ -152,28 +140,6 @@ func AssignNetworkElementTags(c *Client, neID string, tags []*Tag) error {
 	}
 	url := fmt.Sprintf("%s%s/%s/tags", c.BaseURL, networkElementsEndpoint, neID)
 	_, err = c.Put(url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func SetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
-	body, err := mappedDomain.ReqBody()
-	if err != nil {
-		return fmt.Errorf("could not convert MappedDomain to json")
-	}
-	_, err = c.Put(url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func DeleteMappedDomain(c *Client, neID, name string) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, name)
-	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err
 	}

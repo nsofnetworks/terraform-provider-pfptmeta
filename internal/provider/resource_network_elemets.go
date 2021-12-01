@@ -38,26 +38,6 @@ func resourceNetworkElement() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Optional:    true,
 			},
-			"mapped_domains": {
-				Description: "DNS suffixes to be resolved within this Mapped Subnet",
-				Type:        schema.TypeSet,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"mapped_domain": {
-							Description: "Meta DNS suffix",
-							Type:        schema.TypeString,
-							Required:    true,
-						},
-						"name": {
-							Description: "Internal DNS suffix",
-							Type:        schema.TypeString,
-							Required:    true,
-						},
-					},
-				},
-				Optional: true,
-				Default:  nil,
-			},
 			"mapped_hosts": {
 				Description: "Additional domain names for specific hosts on the mapped subnet",
 				Type:        schema.TypeSet,

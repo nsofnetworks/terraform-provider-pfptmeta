@@ -113,61 +113,6 @@ func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interf
 	return diags
 }
 
-func updateMappedDomains(neID string, d *schema.ResourceData, c *client.Client) diag.Diagnostics {
-	var diags diag.Diagnostics
-	oldMd, newMd := d.GetChange("mapped_domains")
-	oldMdSet := oldMd.(*schema.Set)
-	newMdSet := newMd.(*schema.Set)
-	toDelete := oldMdSet.Difference(newMdSet)
-	toWrite := newMdSet.Difference(oldMdSet)
-	mdsToDelete := parseMappedDomains(toDelete)
-	mdsToWrite := parseMappedDomains(toWrite)
-	var wg sync.WaitGroup
-	wg.Add(toDelete.Len() + toWrite.Len())
-	diagsChan := make(chan diag.Diagnostics, toDelete.Len()+toWrite.Len())
-	for _, md := range mdsToDelete {
-		md := md
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.DeleteMappedDomain(c, neID, md.Name)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)...)
-			}
-			diagsChan <- diags
-		}()
-	}
-	for _, md := range mdsToWrite {
-		md := md
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.SetMappedDomain(c, neID, md)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)...)
-			}
-			diagsChan <- diags
-		}()
-	}
-	wg.Wait()
-	close(diagsChan)
-	diags = append(diags, <-diagsChan...)
-	diags = append(diags, networkElementsRead(nil, d, c)...)
-	return diags
-}
-
-func parseMappedDomains(mds *schema.Set) []*client.MappedDomain {
-	if mds.Len() == 0 {
-		return nil
-	}
-	resp := make([]*client.MappedDomain, mds.Len())
-	for i, v := range mds.List() {
-		md := v.(map[string]interface{})
-		resp[i] = &client.MappedDomain{Name: md["name"].(string), MappedDomain: md["mapped_domain"].(string)}
-	}
-	return resp
-}
-
 func updateMappedHosts(neID string, d *schema.ResourceData, c *client.Client) diag.Diagnostics {
 	var diags diag.Diagnostics
 	oldMh, newMh := d.GetChange("mapped_hosts")
@@ -231,9 +176,6 @@ func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.Net
 		if err != nil {
 			return diag.FromErr(err)
 		}
-	}
-	if d.HasChange("mapped_domains") {
-		diags = append(diags, updateMappedDomains(networkElement.ID, d, c)...)
 	}
 	if d.HasChange("mapped_hosts") {
 		diags = append(diags, updateMappedHosts(networkElement.ID, d, c)...)
