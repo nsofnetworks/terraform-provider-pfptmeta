@@ -14,17 +14,6 @@ const (
 	networkElementsEndpoint string = "/v1/network_elements"
 )
 
-type MappedHost struct {
-	MappedHost string `json:"mapped_host"`
-	Name       string `json:"name,omitempty"`
-}
-
-// ReqBody returns a body with mapped_host only because the name of the mapped host should be in the path params only
-func (mh *MappedHost) ReqBody() ([]byte, error) {
-	mh.Name = ""
-	return json.Marshal(mh)
-}
-
 type NetworkElementBody struct {
 	Name          string   `json:"name,omitempty"`
 	Description   string   `json:"description,omitempty"`
@@ -69,13 +58,12 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 
 type NetworkElementResponse struct {
 	NetworkElementBody
-	ID          string       `json:"id"`
-	AutoAliases []string     `json:"auto_aliases"`
-	Groups      []string     `json:"groups"`
-	Type        string       `json:"type"`
-	Tags        []Tag        `json:"tags,omitempty"`
-	Aliases     []string     `json:"aliases"`
-	MappedHosts []MappedHost `json:"mapped_hosts"`
+	ID          string   `json:"id"`
+	AutoAliases []string `json:"auto_aliases"`
+	Groups      []string `json:"groups"`
+	Type        string   `json:"type"`
+	Tags        []Tag    `json:"tags,omitempty"`
+	Aliases     []string `json:"aliases"`
 }
 
 func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
@@ -140,28 +128,6 @@ func AssignNetworkElementTags(c *Client, neID string, tags []*Tag) error {
 	}
 	url := fmt.Sprintf("%s%s/%s/tags", c.BaseURL, networkElementsEndpoint, neID)
 	_, err = c.Put(url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
-	body, err := mappedHost.ReqBody()
-	if err != nil {
-		return fmt.Errorf("could not convert MappedHost to json")
-	}
-	_, err = c.Put(url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func DeleteMappedHost(c *Client, neID, name string) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, name)
-	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err
 	}

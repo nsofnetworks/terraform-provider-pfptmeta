@@ -35,11 +35,13 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_network_element":       dataSourceNetworkElement(),
 				"pfptmeta_network_element_alias": dataSourceNetworkElementAlias(),
 				"pfptmeta_mapped_domain":         dataSourceMappedDomain(),
+				"pfptmeta_mapped_host":           dataSourceMappedHost(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":       resourceNetworkElement(),
 				"pfptmeta_network_element_alias": resourceNetworkElementAlias(),
 				"pfptmeta_mapped_domain":         resourceMappedDomain(),
+				"pfptmeta_mapped_host":           resourceMappedHost(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)

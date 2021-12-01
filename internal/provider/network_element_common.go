@@ -6,7 +6,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"net/http"
-	"sync"
 )
 
 var networkElementExcludedKeys = []string{"id", "tags", "aliases"}
@@ -69,7 +68,7 @@ func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	return updateExpandedAttributes(d, networkElement, c)
+	return updateTags(d, networkElement, c)
 }
 
 func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
@@ -93,7 +92,7 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 			return diag.FromErr(err)
 		}
 	}
-	return updateExpandedAttributes(d, networkElement, c)
+	return updateTags(d, networkElement, c)
 }
 
 func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
@@ -113,62 +112,7 @@ func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interf
 	return diags
 }
 
-func updateMappedHosts(neID string, d *schema.ResourceData, c *client.Client) diag.Diagnostics {
-	var diags diag.Diagnostics
-	oldMh, newMh := d.GetChange("mapped_hosts")
-	oldMhSet := oldMh.(*schema.Set)
-	newMhSet := newMh.(*schema.Set)
-	toDelete := oldMhSet.Difference(newMhSet)
-	toWrite := newMhSet.Difference(oldMhSet)
-	mhsToDelete := parseMappedHosts(toDelete)
-	mhsToWrite := parseMappedHosts(toWrite)
-	var wg sync.WaitGroup
-	wg.Add(toDelete.Len() + toWrite.Len())
-	diagsChan := make(chan diag.Diagnostics, toDelete.Len()+toWrite.Len())
-	for _, mh := range mhsToDelete {
-		mh := mh
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.DeleteMappedHost(c, neID, mh.Name)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)...)
-			}
-			diagsChan <- diags
-		}()
-	}
-	for _, mh := range mhsToWrite {
-		mh := mh
-		go func() {
-			defer wg.Done()
-			var diags diag.Diagnostics
-			err := client.SetMappedHost(c, neID, mh)
-			if err != nil {
-				diags = append(diags, diag.FromErr(err)[0])
-			}
-			diagsChan <- diags
-		}()
-	}
-	wg.Wait()
-	close(diagsChan)
-	diags = append(diags, <-diagsChan...)
-	diags = append(diags, networkElementsRead(nil, d, c)...)
-	return diags
-}
-
-func parseMappedHosts(mhs *schema.Set) []*client.MappedHost {
-	if mhs.Len() == 0 {
-		return nil
-	}
-	resp := make([]*client.MappedHost, mhs.Len())
-	for i, v := range mhs.List() {
-		md := v.(map[string]interface{})
-		resp[i] = &client.MappedHost{Name: md["name"].(string), MappedHost: md["mapped_host"].(string)}
-	}
-	return resp
-}
-
-func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.NetworkElementResponse, c *client.Client) diag.Diagnostics {
+func updateTags(d *schema.ResourceData, networkElement *client.NetworkElementResponse, c *client.Client) diag.Diagnostics {
 	var diags diag.Diagnostics
 	if d.HasChange("tags") {
 		err := setTags(networkElement.ID, d, c)
@@ -176,9 +120,6 @@ func updateExpandedAttributes(d *schema.ResourceData, networkElement *client.Net
 		if err != nil {
 			return diag.FromErr(err)
 		}
-	}
-	if d.HasChange("mapped_hosts") {
-		diags = append(diags, updateMappedHosts(networkElement.ID, d, c)...)
 	}
 	return diags
 }

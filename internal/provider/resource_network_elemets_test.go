@@ -40,29 +40,6 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_network_element.mapped-subnet", "tags.tag_name2", "tag_value2",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.name", regexp.MustCompile("step1.host[\\d]*.com$"),
-					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.name", regexp.MustCompile("step1.host[\\d]*.com$"),
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.mapped_host", "10.0.0.1",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.mapped_host", "10.0.0.1",
-					),
-				),
-			},
-			{
-				Config: testAccResourceMappedSubnetStep2,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.0.name", regexp.MustCompile("step2.host[\\d]*.com$"),
-					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.mapped-subnet", "mapped_hosts.1.name", regexp.MustCompile("step2.host[\\d]*.com$"),
-					),
 				),
 			},
 		},
@@ -147,14 +124,6 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
-  mapped_hosts {
-    name        = "step1.host.com"
-    mapped_host = "10.0.0.1"
-  }
-  mapped_hosts {
-    name        = "step1.host1.com"
-    mapped_host = "10.0.0.1"
-  }
 }
 `
 
@@ -166,14 +135,6 @@ resource "pfptmeta_network_element" "mapped-subnet" {
   tags = {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
-  }
-  mapped_hosts {
-    name        = "step2.host.com"
-    mapped_host = "10.0.0.1"
-  }
-  mapped_hosts {
-    name        = "step2.host1.com"
-    mapped_host = "10.0.0.1"
   }
 }
 `
