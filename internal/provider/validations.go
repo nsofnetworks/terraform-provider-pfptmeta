@@ -10,6 +10,7 @@ import (
 
 var numericPattern = regexp.MustCompile("^[0-9]{1,30}$")
 var alphabetPattern = regexp.MustCompile("^[a-zA-Z0-9]{1,30}$")
+var hostnameLabelPattern = regexp.MustCompile("^[A-Za-z\\d\\_][A-Za-z\\d\\-\\_]{0,62}[A-Za-z\\d\\_]$")
 
 func contains(v string, a []string) bool {
 	for _, i := range a {
@@ -70,5 +71,36 @@ func validatePattern(pattern *regexp.Regexp) func(interface{}, cty.Path) diag.Di
 			return diag.Errorf("\"%s\" does not match pattern \"%s\"", inputString, pattern.String())
 		}
 		return diags
+	}
+}
+
+func validateHostName() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) diag.Diagnostics {
+		var diags diag.Diagnostics
+		inputString := input.(string)
+		if len(inputString) == 0 || len(inputString) > 255 || strings.HasSuffix(inputString, ".") {
+			return diag.Errorf("\"%s\" is not a valid hostname", inputString)
+		}
+		labels := strings.Split(inputString, ".")
+		numLabels := len(labels)
+		if match, _ := regexp.MatchString("\"[0-9]+$", labels[numLabels-1]); match {
+			return diag.Errorf("\"%s\" is not a valid hostname - the TLD must not be all-numeric", inputString)
+		}
+		for _, l := range labels {
+			if !hostnameLabelPattern.MatchString(l) {
+				return diag.Errorf("\"%s\" is not a valid hostname", inputString)
+			}
+		}
+		return diags
+	}
+}
+
+func validateWildcardHostName() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) diag.Diagnostics {
+		inputString := input.(string)
+		if strings.HasPrefix(inputString, "*.") {
+			return validateHostName()(inputString[2:], nil)
+		}
+		return validateHostName()(inputString, nil)
 	}
 }
