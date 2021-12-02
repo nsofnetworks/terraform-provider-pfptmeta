@@ -120,16 +120,3 @@ func DeleteNetworkElement(c *Client, neID string) (*NetworkElementResponse, erro
 	}
 	return parseNetworkElement(resp)
 }
-
-func AssignNetworkElementTags(c *Client, neID string, tags []*Tag) error {
-	body, err := json.Marshal(tags)
-	if err != nil {
-		return fmt.Errorf("could not convert network element to json: %v", err)
-	}
-	url := fmt.Sprintf("%s%s/%s/tags", c.BaseURL, networkElementsEndpoint, neID)
-	_, err = c.Put(url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-	return nil
-}

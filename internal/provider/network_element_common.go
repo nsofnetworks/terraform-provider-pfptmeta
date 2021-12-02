@@ -10,25 +10,6 @@ import (
 
 var networkElementExcludedKeys = []string{"id", "tags", "aliases"}
 
-func setTags(neId string, d *schema.ResourceData, c *client.Client) error {
-	rawTags := d.Get("tags").(map[string]interface{})
-	tags := make([]*client.Tag, len(rawTags))
-	index := 0
-	for key, value := range rawTags {
-		Tag := &client.Tag{
-			Name:  key,
-			Value: value.(string),
-		}
-		tags[index] = Tag
-		index += 1
-	}
-	err := client.AssignNetworkElementTags(c, neId, tags)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)
@@ -112,14 +93,17 @@ func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interf
 	return diags
 }
 
-func updateTags(d *schema.ResourceData, networkElement *client.NetworkElementResponse, c *client.Client) diag.Diagnostics {
-	var diags diag.Diagnostics
+func updateTags(d *schema.ResourceData, ne *client.NetworkElementResponse, c *client.Client) (diags diag.Diagnostics) {
 	if d.HasChange("tags") {
-		err := setTags(networkElement.ID, d, c)
+		tags := client.NewTags(d)
+		err := client.AssignTagsToResource(c, ne.ID, "network_elements", tags)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 		networkElementsRead(nil, d, c)
 		if err != nil {
 			return diag.FromErr(err)
 		}
 	}
-	return diags
+	return
 }

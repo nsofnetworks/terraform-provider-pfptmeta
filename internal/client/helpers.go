@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -9,6 +10,34 @@ import (
 type Tag struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+func NewTags(d *schema.ResourceData) []Tag {
+	rawTags := d.Get("tags").(map[string]interface{})
+	tags := make([]Tag, len(rawTags))
+	index := 0
+	for key, value := range rawTags {
+		t := Tag{
+			Name:  key,
+			Value: value.(string),
+		}
+		tags[index] = t
+		index += 1
+	}
+	return tags
+}
+
+func AssignTagsToResource(c *Client, rID, rName string, tags []Tag) error {
+	body, err := json.Marshal(tags)
+	if err != nil {
+		return fmt.Errorf("could not convert tags to json: %v", err)
+	}
+	url := fmt.Sprintf("%s/v1/%s/%s/tags", c.BaseURL, rName, rID)
+	_, err = c.Put(url, bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func MapResponseToResource(r interface{}, d *schema.ResourceData, excludedKeys []string) error {
