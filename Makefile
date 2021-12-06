@@ -41,4 +41,4 @@ PATCH:=$(word 1, $(PATCH_AND_LABEL_PARTS))
 NEXT_PATCH:=$(shell echo $$(($(PATCH)+1)))
 
 tag_version:
-	git tag "$(MAJOR).$(MINOR).$(NEXT_PATCH)$(if $(LABEL),"-$(LABEL)")"
+	git tag "$(MAJOR).$(MINOR).$(NEXT_PATCH)$(if $(LABEL),-$(LABEL))"
