@@ -35,8 +35,10 @@ func resourceNetworkElement() *schema.Resource {
 			"tags": {
 				Description: "Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies",
 				Type:        schema.TypeMap,
-				Elem:        &schema.Schema{Type: schema.TypeString},
-				Optional:    true,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: validatePattern(tagPattern)},
+				Optional: true,
 			},
 			"mapped_hosts": {
 				Description: "Additional domain names for specific hosts on the mapped subnet",

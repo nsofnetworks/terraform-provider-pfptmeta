@@ -5,7 +5,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"regexp"
 )
+
+var tagPattern = regexp.MustCompile("^[a-zA-Z0-9-_]+$")
 
 func New(version string) func() *schema.Provider {
 	return func() *schema.Provider {
