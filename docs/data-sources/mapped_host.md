@@ -18,7 +18,7 @@ data "pfptmeta_mapped_host" "mapped-host" {
   name               = "host.test.com"
 }
 
-output "alias" {
+output "mapped_host" {
   value = data.pfptmeta_mapped_host.mapped-host
 }
 ```

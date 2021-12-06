@@ -2,6 +2,6 @@ data "pfptmeta_metaport_cluster" "metaport_cluster" {
   id = "mpc-123"
 }
 
-output "mapped_subnet" {
+output "metaport_cluster" {
   value = data.pfptmeta_metaport_cluster.metaport_cluster
 }

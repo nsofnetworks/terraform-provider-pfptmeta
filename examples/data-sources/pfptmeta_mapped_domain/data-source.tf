@@ -3,6 +3,6 @@ data "pfptmeta_mapped_domain" "mapped-domain" {
   name               = "test.com"
 }
 
-output "alias" {
+output "mapped_domain" {
   value = data.pfptmeta_mapped_domain.mapped-domain
 }
