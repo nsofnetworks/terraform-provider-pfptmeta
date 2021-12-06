@@ -35,7 +35,7 @@ func resourceMetaportCluster() *schema.Resource {
 					ValidateDiagFunc: validateID(true, "ed", "ne")},
 			},
 			"metaports": {
-				Description: "List of Metaport IDs",
+				Description: "List of MetaPort IDs",
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Elem: &schema.Schema{

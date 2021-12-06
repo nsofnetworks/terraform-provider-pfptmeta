@@ -32,7 +32,7 @@ func resourceMetaport() *schema.Resource {
 				Optional: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element ids",
+				Description: "List of mapped element IDs",
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Elem: &schema.Schema{

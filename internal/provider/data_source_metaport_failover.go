@@ -12,8 +12,9 @@ func dataSourceMetaportFailover() *schema.Resource {
 		ReadContext: metaportFailoverRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ValidateDiagFunc: validateID(false, "mpf"),
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -24,29 +25,28 @@ func dataSourceMetaportFailover() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element ids.",
+				Description: "List of mapped element IDs",
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 			"cluster_1": {
-				Description: "Priority #1 metaport cluster id. This cluster is active by default. " +
-					"When Failover Condition is met for this cluster the higher priority cluster becomes active.",
+				Description: "Priority #1 MetaPort cluster ID. This cluster is active by default. " +
+					"When failover condition is met for this cluster, the higher priority cluster becomes active.",
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"cluster_2": {
-				Description: "Priority #2 metaport cluster id. This cluster becomes active when " +
-					"failover condition is met on a lower priority cluster.",
-				Type:     schema.TypeString,
-				Computed: true,
+				Description: "Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster.",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 			"active_cluster": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"failback": {
-				Description: "Primary to Secondary cluster switchover.",
+				Description: "Primary to secondary cluster switchover.",
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -59,7 +59,7 @@ func dataSourceMetaportFailover() *schema.Resource {
 				Computed: true,
 			},
 			"failover": {
-				Description: "Secondary to Primary cluster switchover.",
+				Description: "Secondary to primary cluster switchover.",
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -73,10 +73,9 @@ func dataSourceMetaportFailover() *schema.Resource {
 							Computed:    true,
 						},
 						"threshold": {
-							Description: "Minimum number of healthy metaports to keep/make a cluster active. " +
-								"Zero (0) denotes all metaports in a cluster.",
-							Type:     schema.TypeInt,
-							Computed: true,
+							Description: "Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster.",
+							Type:        schema.TypeInt,
+							Computed:    true,
 						},
 					},
 				},

@@ -25,6 +25,8 @@ resource "pfptmeta_metaport_failover" "failover" {
   name            = "metaport failover name"
   description     = "metaport failover description"
   mapped_elements = [pfptmeta_network_element.mapped-subnet.id]
+  cluster_1       = pfptmeta_metaport_cluster.metaport_cluster1
+  cluster_2       = pfptmeta_metaport_cluster.metaport_cluster2
   failback {
     trigger = "auto"
   }

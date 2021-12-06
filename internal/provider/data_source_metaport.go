@@ -14,8 +14,9 @@ func dataSourceMetaport() *schema.Resource {
 		ReadContext: metaportRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ValidateDiagFunc: validateID(true, "mp"),
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -26,7 +27,7 @@ func dataSourceMetaport() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element ids",
+				Description: "List of mapped element IDs",
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},

@@ -38,7 +38,7 @@ resource "pfptmeta_metaport" "metaport1" {
 - **allow_support** (Boolean)
 - **description** (String)
 - **enabled** (Boolean)
-- **mapped_elements** (Set of String) List of mapped element ids
+- **mapped_elements** (Set of String) List of mapped element IDs
 
 ### Read-Only
 

@@ -36,7 +36,7 @@ output "mapped_subnet" {
 - **dns_name** (String)
 - **enabled** (Boolean)
 - **health** (String)
-- **mapped_elements** (Set of String) List of mapped element ids
+- **mapped_elements** (Set of String) List of mapped element IDs
 - **name** (String)
 
 

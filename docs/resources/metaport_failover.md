@@ -40,6 +40,8 @@ resource "pfptmeta_metaport_failover" "failover" {
   name            = "metaport failover name"
   description     = "metaport failover description"
   mapped_elements = [pfptmeta_network_element.mapped-subnet.id]
+  cluster_1       = pfptmeta_metaport_cluster.metaport_cluster1
+  cluster_2       = pfptmeta_metaport_cluster.metaport_cluster2
   failback {
     trigger = "auto"
   }
@@ -60,12 +62,12 @@ resource "pfptmeta_metaport_failover" "failover" {
 
 ### Optional
 
-- **cluster_1** (String) Priority #1 metaport cluster id. This cluster is active by default. When Failover Condition is met for this cluster the higher priority cluster becomes active.
-- **cluster_2** (String) Priority #2 metaport cluster id. This cluster becomes active when failover condition is met on a lower priority cluster.
+- **cluster_1** (String) Priority #1 MetaPort cluster ID. This cluster is active by default. When failover condition is met for this cluster, the higher priority cluster becomes active.
+- **cluster_2** (String) Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster.
 - **description** (String)
-- **failback** (Block List, Max: 1) Primary to Secondary cluster switchover. (see [below for nested schema](#nestedblock--failback))
-- **failover** (Block List, Max: 1) Secondary to Primary cluster switchover. (see [below for nested schema](#nestedblock--failover))
-- **mapped_elements** (Set of String) List of mapped element ids.
+- **failback** (Block List, Max: 1) Primary to secondary cluster switchover. (see [below for nested schema](#nestedblock--failback))
+- **failover** (Block List, Max: 1) Secondary to primary cluster switchover. (see [below for nested schema](#nestedblock--failover))
+- **mapped_elements** (Set of String) List of mapped element IDs
 
 ### Read-Only
 
@@ -86,7 +88,7 @@ Required:
 Required:
 
 - **delay** (Number) Number of minutes to wait before execution of failover, defaults to 1.
-- **threshold** (Number) Minimum number of healthy metaports to keep/make a cluster active. Zero (0) denotes all metaports in a cluster.
+- **threshold** (Number) Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster.
 - **trigger** (String) ENUM: [auto, manual], defaults to auto.
 
 

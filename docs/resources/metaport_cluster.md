@@ -47,7 +47,7 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster" {
 
 - **description** (String)
 - **mapped_elements** (Set of String) List of mapped element IDs
-- **metaports** (Set of String) List of Metaport IDs
+- **metaports** (Set of String) List of MetaPort IDs
 
 ### Read-Only
 

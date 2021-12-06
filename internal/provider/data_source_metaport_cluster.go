@@ -12,8 +12,9 @@ func dataSourceMetaportCluster() *schema.Resource {
 		ReadContext: metaportRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ValidateDiagFunc: validateID(false, "mpc"),
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -30,7 +31,7 @@ func dataSourceMetaportCluster() *schema.Resource {
 				Elem:        schema.TypeString,
 			},
 			"metaports": {
-				Description: "List of Metaport IDs",
+				Description: "List of MetaPort IDs",
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        schema.TypeString,
