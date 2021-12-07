@@ -45,6 +45,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_enterprise_dns":        dataSourceEnterpriseDNS(),
 				"pfptmeta_protocol_group":        dataSourceProtocolGroup(),
 				"pfptmeta_role":                  dataSourceRoles(),
+				"pfptmeta_group":                 dataSourceGroup(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":       resourceNetworkElement(),
@@ -57,6 +58,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_enterprise_dns":        resourceEnterpriseDNS(),
 				"pfptmeta_protocol_group":        resourceProtocolGroup(),
 				"pfptmeta_role":                  resourceRole(),
+				"pfptmeta_group":                 resourceGroup(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
