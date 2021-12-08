@@ -1,0 +1,90 @@
+package routing_group
+
+import (
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"net/http"
+)
+
+const (
+	description = "User routing groups is a logical group of subnets which co-exist at the same time. " +
+		"These are independent subnets, which can be the same or contain overlapping IP addresses that can be used without conflicting with each other."
+	mappedElementIdsDesc = "Mapped subnets and services that belong to this routing group."
+	sourcesDesc          = "Users, groups or devices whose traffic will be routed."
+	exemptSourcesDesc    = "Users, groups or devices whose traffic will not be routed."
+)
+
+var excludedKeys = []string{"id"}
+
+func routingGroupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	var diags diag.Diagnostics
+	c := meta.(*client.Client)
+
+	body := client.NewRoutingGroup(d)
+	r, err := client.CreateRoutingGroup(c, body)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	d.SetId(r.ID)
+	err = client.MapResponseToResource(r, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return diags
+}
+func routingGroupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	var diags diag.Diagnostics
+	c := meta.(*client.Client)
+	id := d.Get("id").(string)
+	rg, err := client.GetRoutingGroup(c, id)
+	if err != nil {
+		errResponse, ok := err.(*client.ErrorResponse)
+		if ok && errResponse.Status == http.StatusNotFound {
+			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
+		}
+	}
+	err = client.MapResponseToResource(rg, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	d.SetId(rg.ID)
+	return diags
+}
+
+func routingGroupUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	var diags diag.Diagnostics
+	c := meta.(*client.Client)
+	id := d.Id()
+	body := client.NewRoutingGroup(d)
+	r, err := client.UpdateRoutingGroup(c, id, body)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	d.SetId(r.ID)
+	err = client.MapResponseToResource(r, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return diags
+}
+func routingGroupDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	var diags diag.Diagnostics
+	c := meta.(*client.Client)
+	id := d.Id()
+	_, err := client.DeleteRoutingGroup(c, id)
+	if err != nil {
+		errResponse, ok := err.(*client.ErrorResponse)
+		if ok && errResponse.Status == http.StatusNotFound {
+			d.SetId("")
+		} else {
+			return diag.FromErr(err)
+		}
+	}
+	d.SetId("")
+	return diags
+}

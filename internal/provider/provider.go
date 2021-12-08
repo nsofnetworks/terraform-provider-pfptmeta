@@ -16,6 +16,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 )
 
@@ -56,6 +57,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_role":                  role.DataSource(),
 				"pfptmeta_group":                 group.DataSource(),
 				"pfptmeta_user":                  user.DataSource(),
+				"pfptmeta_routing_group":         routing_group.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":       network_element.Resource(),
@@ -70,6 +72,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_role":                  role.Resource(),
 				"pfptmeta_group":                 group.Resource(),
 				"pfptmeta_user":                  user.Resource(),
+				"pfptmeta_routing_group":         routing_group.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
