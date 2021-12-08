@@ -24,6 +24,15 @@ func TestAccResourceMappedHost(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_mapped_host.mapped-host", "mapped_host", "host.test.com",
 					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_mapped_host.mapped-host-with-ipv4", "network_element_id", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_mapped_host.mapped-host-with-ipv4", "name", "host.test1.com",
+					),
+					resource.TestCheckResourceAttr(
+						"pfptmeta_mapped_host.mapped-host-with-ipv4", "mapped_host", "10.72.1.0",
+					),
 				),
 			},
 		},
@@ -41,5 +50,11 @@ resource "pfptmeta_mapped_host" "mapped-host" {
   network_element_id = pfptmeta_network_element.mapped-subnet.id
   mapped_host        = "host.test.com"
   name               = "host.test.com"
+}
+
+resource "pfptmeta_mapped_host" "mapped-host-with-ipv4" {
+  network_element_id = pfptmeta_network_element.mapped-subnet.id
+  mapped_host        = "10.72.1.0"
+  name               = "host.test1.com"
 }
 `

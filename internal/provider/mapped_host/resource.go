@@ -27,7 +27,7 @@ func Resource() *schema.Resource {
 			"mapped_host": {
 				Type:             schema.TypeString,
 				Required:         true,
-				ValidateDiagFunc: common.ValidateHostName(),
+				ValidateDiagFunc: common.ValidateHostnameOrIPV4(),
 				ForceNew:         true,
 			},
 			"name": {
