@@ -22,8 +22,8 @@ func DataSource() *schema.Resource {
 				ValidateDiagFunc: common.ValidateID(true, "ne"),
 			},
 			"mapped_host": {
-				Type:             schema.TypeString,
-				Computed:         true,
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"name": {
 				Type:             schema.TypeString,

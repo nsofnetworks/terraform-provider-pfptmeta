@@ -45,10 +45,6 @@ func Resource() *schema.Resource {
 				Optional: true,
 				Default:  true,
 			},
-			"health": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"allow_support": {
 				Type:     schema.TypeBool,
 				Optional: true,

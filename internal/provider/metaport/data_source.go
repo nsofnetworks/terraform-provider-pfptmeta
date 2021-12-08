@@ -37,10 +37,6 @@ func DataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"health": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"allow_support": {
 				Type:     schema.TypeBool,
 				Computed: true,

@@ -20,7 +20,6 @@ type Metaport struct {
 	Enabled        *bool    `json:"enabled,omitempty"`
 	AllowSupport   *bool    `json:"allow_support,omitempty"`
 	MappedElements []string `json:"mapped_elements"`
-	Health         string   `json:"health,omitempty"`
 }
 
 func NewMetaport(d *schema.ResourceData) *Metaport {

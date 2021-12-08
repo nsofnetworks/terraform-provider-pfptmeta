@@ -42,7 +42,6 @@ resource "pfptmeta_metaport" "metaport1" {
 
 ### Read-Only
 
-- **health** (String)
 - **id** (String) The ID of this resource.
 
 

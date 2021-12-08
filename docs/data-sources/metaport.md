@@ -35,7 +35,6 @@ output "metaport" {
 - **description** (String)
 - **dns_name** (String)
 - **enabled** (Boolean)
-- **health** (String)
 - **mapped_elements** (Set of String) List of mapped element IDs
 - **name** (String)
 
