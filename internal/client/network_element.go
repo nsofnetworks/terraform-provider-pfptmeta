@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	networkElementsEndpoint string = "/v1/network_elements"
+	networkElementsEndpoint string = "v1/network_elements"
 )
 
 type NetworkElementBody struct {
 	Name          string   `json:"name,omitempty"`
-	Description   string   `json:"description,omitempty"`
-	Enabled       *bool    `json:"enabled,omitempty"`
+	Description   string   `json:"description"`
+	Enabled       bool     `json:"enabled"`
 	MappedSubnets []string `json:"mapped_subnets,omitempty"`
 	MappedService string   `json:"mapped_service,omitempty"`
 	Platform      string   `json:"platform,omitempty"`
@@ -27,25 +27,20 @@ type NetworkElementBody struct {
 func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 	res := &NetworkElementBody{}
 	if d.HasChange("name") {
-		name := d.Get("name")
-		res.Name = name.(string)
+		res.Name = d.Get("name").(string)
 	}
-	if d.HasChange("description") {
-		description := d.Get("description")
-		res.Description = description.(string)
-	}
-	if d.HasChange("enabled") {
-		enabled := d.Get("enabled").(bool)
-		res.Enabled = &enabled
-	}
+
+	res.Description = d.Get("description").(string)
+
+	res.Enabled = d.Get("enabled").(bool)
+
 	if d.HasChange("mapped_subnets") {
-		_, mappedSubnets := d.GetChange("mapped_subnets")
+		mappedSubnets := d.Get("mapped_subnets")
 		listMappedSubnets := ResourceTypeSetToStringSlice(mappedSubnets.(*schema.Set))
 		res.MappedSubnets = listMappedSubnets
 	}
 	if d.HasChange("mapped_service") {
-		_, mappedService := d.GetChange("mapped_service")
-		res.MappedService = mappedService.(string)
+		res.MappedService = d.Get("mapped_service").(string)
 	}
 	if d.HasChange("platform") {
 		res.Platform = d.Get("platform").(string)
@@ -78,7 +73,7 @@ func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
 }
 
 func CreateNetworkElement(c *Client, ne *NetworkElementBody) (*NetworkElementResponse, error) {
-	neUrl := fmt.Sprintf("%s%s", c.BaseURL, networkElementsEndpoint)
+	neUrl := fmt.Sprintf("%s/%s", c.BaseURL, networkElementsEndpoint)
 	body, err := json.Marshal(ne)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
@@ -91,7 +86,7 @@ func CreateNetworkElement(c *Client, ne *NetworkElementBody) (*NetworkElementRes
 }
 
 func UpdateNetworkElement(c *Client, neId string, ne *NetworkElementBody) (*NetworkElementResponse, error) {
-	neUrl := fmt.Sprintf("%s%s/%s", c.BaseURL, networkElementsEndpoint, neId)
+	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neId)
 	body, err := json.Marshal(ne)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
@@ -104,7 +99,7 @@ func UpdateNetworkElement(c *Client, neId string, ne *NetworkElementBody) (*Netw
 }
 
 func GetNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) {
-	url := fmt.Sprintf("%s%s/%s", c.BaseURL, networkElementsEndpoint, neID)
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neID)
 	resp, err := c.Get(url, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
@@ -113,7 +108,7 @@ func GetNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) 
 }
 
 func DeleteNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) {
-	url := fmt.Sprintf("%s%s/%s", c.BaseURL, networkElementsEndpoint, neID)
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neID)
 	resp, err := c.Delete(url, nil)
 	if err != nil {
 		return nil, err

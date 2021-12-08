@@ -31,7 +31,7 @@ func parseMappedDomain(resp *http.Response) (*MappedDomain, error) {
 }
 
 func GetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
-	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
 	resp, err := c.Get(url, nil)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func GetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*Mappe
 }
 
 func SetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
-	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
 	body, err := mappedDomain.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedDomain to json")
@@ -53,7 +53,7 @@ func SetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*Mappe
 }
 
 func DeleteMappedDomain(c *Client, neID, name string) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, name)
 	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err

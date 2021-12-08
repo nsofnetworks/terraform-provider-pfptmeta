@@ -31,7 +31,7 @@ func parseMappedHost(resp *http.Response) (*MappedHost, error) {
 }
 
 func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
 	body, err := mappedHost.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedHost to json")
@@ -44,7 +44,7 @@ func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost,
 }
 
 func GetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
 	resp, err := c.Get(url, nil)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func GetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost,
 }
 
 func DeleteMappedHost(c *Client, neID, name string) error {
-	url := fmt.Sprintf("%s%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, name)
+	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, name)
 	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err

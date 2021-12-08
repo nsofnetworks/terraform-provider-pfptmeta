@@ -6,7 +6,7 @@ import (
 )
 
 func AssignNetworkElementAlias(c *Client, neID, alias string) error {
-	url := fmt.Sprintf("%s%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
+	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
 	_, err := c.Put(url, nil)
 	if err != nil {
 		return err
@@ -15,7 +15,7 @@ func AssignNetworkElementAlias(c *Client, neID, alias string) error {
 }
 
 func DeleteNetworkElementAlias(c *Client, neID, alias string) error {
-	url := fmt.Sprintf("%s%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
+	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
 	_, err := c.Delete(url, nil)
 	if err != nil {
 		return err
