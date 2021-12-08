@@ -174,6 +174,50 @@ func TestValidateIntRange(t *testing.T) {
 	}
 }
 
+func TestValidateHostnameOrIPV4(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test-hostname": {
+			Input:       "test.com",
+			ShouldError: false,
+		},
+		"positive-test-ipv4": {
+			Input:       "127.0.0.1",
+			ShouldError: false,
+		},
+		"negative-test-bad-ipv4": {
+			Input:       "127.0.0.1.",
+			ShouldError: true,
+		},
+		"negative-test-ipv6": {
+			Input:       "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+			ShouldError: true,
+		},
+		"negative-test-numeric-tld": {
+			Input:       "test.com.1234",
+			ShouldError: true,
+		},
+		"negative-test-dot-suffix": {
+			Input:       "test.com.",
+			ShouldError: true,
+		},
+		"negative-test-hyphen-suffix": {
+			Input:       "test-.com",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateHostnameOrIPV4()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
+
 var validPrivs = []string{
 	"orgs:read",
 	"orgs:write",

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"net"
 	"regexp"
 	"strings"
 )
@@ -119,5 +120,17 @@ func ValidateIntRange(min, max int) func(interface{}, cty.Path) diag.Diagnostics
 			return diag.Errorf("%d is lower than maximum value %d", inputInt, min)
 		}
 		return diags
+	}
+}
+
+func ValidateHostnameOrIPV4() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		hostnameValidation := ValidateHostName()(inputString, nil)
+		ipv4Validation := net.ParseIP(inputString) != nil
+		if hostnameValidation.HasError() && !ipv4Validation {
+			return diag.Errorf("\"%s\" is not a valid hostname or ipv4", inputString)
+		}
+		return
 	}
 }
