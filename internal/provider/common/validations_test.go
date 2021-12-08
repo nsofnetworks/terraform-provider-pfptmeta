@@ -310,3 +310,83 @@ func TestPrivilegesPattern(t *testing.T) {
 		assert.False(t, PrivilegesPattern.MatchString(priv))
 	}
 }
+
+func TestValidateEmail(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "test@test.com",
+			ShouldError: false,
+		},
+		"positive-test2": {
+			Input:       "a@valid.email",
+			ShouldError: false,
+		},
+		"positive-test-mail-with-tag": {
+			Input:       "user.name+tag+sorting@example.com",
+			ShouldError: false,
+		},
+		"positive-test-mail-with-hyphen": {
+			Input:       "an.email-with-hyphen@examle.com",
+			ShouldError: false,
+		},
+		"positive-test-mail-with-non-alphabetic": {
+			Input:       "#!$%&'*+-/=?^_`{}|~@example.org",
+			ShouldError: false,
+		},
+		"negative-test": {
+			Input:       "invalid.email",
+			ShouldError: true,
+		},
+		"negative-test-two-@": {
+			Input:       "invalid@e@mail.com",
+			ShouldError: true,
+		},
+		"negative-test-no-domain": {
+			Input:       "invalid@email",
+			ShouldError: true,
+		},
+		"negative-test-spaces": {
+			Input:       "abc.def @valid.email",
+			ShouldError: true,
+		},
+		"negative-test-backslash": {
+			Input:       "abc.def\\\\u00a@valid.email",
+			ShouldError: true,
+		},
+		"negative-test-invalid-local": {
+			Input:       "john..doe@example.com",
+			ShouldError: true,
+		},
+		"negative-test-invalid-domain": {
+			Input:       "john.doe@example..com",
+			ShouldError: true,
+		},
+		"negative-test-local-starts-with-dot": {
+			Input:       ".john.doe@example.com",
+			ShouldError: true,
+		},
+		"negative-test-local-ends-with-dot": {
+			Input:       "john.doe.@example.com",
+			ShouldError: true,
+		},
+		"negative-test-domain-starts-with-dot": {
+			Input:       "john.doe@.example.com",
+			ShouldError: true,
+		},
+		"negative-test-domain-ends-with-dot": {
+			Input:       "john.doe@example.com.",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateEmail()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}

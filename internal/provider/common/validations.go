@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"net"
+	"net/mail"
 	"regexp"
 	"strings"
 )
@@ -130,6 +131,20 @@ func ValidateHostnameOrIPV4() func(interface{}, cty.Path) diag.Diagnostics {
 		ipv4Validation := net.ParseIP(inputString) != nil
 		if hostnameValidation.HasError() && !ipv4Validation {
 			return diag.Errorf("\"%s\" is not a valid hostname or ipv4", inputString)
+		}
+		return
+	}
+}
+
+func ValidateEmail() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		if len(inputString) > 254 {
+			return diag.Errorf("\"%s\" is not a valid email - cannot be longer than 254 characters", inputString)
+		}
+		_, err := mail.ParseAddress(inputString)
+		if err != nil {
+			return diag.Errorf("\"%s\" is not a valid email", inputString)
 		}
 		return
 	}
