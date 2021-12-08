@@ -28,12 +28,12 @@ output "mapped_host" {
 
 ### Required
 
-- **mapped_host** (String)
 - **name** (String)
 - **network_element_id** (String)
 
 ### Read-Only
 
 - **id** (String) The ID of this resource.
+- **mapped_host** (String)
 
 

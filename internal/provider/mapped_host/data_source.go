@@ -23,8 +23,7 @@ func DataSource() *schema.Resource {
 			},
 			"mapped_host": {
 				Type:             schema.TypeString,
-				Required:         true,
-				ValidateDiagFunc: common.ValidateHostName(),
+				Computed:         true,
 			},
 			"name": {
 				Type:             schema.TypeString,

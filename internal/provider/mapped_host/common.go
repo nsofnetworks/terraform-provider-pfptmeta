@@ -23,9 +23,7 @@ func mappedHostRead(_ context.Context, d *schema.ResourceData, meta interface{})
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
-	mappedHost := d.Get("mapped_host").(string)
-	mhBody := &client.MappedHost{MappedHost: mappedHost, Name: name}
-	mh, err := client.GetMappedHost(c, neID, mhBody)
+	mh, err := client.GetMappedHost(c, neID, &client.MappedHost{Name: name})
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
