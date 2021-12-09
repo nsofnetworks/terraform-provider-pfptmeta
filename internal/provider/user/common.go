@@ -15,8 +15,8 @@ Users can own multiple devices, each with a dedicated certificate that is used t
 
 Users can be provisioned in the system either by locally creating the users and groups from the Admin portal or API. Another, more common practice, is to provision users from an organization directory service, by way of SCIM or LDAP protocols.`
 	givenNameDesc  = "User first name"
-	familyNameDesc = "User family name"
-	tagsDesc       = "Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies"
+	familyNameDesc = "User last name"
+	tagsDesc       = "Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies"
 )
 
 var userExcludedKeys = []string{"id", "tags"}

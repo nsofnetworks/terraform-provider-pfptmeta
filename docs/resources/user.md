@@ -38,7 +38,7 @@ resource "pfptmeta_user" "user" {
 ### Required
 
 - **email** (String)
-- **family_name** (String) User family name
+- **family_name** (String) User last name
 - **given_name** (String) User first name
 
 ### Optional
@@ -46,7 +46,7 @@ resource "pfptmeta_user" "user" {
 - **description** (String)
 - **enabled** (Boolean)
 - **phone** (String)
-- **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
+- **tags** (Map of String) Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies
 
 ### Read-Only
 

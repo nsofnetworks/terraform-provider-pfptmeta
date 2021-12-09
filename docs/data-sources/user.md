@@ -48,10 +48,10 @@ output "user_by_email" {
 
 - **description** (String)
 - **enabled** (Boolean)
-- **family_name** (String) User family name
+- **family_name** (String) User last name
 - **given_name** (String) User first name
 - **name** (String)
 - **phone** (String)
-- **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
+- **tags** (Map of String) Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies
 
 
