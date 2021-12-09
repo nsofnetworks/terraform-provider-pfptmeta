@@ -5,10 +5,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
-	"regexp"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_failover"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element_alias"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 )
-
-var tagPattern = regexp.MustCompile("^[a-zA-Z0-9-_]+$")
 
 func New(version string) func() *schema.Provider {
 	return func() *schema.Provider {
@@ -35,30 +43,30 @@ func New(version string) func() *schema.Provider {
 				},
 			},
 			DataSourcesMap: map[string]*schema.Resource{
-				"pfptmeta_network_element_alias": dataSourceNetworkElementAlias(),
-				"pfptmeta_mapped_domain":         dataSourceMappedDomain(),
-				"pfptmeta_mapped_host":           dataSourceMappedHost(),
-				"pfptmeta_network_element":       dataSourceNetworkElement(),
-				"pfptmeta_metaport":              dataSourceMetaport(),
-				"pfptmeta_metaport_cluster":      dataSourceMetaportCluster(),
-				"pfptmeta_metaport_failover":     dataSourceMetaportFailover(),
-				"pfptmeta_enterprise_dns":        dataSourceEnterpriseDNS(),
-				"pfptmeta_protocol_group":        dataSourceProtocolGroup(),
-				"pfptmeta_role":                  dataSourceRoles(),
-				"pfptmeta_group":                 dataSourceGroup(),
+				"pfptmeta_network_element_alias": network_element_alias.DataSource(),
+				"pfptmeta_mapped_domain":         mapped_domain.DataSource(),
+				"pfptmeta_mapped_host":           mapped_host.DataSource(),
+				"pfptmeta_network_element":       network_element.DataSource(),
+				"pfptmeta_metaport":              metaport.DataSource(),
+				"pfptmeta_metaport_cluster":      metaport_cluster.DataSource(),
+				"pfptmeta_metaport_failover":     metaport_failover.DataSource(),
+				"pfptmeta_enterprise_dns":        enterprise_dns.DataSource(),
+				"pfptmeta_protocol_group":        protocol_group.DataSource(),
+				"pfptmeta_role":                  role.DataSource(),
+				"pfptmeta_group":                 group.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
-				"pfptmeta_network_element":       resourceNetworkElement(),
-				"pfptmeta_network_element_alias": resourceNetworkElementAlias(),
-				"pfptmeta_mapped_domain":         resourceMappedDomain(),
-				"pfptmeta_mapped_host":           resourceMappedHost(),
-				"pfptmeta_metaport":              resourceMetaport(),
-				"pfptmeta_metaport_cluster":      resourceMetaportCluster(),
-				"pfptmeta_metaport_failover":     resourceMetaportFailover(),
-				"pfptmeta_enterprise_dns":        resourceEnterpriseDNS(),
-				"pfptmeta_protocol_group":        resourceProtocolGroup(),
-				"pfptmeta_role":                  resourceRole(),
-				"pfptmeta_group":                 resourceGroup(),
+				"pfptmeta_network_element":       network_element.Resource(),
+				"pfptmeta_network_element_alias": network_element_alias.Resource(),
+				"pfptmeta_mapped_domain":         mapped_domain.Resource(),
+				"pfptmeta_mapped_host":           mapped_host.Resource(),
+				"pfptmeta_metaport":              metaport.Resource(),
+				"pfptmeta_metaport_cluster":      metaport_cluster.Resource(),
+				"pfptmeta_metaport_failover":     metaport_failover.Resource(),
+				"pfptmeta_enterprise_dns":        enterprise_dns.Resource(),
+				"pfptmeta_protocol_group":        protocol_group.Resource(),
+				"pfptmeta_role":                  role.Resource(),
+				"pfptmeta_group":                 group.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
