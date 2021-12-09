@@ -3,12 +3,12 @@
 page_title: "pfptmeta_role Data Source - terraform-provider-pfptmeta"
 subcategory: ""
 description: |-
-  Roles define operations on the enterprise network, such as adding and removing users, adding security policies, etc.
+  Roles define operations on the enterprise network, such as adding and removing users, defining security policies, etc.
 ---
 
 # pfptmeta_role (Data Source)
 
-Roles define operations on the enterprise network, such as adding and removing users, adding security policies, etc.
+Roles define operations on the enterprise network, such as adding and removing users, defining security policies, etc.
 
 ## Example Usage
 
@@ -43,9 +43,9 @@ output "role_by_name" {
 - **all_read_privileges** (Boolean)
 - **all_suborgs** (Boolean)
 - **all_write_privileges** (Boolean)
-- **apply_to_orgs** (List of String) indicates which orgs this role applies at, by default will be applied to current org.
+- **apply_to_orgs** (List of String) indicates which orgs this role applies to. By default, it is applied to current org.
 - **description** (String)
-- **privileges** (List of String) Privileges that should be assigned to the new role. has the following form- `resource:read/write` i.e metaports:read etc.
-- **suborgs_expression** (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, XOR, parenthesis.
+- **privileges** (List of String) Privileges to be assigned to the new role. It has the following structure - `resource:read/write` For example, metaports:read etc.
+- **suborgs_expression** (String) Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis.
 
 

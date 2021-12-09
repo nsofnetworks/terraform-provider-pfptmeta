@@ -8,7 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Roles define operations on the enterprise network, such as adding and removing users, adding security policies, etc.",
+		Description: description,
 
 		CreateContext: roleCreate,
 		ReadContext:   roleRead,
@@ -32,7 +32,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"privileges": {
-				Description: "Privileges that should be assigned to the new role. has the following form- `resource:read/write` i.e metaports:read etc.",
+				Description: privilegesDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
@@ -40,7 +40,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"apply_to_orgs": {
-				Description: "indicates which orgs this role applies at, by default will be applied to current org.",
+				Description: applyToOrgsDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
@@ -61,7 +61,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"suborgs_expression": {
-				Description: "Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, XOR, parenthesis.",
+				Description: subOrgsExpressionDesc,
 				Type:        schema.TypeString,
 				Optional:    true,
 			},
