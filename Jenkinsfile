@@ -32,11 +32,11 @@ pipeline {
     }
     post {
         always {
+            sendNotifications currentBuild.result
             cleanWs(cleanWhenNotBuilt: false,
                                 deleteDirs: true,
                                 disableDeferredWipeout: true,
                                 notFailBuild: true)
-            sendNotifications currentBuild.result
         }
     }
 }
