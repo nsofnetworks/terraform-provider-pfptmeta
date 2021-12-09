@@ -13,11 +13,12 @@ import (
 const groupEndpoint string = "v1/groups"
 
 type Group struct {
-	ID            string  `json:"id,omitempty"`
-	Name          string  `json:"name,omitempty"`
-	Description   string  `json:"description"`
-	Expression    *string `json:"expression"`
-	ProvisionedBy string  `json:"provisioned_by,omitempty"`
+	ID            string   `json:"id,omitempty"`
+	Name          string   `json:"name,omitempty"`
+	Description   string   `json:"description"`
+	Expression    *string  `json:"expression"`
+	ProvisionedBy string   `json:"provisioned_by,omitempty"`
+	Roles         []string `json:"roles,omitempty"`
 }
 
 func NewGroup(d *schema.ResourceData) *Group {
@@ -108,4 +109,21 @@ func DeleteGroup(c *Client, gID string) (*Group, error) {
 		return nil, err
 	}
 	return parseGroup(resp)
+}
+
+func AssignRolesToGroup(c *Client, gID string, roles []string) ([]string, error) {
+	url := fmt.Sprintf("%s/%s/%s/roles", c.BaseURL, groupEndpoint, gID)
+	body, err := json.Marshal(roles)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert roles to json: %v", err)
+	}
+	resp, err := c.Put(url, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	g, err := parseGroup(resp)
+	if err != nil {
+		return nil, err
+	}
+	return g.Roles, nil
 }

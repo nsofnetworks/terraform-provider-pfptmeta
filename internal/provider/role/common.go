@@ -15,7 +15,7 @@ const (
 	subOrgsExpressionDesc = "Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis."
 )
 
-var excludedKeys = []string{"id"}
+var excludedKeys = []string{"id", "roles"}
 
 func roleCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics

@@ -14,7 +14,7 @@ const (
 		"Supported operations: AND, OR, parenthesis."
 )
 
-var excludedKeys = []string{"id", "expression"}
+var excludedKeys = []string{"id", "expression", "roles"}
 
 func groupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)

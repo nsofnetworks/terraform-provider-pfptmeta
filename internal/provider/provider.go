@@ -7,6 +7,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
@@ -76,6 +77,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_user":                  user.Resource(),
 				"pfptmeta_routing_group":         routing_group.Resource(),
 				"pfptmeta_policy":                policy.Resource(),
+				"pfptmeta_group_roles_attachment": group_roles_attachment.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
