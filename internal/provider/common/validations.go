@@ -1,6 +1,7 @@
 package common
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -157,6 +158,18 @@ func ValidateURL() func(interface{}, cty.Path) diag.Diagnostics {
 		_, err := url.ParseRequestURI(inputString)
 		if err != nil {
 			return diag.Errorf("\"%s\" is not a valid url %s", inputString, err)
+		}
+		return
+	}
+}
+
+func ValidateJson() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		var js json.RawMessage
+		err := json.Unmarshal([]byte(inputString), &js)
+		if err != nil {
+			return diag.Errorf("\"%.200s\" is not a valid json. %s", inputString, err)
 		}
 		return
 	}

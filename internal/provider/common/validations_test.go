@@ -446,3 +446,35 @@ func TestValidateURL(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateJson(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test-map": {
+			Input:       `{"value1":"1", "value2": 2}`,
+			ShouldError: false,
+		},
+		"positive-test-list": {
+			Input:       `[{"value1":"1", "value2": 2}, {"value1": "1"}]`,
+			ShouldError: false,
+		},
+		"negative-test-plain-string": {
+			Input:       `no-json-string`,
+			ShouldError: true,
+		},
+		"negative-test-unclosed-map": {
+			Input:       `{"test1": 2`,
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateJson()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
