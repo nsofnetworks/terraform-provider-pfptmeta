@@ -19,6 +19,7 @@ type Group struct {
 	Expression    *string  `json:"expression"`
 	ProvisionedBy string   `json:"provisioned_by,omitempty"`
 	Roles         []string `json:"roles,omitempty"`
+	Users         []string `json:"users,omitempty"`
 }
 
 func NewGroup(d *schema.ResourceData) *Group {
@@ -75,7 +76,7 @@ func UpdateGroup(c *Client, gID string, g *Group) (*Group, error) {
 
 func GetGroupById(c *Client, gID string) (*Group, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, groupEndpoint, gID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(url, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
@@ -126,4 +127,30 @@ func AssignRolesToGroup(c *Client, gID string, roles []string) ([]string, error)
 		return nil, err
 	}
 	return g.Roles, nil
+}
+
+func AddUsersToGroup(c *Client, gID string, users []string) error {
+	url := fmt.Sprintf("%s/%s/%s/add_users", c.BaseURL, groupEndpoint, gID)
+	body, err := json.Marshal(users)
+	if err != nil {
+		return fmt.Errorf("could not convert users to json: %v", err)
+	}
+	_, err = c.Post(url, bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func RemoveUsersFromGroup(c *Client, gID string, users []string) error {
+	url := fmt.Sprintf("%s/%s/%s/remove_users", c.BaseURL, groupEndpoint, gID)
+	body, err := json.Marshal(users)
+	if err != nil {
+		return fmt.Errorf("could not convert users to json: %v", err)
+	}
+	_, err = c.Post(url, bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+	return nil
 }

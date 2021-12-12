@@ -8,6 +8,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_users_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
@@ -63,21 +64,22 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_policy":                policy.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
-				"pfptmeta_network_element":       network_element.Resource(),
-				"pfptmeta_network_element_alias": network_element_alias.Resource(),
-				"pfptmeta_mapped_domain":         mapped_domain.Resource(),
-				"pfptmeta_mapped_host":           mapped_host.Resource(),
-				"pfptmeta_metaport":              metaport.Resource(),
-				"pfptmeta_metaport_cluster":      metaport_cluster.Resource(),
-				"pfptmeta_metaport_failover":     metaport_failover.Resource(),
-				"pfptmeta_enterprise_dns":        enterprise_dns.Resource(),
-				"pfptmeta_protocol_group":        protocol_group.Resource(),
-				"pfptmeta_role":                  role.Resource(),
-				"pfptmeta_group":                 group.Resource(),
-				"pfptmeta_user":                  user.Resource(),
-				"pfptmeta_routing_group":         routing_group.Resource(),
-				"pfptmeta_policy":                policy.Resource(),
+				"pfptmeta_network_element":        network_element.Resource(),
+				"pfptmeta_network_element_alias":  network_element_alias.Resource(),
+				"pfptmeta_mapped_domain":          mapped_domain.Resource(),
+				"pfptmeta_mapped_host":            mapped_host.Resource(),
+				"pfptmeta_metaport":               metaport.Resource(),
+				"pfptmeta_metaport_cluster":       metaport_cluster.Resource(),
+				"pfptmeta_metaport_failover":      metaport_failover.Resource(),
+				"pfptmeta_enterprise_dns":         enterprise_dns.Resource(),
+				"pfptmeta_protocol_group":         protocol_group.Resource(),
+				"pfptmeta_role":                   role.Resource(),
+				"pfptmeta_group":                  group.Resource(),
+				"pfptmeta_user":                   user.Resource(),
+				"pfptmeta_routing_group":          routing_group.Resource(),
+				"pfptmeta_policy":                 policy.Resource(),
 				"pfptmeta_group_roles_attachment": group_roles_attachment.Resource(),
+				"pfptmeta_group_users_attachment": group_users_attachment.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
