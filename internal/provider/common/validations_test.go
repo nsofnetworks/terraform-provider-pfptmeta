@@ -390,3 +390,59 @@ func TestValidateEmail(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateURL(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "http://google.com/",
+			ShouldError: false,
+		},
+		"positive-test2": {
+			Input:       "https://hooks.slack.com/services/test/1",
+			ShouldError: false,
+		},
+		"positive-test3": {
+			Input:       "https://www.dumpsters.com:443",
+			ShouldError: false,
+		},
+		"negative-test-with-invalid-schema": {
+			Input:       "http//google.com",
+			ShouldError: true,
+		},
+		"negative-test-without-host-and-schema": {
+			Input:       "/foo/bar",
+			ShouldError: true,
+		},
+		"negative-test-host-only": {
+			Input:       "google.com",
+			ShouldError: true,
+		},
+		"negative-test-schema-only": {
+			Input:       "https",
+			ShouldError: true,
+		},
+		"negative-test-schema-only2": {
+			Input:       "https://",
+			ShouldError: true,
+		},
+		"negative-test-empty-string": {
+			Input:       "",
+			ShouldError: true,
+		},
+		"negative-test-not-url": {
+			Input:       "alskjff#?asf//dfas",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateURL()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}

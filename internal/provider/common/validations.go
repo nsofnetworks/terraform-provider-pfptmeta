@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"net"
 	"net/mail"
+	"net/url"
 	"regexp"
 	"strings"
 )
@@ -145,6 +146,17 @@ func ValidateEmail() func(interface{}, cty.Path) diag.Diagnostics {
 		_, err := mail.ParseAddress(inputString)
 		if err != nil {
 			return diag.Errorf("\"%s\" is not a valid email", inputString)
+		}
+		return
+	}
+}
+
+func ValidateURL() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		_, err := url.ParseRequestURI(inputString)
+		if err != nil {
+			return diag.Errorf("\"%s\" is not a valid url %s", inputString, err)
 		}
 		return
 	}
