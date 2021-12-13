@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var EnterpriseDNSExcludedKeys = []string{"id"}
+var excludedKeys = []string{"id"}
 
 func enterpriseDNSRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	id := d.Get("id").(string)
@@ -23,7 +23,7 @@ func enterpriseDNSRead(_ context.Context, d *schema.ResourceData, meta interface
 			return diag.FromErr(err)
 		}
 	}
-	err = client.MapResponseToResource(ed, d, EnterpriseDNSExcludedKeys)
+	err = client.MapResponseToResource(ed, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -38,7 +38,7 @@ func enterpriseDNSCreate(_ context.Context, d *schema.ResourceData, meta interfa
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	err = client.MapResponseToResource(ed, d, EnterpriseDNSExcludedKeys)
+	err = client.MapResponseToResource(ed, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -55,7 +55,7 @@ func enterpriseDNSUpdate(_ context.Context, d *schema.ResourceData, meta interfa
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	err = client.MapResponseToResource(ed, d, EnterpriseDNSExcludedKeys)
+	err = client.MapResponseToResource(ed, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

@@ -15,7 +15,7 @@ const (
 	subOrgsExpressionDesc = "Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis."
 )
 
-var roleExcludedKeys = []string{"id"}
+var excludedKeys = []string{"id"}
 
 func roleCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -27,7 +27,7 @@ func roleCreate(_ context.Context, d *schema.ResourceData, meta interface{}) dia
 		return diag.FromErr(err)
 	}
 	d.SetId(r.ID)
-	err = client.MapResponseToResource(r, d, roleExcludedKeys)
+	err = client.MapResponseToResource(r, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -58,7 +58,7 @@ func roleRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.
 		d.SetId("")
 		return diags
 	}
-	err = client.MapResponseToResource(r, d, roleExcludedKeys)
+	err = client.MapResponseToResource(r, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -76,7 +76,7 @@ func roleUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) dia
 		return diag.FromErr(err)
 	}
 	d.SetId(r.ID)
-	err = client.MapResponseToResource(r, d, roleExcludedKeys)
+	err = client.MapResponseToResource(r, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

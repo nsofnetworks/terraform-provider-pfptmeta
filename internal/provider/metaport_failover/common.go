@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var metaportFailoverExcludedKeys = []string{"id", "failback", "failover"}
+var excludedKeys = []string{"id", "failback", "failover"}
 
 func metaportFailoverRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -70,7 +70,7 @@ func metaportFailoverDelete(_ context.Context, d *schema.ResourceData, meta inte
 func metaportFailoverToResource(d *schema.ResourceData, m *client.MetaportFailover) diag.Diagnostics {
 	var diags diag.Diagnostics
 	d.SetId(m.ID)
-	err := client.MapResponseToResource(m, d, metaportFailoverExcludedKeys)
+	err := client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

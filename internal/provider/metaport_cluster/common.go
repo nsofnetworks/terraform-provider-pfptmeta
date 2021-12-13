@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var metaportClusterExcludedKeys = []string{"id"}
+var excludedKeys = []string{"id"}
 
 func metaportClusterRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -24,7 +24,7 @@ func metaportClusterRead(_ context.Context, d *schema.ResourceData, meta interfa
 			return diag.FromErr(err)
 		}
 	}
-	err = client.MapResponseToResource(m, d, metaportClusterExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -42,7 +42,7 @@ func metaportClusterCreate(_ context.Context, d *schema.ResourceData, meta inter
 		return diag.FromErr(err)
 	}
 	d.SetId(m.ID)
-	err = client.MapResponseToResource(m, d, metaportClusterExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -59,7 +59,7 @@ func metaportClusterUpdate(_ context.Context, d *schema.ResourceData, meta inter
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	err = client.MapResponseToResource(m, d, metaportClusterExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

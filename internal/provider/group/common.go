@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var GroupExcludedKeys = []string{"id", "expression"}
+var excludedKeys = []string{"id", "expression"}
 
 func groupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
@@ -23,7 +23,7 @@ func groupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) di
 
 func groupToResource(d *schema.ResourceData, g *client.Group) (diags diag.Diagnostics) {
 	d.SetId(g.ID)
-	err := client.MapResponseToResource(g, d, GroupExcludedKeys)
+	err := client.MapResponseToResource(g, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -61,7 +61,7 @@ func groupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag
 		d.SetId("")
 		return diags
 	}
-	err = client.MapResponseToResource(pg, d, GroupExcludedKeys)
+	err = client.MapResponseToResource(pg, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

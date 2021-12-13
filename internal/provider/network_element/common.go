@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var networkElementExcludedKeys = []string{"id", "tags", "aliases"}
+var excludedKeys = []string{"id", "tags", "aliases"}
 
 func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -24,7 +24,7 @@ func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interfa
 			return diag.FromErr(err)
 		}
 	}
-	err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
+	err = client.MapResponseToResource(networkElement, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -45,7 +45,7 @@ func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interf
 		return diag.FromErr(err)
 	}
 	d.SetId(networkElement.ID)
-	err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
+	err = client.MapResponseToResource(networkElement, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -68,7 +68,7 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 		if err != nil {
 			return diag.FromErr(err)
 		}
-		err = client.MapResponseToResource(networkElement, d, networkElementExcludedKeys)
+		err = client.MapResponseToResource(networkElement, d, excludedKeys)
 		if err != nil {
 			return diag.FromErr(err)
 		}

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var metaportExcludedKeys = []string{"id"}
+var excludedKeys = []string{"id"}
 
 func metaportRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -24,7 +24,7 @@ func metaportRead(_ context.Context, d *schema.ResourceData, meta interface{}) d
 			return diag.FromErr(err)
 		}
 	}
-	err = client.MapResponseToResource(m, d, metaportExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -42,7 +42,7 @@ func metaportCreate(_ context.Context, d *schema.ResourceData, meta interface{})
 		return diag.FromErr(err)
 	}
 	d.SetId(m.ID)
-	err = client.MapResponseToResource(m, d, metaportExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -59,7 +59,7 @@ func metaportUpdate(_ context.Context, d *schema.ResourceData, meta interface{})
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	err = client.MapResponseToResource(m, d, metaportExcludedKeys)
+	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}

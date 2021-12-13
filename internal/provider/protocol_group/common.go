@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var protocolGroupExcludedKeys = []string{"id"}
+var excludedKeys = []string{"id"}
 
 func protocolGroupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -20,7 +20,7 @@ func protocolGroupCreate(_ context.Context, d *schema.ResourceData, meta interfa
 		return diag.FromErr(err)
 	}
 	d.SetId(pg.ID)
-	err = client.MapResponseToResource(pg, d, protocolGroupExcludedKeys)
+	err = client.MapResponseToResource(pg, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -50,7 +50,7 @@ func protocolGroupRead(_ context.Context, d *schema.ResourceData, meta interface
 		d.SetId("")
 		return diags
 	}
-	err = client.MapResponseToResource(pg, d, protocolGroupExcludedKeys)
+	err = client.MapResponseToResource(pg, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -68,7 +68,7 @@ func protocolGroupUpdate(_ context.Context, d *schema.ResourceData, meta interfa
 		return diag.FromErr(err)
 	}
 	d.SetId(pg.ID)
-	err = client.MapResponseToResource(pg, d, protocolGroupExcludedKeys)
+	err = client.MapResponseToResource(pg, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
