@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	description = "Mapped subnets are subnets available to the users within the local network, " +
-		"residing behind the MetaPort. When you create a mapped subnet, you define a CIDR" +
-		" and attach the subnet to a MetaPort. Optionally, you can define a dedicated host, residing on the subnet."
+	description = "Network elements comprise devices, mapped subnets and mapped services. \n" +
+		"- Creating this resource with `mapped_subnets` generates a Mapped Subnet-type network element..\n" +
+		"- Creating this resource with `mapped_service` generates a Mapped Service-type network element.\n" +
+		"- Creating this resource with `owner_id` and `platform` generates a Device-type network element.\n"
 	tagsDesc          = "Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies"
 	mappedSubnetsDesc = "CIDRs that will be mapped to the subnet"
 	enabledDesc       = "Not allowed for mapped service and mapped domain"

@@ -3,12 +3,18 @@
 page_title: "pfptmeta_network_element Resource - terraform-provider-pfptmeta"
 subcategory: ""
 description: |-
-  Mapped subnets are subnets available to the users within the local network, residing behind the MetaPort. When you create a mapped subnet, you define a CIDR and attach the subnet to a MetaPort. Optionally, you can define a dedicated host, residing on the subnet.
+  Network elements comprise devices, mapped subnets and mapped services.
+  - Creating this resource with mapped_subnets generates a Mapped Subnet-type network element..
+  - Creating this resource with mapped_service generates a Mapped Service-type network element.
+  - Creating this resource with owner_id and platform generates a Device-type network element.
 ---
 
 # pfptmeta_network_element (Resource)
 
-Mapped subnets are subnets available to the users within the local network, residing behind the MetaPort. When you create a mapped subnet, you define a CIDR and attach the subnet to a MetaPort. Optionally, you can define a dedicated host, residing on the subnet.
+Network elements comprise devices, mapped subnets and mapped services. 
+- Creating this resource with `mapped_subnets` generates a Mapped Subnet-type network element..
+- Creating this resource with `mapped_service` generates a Mapped Service-type network element.
+- Creating this resource with `owner_id` and `platform` generates a Device-type network element.
 
 ## Example Usage
 
