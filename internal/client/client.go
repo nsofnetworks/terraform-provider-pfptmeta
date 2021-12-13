@@ -133,18 +133,21 @@ func parseHttpError(resp *http.Response) error {
 
 // RetryPolicy is a callback for Client.CheckRetry, which
 // will status codes 409, 502, 504.
-func RetryPolicy(ctx context.Context, resp *http.Response, _ error) (bool, error) {
+func RetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
 	// do not retry on context.Canceled or context.DeadlineExceeded
 	if ctx.Err() != nil {
 		return false, ctx.Err()
 	}
-
+	if resp == nil {
+		return false, err
+	}
 	switch resp.StatusCode {
 	case http.StatusConflict, http.StatusBadGateway, http.StatusGatewayTimeout, http.StatusTooManyRequests:
 		return true, nil
 	}
 	return false, nil
 }
+
 func errorHandler(resp *http.Response, err error, _ int) (*http.Response, error) {
 	return resp, err
 }
