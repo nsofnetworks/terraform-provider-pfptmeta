@@ -23,7 +23,7 @@ func aliasToResource(d *schema.ResourceData, neID, alias string) diag.Diagnostic
 	return diags
 }
 
-func networkElementsAliasRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementsAliasRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
@@ -34,6 +34,7 @@ func networkElementsAliasRead(_ context.Context, d *schema.ResourceData, meta in
 	}
 	if !exists {
 		d.SetId("")
+		return
 	}
 	return aliasToResource(d, neID, alias)
 }

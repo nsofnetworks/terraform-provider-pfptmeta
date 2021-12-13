@@ -50,6 +50,36 @@ func TestAccResourceMetaportCluster(t *testing.T) {
 	})
 }
 
+func TestAccDataMetaportCluster(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		CheckDestroy:      validateResourceDestroyed("metaport_cluster", "v1/metaport_clusters"),
+		Steps: []resource.TestStep{
+			{
+				Config: testAccMetaportClusterStep1 + testAccDataSourceMetaportCluster,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "id", regexp.MustCompile("^mpc-.+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "name", "metaport cluster name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description",
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.0", regexp.MustCompile("^mp-[\\d]+$"),
+					),
+				),
+			},
+		},
+	})
+}
+
 const testAccMetaportClusterStep1 = `
 resource "pfptmeta_network_element" "mapped-subnet" {
   name           = "ms"
@@ -85,3 +115,9 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster" {
   description = "metaport cluster description1"
 }
 `
+
+const testAccDataSourceMetaportCluster = `
+
+data "pfptmeta_metaport_cluster" "metaport_cluster" {
+  id = pfptmeta_metaport_cluster.metaport_cluster.id
+}`

@@ -66,6 +66,42 @@ func TestAccResourceEnterpriseDNS(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceEnterpriseDNS(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		CheckDestroy:      validateResourceDestroyed("enterprise_dns", "v1/enterprise_dns"),
+		ProviderFactories: providerFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccResourceEnterpriseDNSStep1 + testAccDataSourceEnterpriseDNS,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "id", regexp.MustCompile("^ed-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "name", "ed-name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "description", "ed-description",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "mapped_domains.0.name", "step1.test1.com",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "mapped_domains.0.mapped_domain", "step1.test1.com",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "mapped_domains.1.name", "step1.test2.com",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_enterprise_dns.enterprise_dns", "mapped_domains.1.mapped_domain", "step1.test2.com",
+					),
+				),
+			},
+		},
+	})
+}
+
 const testAccResourceEnterpriseDNSStep1 = `
 resource "pfptmeta_enterprise_dns" "enterprise_dns" {
   name           = "ed-name"
@@ -95,3 +131,9 @@ resource "pfptmeta_enterprise_dns" "enterprise_dns" {
   }
 }
 `
+
+const testAccDataSourceEnterpriseDNS = `
+
+data "pfptmeta_enterprise_dns" "enterprise_dns" {
+  id = pfptmeta_enterprise_dns.enterprise_dns.id
+}`

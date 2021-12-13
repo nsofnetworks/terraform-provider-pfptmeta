@@ -2,7 +2,6 @@ package client
 
 import (
 	"fmt"
-	"net/http"
 )
 
 func AssignNetworkElementAlias(c *Client, neID, alias string) error {
@@ -26,12 +25,7 @@ func DeleteNetworkElementAlias(c *Client, neID, alias string) error {
 func AliasExists(c *Client, neID, alias string) (bool, error) {
 	ne, err := GetNetworkElement(c, neID)
 	if err != nil {
-		errResponse, ok := err.(*ErrorResponse)
-		if ok && errResponse.Status == http.StatusNotFound {
-			return false, nil
-		} else {
-			return false, err
-		}
+		return false, err
 	}
 	if Contains(alias, ne.Aliases) {
 		return true, nil

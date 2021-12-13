@@ -39,6 +39,29 @@ func TestAccResourceMappedHost(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceMappedHost(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccResourceMappedHostStep1 + testAccDataSourceMappedHost,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_mapped_host.mapped-host", "network_element_id", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_mapped_host.mapped-host", "name", "host.test.com",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_mapped_host.mapped-host", "mapped_host", "host.test.com",
+					),
+				),
+			},
+		},
+	})
+}
+
 const testAccResourceMappedHostStep1 = `
 resource "pfptmeta_network_element" "mapped-subnet" {
   name           = "mapped service name"
@@ -58,3 +81,10 @@ resource "pfptmeta_mapped_host" "mapped-host-with-ipv4" {
   name               = "host.test1.com"
 }
 `
+
+const testAccDataSourceMappedHost = `
+
+data "pfptmeta_mapped_host" "mapped-host" {
+  network_element_id = pfptmeta_mapped_host.mapped-host.network_element_id
+  name               = "host.test.com"
+}`

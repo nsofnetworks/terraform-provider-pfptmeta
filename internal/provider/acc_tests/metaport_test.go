@@ -50,6 +50,36 @@ func TestAccResourceMetaport(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceMetaport(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		CheckDestroy:      validateResourceDestroyed("metaport", "v1/metaports"),
+		Steps: []resource.TestStep{
+			{
+				Config: testAccMetaportStep1 + testAccMetaportDataSource,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport.metaport", "id", regexp.MustCompile("^mp-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "name", "metaport name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "description", "metaport description",
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport.metaport", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "allow_support", "true",
+					),
+				),
+			},
+		},
+	})
+}
+
 const testAccMetaportStep1 = `
 resource "pfptmeta_network_element" "mapped-subnet" {
   name           = "ms"
@@ -75,3 +105,9 @@ resource "pfptmeta_metaport" "metaport" {
   allow_support         = false
 }
 `
+
+const testAccMetaportDataSource = `
+
+data "pfptmeta_metaport" "metaport" {
+  id = pfptmeta_metaport.metaport.id
+}`

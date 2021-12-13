@@ -96,6 +96,42 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceMetaportFailover(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		CheckDestroy:      validateResourceDestroyed("metaport_failover", "v1/metaport_failovers"),
+		Steps: []resource.TestStep{
+			{
+				Config: testAccMetaportFailoverStep1 + testAccMetaportFailoverDatasource,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "id", regexp.MustCompile("^mpf-.+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "name", "mf-name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "description", "mf-description",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "failback.0.trigger", "manual",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "failover.0.delay", "1",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "failover.0.threshold", "0",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_failover.failover", "failover.0.trigger", "auto",
+					),
+				),
+			},
+		},
+	})
+}
+
 const testAccMetaportFailoverStep1 = `
 resource "pfptmeta_metaport_failover" "failover" {
   name               = "mf-name"
@@ -224,3 +260,9 @@ resource "pfptmeta_metaport_failover" "failover" {
   }
 }
 `
+
+const testAccMetaportFailoverDatasource = `
+
+data "pfptmeta_metaport_failover" "failover" {
+  id = pfptmeta_metaport_failover.failover.id
+}`
