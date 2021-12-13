@@ -16,6 +16,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_failover"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element_alias"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/notification_channel"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/policy"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
@@ -60,6 +61,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_role":                  role.DataSource(),
 				"pfptmeta_group":                 group.DataSource(),
 				"pfptmeta_user":                  user.DataSource(),
+				"pfptmeta_notification_channel":  notification_channel.DataSource(),
 				"pfptmeta_routing_group":         routing_group.DataSource(),
 				"pfptmeta_policy":                policy.DataSource(),
 			},
@@ -80,6 +82,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_policy":                 policy.Resource(),
 				"pfptmeta_group_roles_attachment": group_roles_attachment.Resource(),
 				"pfptmeta_group_users_attachment": group_users_attachment.Resource(),
+				"pfptmeta_notification_channel":   notification_channel.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)

@@ -17,6 +17,7 @@ var alphabetPattern = regexp.MustCompile("^[a-zA-Z0-9]{1,30}$")
 var hostnameLabelPattern = regexp.MustCompile("^[A-Za-z\\d\\_][A-Za-z\\d\\-\\_]{0,62}[A-Za-z\\d\\_]$")
 var TagPattern = regexp.MustCompile("^[a-zA-Z0-9-_]+$")
 var PrivilegesPattern = regexp.MustCompile("^[a-z_]+:(read|write)$")
+var HttpHeaderPattern = regexp.MustCompile("^([\\w\\-]+):(.*)$")
 
 func contains(v string, a []string) bool {
 	for _, i := range a {
