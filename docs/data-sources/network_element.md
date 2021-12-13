@@ -35,7 +35,6 @@ output "mapped_subnet" {
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
 - **groups** (List of String)
-- **mapped_hosts** (List of Object) Additional domain names for specific hosts on the mapped subnet (see [below for nested schema](#nestedatt--mapped_hosts))
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **name** (String)
@@ -43,13 +42,5 @@ output "mapped_subnet" {
 - **platform** (String)
 - **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
 - **type** (String)
-
-<a id="nestedatt--mapped_hosts"></a>
-### Nested Schema for `mapped_hosts`
-
-Read-Only:
-
-- **mapped_host** (String)
-- **name** (String)
 
 

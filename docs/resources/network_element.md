@@ -21,14 +21,6 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
-  mapped_hosts {
-    name        = "host.com"
-    mapped_host = "10.0.0.1"
-  }
-  mapped_hosts {
-    name        = "host1.com"
-    mapped_host = "10.0.0.2"
-  }
 }
 
 resource "pfptmeta_network_element" "mapped-service" {
@@ -60,7 +52,6 @@ resource "pfptmeta_network_element" "device" {
 
 - **description** (String)
 - **enabled** (Boolean) Not allowed for mapped service and mapped domain
-- **mapped_hosts** (Block Set) Additional domain names for specific hosts on the mapped subnet (see [below for nested schema](#nestedblock--mapped_hosts))
 - **mapped_service** (String)
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **owner_id** (String)
@@ -73,13 +64,5 @@ resource "pfptmeta_network_element" "device" {
 - **groups** (List of String)
 - **id** (String) The ID of this resource.
 - **type** (String)
-
-<a id="nestedblock--mapped_hosts"></a>
-### Nested Schema for `mapped_hosts`
-
-Required:
-
-- **mapped_host** (String) Hostname
-- **name** (String) Remote hostname or IP
 
 

@@ -6,14 +6,6 @@ resource "pfptmeta_network_element" "mapped-subnet" {
     tag_name1 = "tag_value1"
     tag_name2 = "tag_value2"
   }
-  mapped_hosts {
-    name        = "host.com"
-    mapped_host = "10.0.0.1"
-  }
-  mapped_hosts {
-    name        = "host1.com"
-    mapped_host = "10.0.0.2"
-  }
 }
 
 resource "pfptmeta_network_element" "mapped-service" {

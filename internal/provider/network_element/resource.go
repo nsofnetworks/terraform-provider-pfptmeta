@@ -41,25 +41,6 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidatePattern(common.TagPattern)},
 				Optional: true,
 			},
-			"mapped_hosts": {
-				Description: "Additional domain names for specific hosts on the mapped subnet",
-				Type:        schema.TypeSet,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"mapped_host": {
-							Description: "Hostname",
-							Type:        schema.TypeString,
-							Required:    true,
-						},
-						"name": {
-							Description: "Remote hostname or IP",
-							Type:        schema.TypeString,
-							Required:    true,
-						},
-					},
-				},
-				Optional: true,
-			},
 			"mapped_subnets": {
 				Description:   "CIDRs that will be mapped to the subnet",
 				Type:          schema.TypeSet,

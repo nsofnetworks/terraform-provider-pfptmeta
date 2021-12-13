@@ -31,23 +31,6 @@ func DataSource() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
-			"mapped_hosts": {
-				Description: "Additional domain names for specific hosts on the mapped subnet",
-				Type:        schema.TypeList,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"mapped_host": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-				Computed: true,
-			},
 			"mapped_subnets": {
 				Description: "CIDRs that will be mapped to the subnet",
 				Type:        schema.TypeSet,
