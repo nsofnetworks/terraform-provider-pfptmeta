@@ -56,7 +56,7 @@ resource "pfptmeta_network_element" "device" {
 - **mapped_subnets** (Set of String) CIDRs that will be mapped to the subnet
 - **owner_id** (String)
 - **platform** (String) One of ['Android', 'macOS', 'iOS', 'Linux', 'Windows', 'ChromeOS', 'Unknown']
-- **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
+- **tags** (Map of String) Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies
 
 ### Read-Only
 

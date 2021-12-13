@@ -8,7 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "DNS alias (FQDN) of the network element. valid for network element of type Device, Native Service and Mapped Service.",
+		Description: description,
 
 		ReadContext:   networkElementsAliasRead,
 		CreateContext: networkElementAliasCreate,

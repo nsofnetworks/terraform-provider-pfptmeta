@@ -9,6 +9,10 @@ import (
 	"net/http"
 )
 
+const (
+	description = "Additional domain names for specific hosts on the mapped subnet"
+)
+
 func mappedHostToResource(d *schema.ResourceData, neID string, mh *client.MappedHost) (diags diag.Diagnostics) {
 	err := client.MapResponseToResource(mh, d, []string{})
 	if err != nil {

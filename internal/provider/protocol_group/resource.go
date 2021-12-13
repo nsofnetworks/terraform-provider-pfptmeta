@@ -8,7 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Protocol Groups are protocols and ports that must be included into granular policies.",
+		Description: description,
 
 		CreateContext: protocolGroupCreate,
 		ReadContext:   protocolGroupRead,
@@ -32,7 +32,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"protocols": {
-				Description: "A list of protocols",
+				Description: protocolsDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -47,7 +47,7 @@ func Resource() *schema.Resource {
 							ValidateDiagFunc: common.ValidateIntRange(0, 65535),
 						},
 						"proto": {
-							Description:      "Protocol type, can be one of: tcp, udp, icmp",
+							Description:      protoDesc,
 							Type:             schema.TypeString,
 							Required:         true,
 							ValidateDiagFunc: common.ValidateENUM("tcp", "udp", "icmp"),

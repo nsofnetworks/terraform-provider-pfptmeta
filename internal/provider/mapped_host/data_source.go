@@ -8,7 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Additional domain names for specific hosts on the mapped subnet",
+		Description: description,
 
 		ReadContext: mappedHostRead,
 		Schema: map[string]*schema.Schema{

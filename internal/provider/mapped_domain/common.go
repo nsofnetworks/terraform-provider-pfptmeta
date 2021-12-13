@@ -9,6 +9,10 @@ import (
 	"net/http"
 )
 
+const (
+	description = "DNS suffixes to be resolved within Mapped Subnet"
+)
+
 func mappedDomainToResource(d *schema.ResourceData, neID string, md *client.MappedDomain) (diags diag.Diagnostics) {
 	err := client.MapResponseToResource(md, d, []string{})
 	if err != nil {

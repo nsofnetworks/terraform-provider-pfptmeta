@@ -8,7 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Groups represent a collection of users, typically belong to a common department or share same privileges in the organization.",
+		Description: description,
 
 		ReadContext: groupRead,
 		Schema: map[string]*schema.Schema{
@@ -28,10 +28,9 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"expression": {
-				Description: "Allows grouping entities by their tags. Filtering by tag value is also supported if provided. " +
-					"Supported operations: AND, OR, parenthesis.",
-				Type:     schema.TypeString,
-				Computed: true,
+				Description: expressionDesc,
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 			"provisioned_by": {
 				Type:     schema.TypeString,

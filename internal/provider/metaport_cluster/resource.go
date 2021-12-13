@@ -8,7 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "MetaPort cluster defines a group of highly-available MetaPorts that are deployed together in a single data center",
+		Description: description,
 
 		CreateContext: metaportClusterCreate,
 		ReadContext:   metaportClusterRead,
@@ -28,7 +28,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element IDs",
+				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Elem: &schema.Schema{
@@ -36,7 +36,7 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateID(true, "ed", "ne")},
 			},
 			"metaports": {
-				Description: "List of MetaPort IDs",
+				Description: metaportsDesc,
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Elem: &schema.Schema{

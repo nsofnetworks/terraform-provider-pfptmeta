@@ -10,6 +10,13 @@ import (
 
 var excludedKeys = []string{"id"}
 
+const (
+	description = "MetaPort is a lightweight virtual appliance that enables the secure authenticated interface " +
+		"interact between existing servers and the Proofpoint NaaS cloud. " +
+		"Once configured, metaports enable users to access your applications via the Proofpoint cloud."
+	mappedElementsDesc = "List of mapped element IDs"
+)
+
 func metaportRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)

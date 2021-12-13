@@ -8,9 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Mapped subnets are subnets available to the users within the local network, " +
-			"residing behind the MetaPort. When you create a mapped subnet, you define a CIDR" +
-			" and attach the subnet to a MetaPort. Optionally, you can define a dedicated host, residing on the subnet.",
+		Description: description,
 
 		CreateContext: networkElementCreate,
 		ReadContext:   networkElementsRead,
@@ -34,7 +32,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"tags": {
-				Description: "Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies",
+				Description: tagsDesc,
 				Type:        schema.TypeMap,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
@@ -42,7 +40,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"mapped_subnets": {
-				Description:   "CIDRs that will be mapped to the subnet",
+				Description:   mappedSubnetsDesc,
 				Type:          schema.TypeSet,
 				Elem:          &schema.Schema{Type: schema.TypeString},
 				Optional:      true,
@@ -58,7 +56,7 @@ func Resource() *schema.Resource {
 				Computed: true,
 			},
 			"enabled": {
-				Description: "Not allowed for mapped service and mapped domain",
+				Description: enabledDesc,
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     true,

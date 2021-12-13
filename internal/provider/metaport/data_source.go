@@ -8,9 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "MetaPort is a lightweight virtual appliance that enables the secure authenticated interface " +
-			"interact between existing servers and the Proofpoint NaaS cloud. " +
-			"Once configured, metaports enable users to access your applications via the Proofpoint cloud.",
+		Description: description,
 
 		ReadContext: metaportRead,
 		Schema: map[string]*schema.Schema{
@@ -28,7 +26,7 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element IDs",
+				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},

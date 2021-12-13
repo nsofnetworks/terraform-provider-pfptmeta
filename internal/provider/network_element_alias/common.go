@@ -9,6 +9,10 @@ import (
 	"net/http"
 )
 
+const (
+	description = "DNS alias (FQDN) of the network element. valid for network element of type Device, Native Service and Mapped Service."
+)
+
 func aliasToResource(d *schema.ResourceData, neID, alias string) diag.Diagnostics {
 	var diags diag.Diagnostics
 	err := d.Set("network_element_id", neID)

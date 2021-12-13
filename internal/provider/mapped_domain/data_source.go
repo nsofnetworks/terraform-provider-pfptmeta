@@ -8,7 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "DNS suffixes to be resolved within Mapped Subnet",
+		Description: description,
 
 		ReadContext: mappedDomainRead,
 		Schema: map[string]*schema.Schema{

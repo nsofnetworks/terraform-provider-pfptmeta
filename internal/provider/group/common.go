@@ -8,6 +8,12 @@ import (
 	"net/http"
 )
 
+const (
+	description    = "Groups represent a collection of users, typically belong to a common department or share same privileges in the organization."
+	expressionDesc = "Allows grouping entities by their tags. Filtering by tag value is also supported if provided. " +
+		"Supported operations: AND, OR, parenthesis."
+)
+
 var excludedKeys = []string{"id", "expression"}
 
 func groupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

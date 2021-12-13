@@ -8,7 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "MetaPort cluster defines a group of highly-available MetaPorts that are deployed together in a single data center",
+		Description: description,
 
 		ReadContext: metaportClusterRead,
 		Schema: map[string]*schema.Schema{
@@ -26,13 +26,13 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element IDs",
+				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        schema.TypeString,
 			},
 			"metaports": {
-				Description: "List of MetaPort IDs",
+				Description: metaportsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        schema.TypeString,

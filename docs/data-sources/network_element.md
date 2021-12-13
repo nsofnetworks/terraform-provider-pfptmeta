@@ -40,7 +40,7 @@ output "mapped_subnet" {
 - **name** (String)
 - **owner_id** (String)
 - **platform** (String)
-- **tags** (Map of String) Key/value attributes to be used for combining elements together into Smart Groups, and placed as targets or sources in Policies
+- **tags** (Map of String) Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies
 - **type** (String)
 
 

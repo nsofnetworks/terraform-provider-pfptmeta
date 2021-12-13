@@ -7,8 +7,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Enterprise DNS provides integration with global, enterprise DNS servers, " +
-			"allowing resolution of FQDNs for domains that are in different locations/datacenters.",
+		Description: description,
 
 		ReadContext: enterpriseDNSRead,
 		Schema: map[string]*schema.Schema{
@@ -25,17 +24,17 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_domains": {
-				Description: "DNS suffixes to be resolved within the enterprise DNS server",
+				Description: mappedDomainsDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"mapped_domain": {
-							Description: "Proofpoint DNS Suffix",
+							Description: mappedDomainDesc,
 							Type:        schema.TypeString,
 							Computed:    true,
 						},
 						"name": {
-							Description: "Enterprise DNS server DNS suffix",
+							Description: mdNameDescription,
 							Type:        schema.TypeString,
 							Computed:    true,
 						},

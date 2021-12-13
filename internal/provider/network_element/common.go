@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+const (
+	description = "Mapped subnets are subnets available to the users within the local network, " +
+		"residing behind the MetaPort. When you create a mapped subnet, you define a CIDR" +
+		" and attach the subnet to a MetaPort. Optionally, you can define a dedicated host, residing on the subnet."
+	tagsDesc          = "Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies"
+	mappedSubnetsDesc = "CIDRs that will be mapped to the subnet"
+	enabledDesc       = "Not allowed for mapped service and mapped domain"
+)
+
 var excludedKeys = []string{"id", "tags", "aliases"}
 
 func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

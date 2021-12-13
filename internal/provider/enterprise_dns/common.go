@@ -8,6 +8,14 @@ import (
 	"net/http"
 )
 
+const (
+	description = "Enterprise DNS provides integration with global, enterprise DNS servers, " +
+		"allowing resolution of FQDNs for domains that are in different locations/datacenters."
+	mappedDomainsDesc = "DNS suffixes to be resolved within the enterprise DNS server"
+	mappedDomainDesc  = "Proofpoint DNS Suffix"
+	mdNameDescription = "Enterprise DNS server DNS suffix"
+)
+
 var excludedKeys = []string{"id"}
 
 func enterpriseDNSRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {

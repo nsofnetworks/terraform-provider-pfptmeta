@@ -8,6 +8,12 @@ import (
 	"net/http"
 )
 
+const (
+	description        = "MetaPort cluster defines a group of highly-available MetaPorts that are deployed together in a single data center"
+	mappedElementsDesc = "List of mapped element IDs"
+	metaportsDesc      = "List of MetaPort IDs"
+)
+
 var excludedKeys = []string{"id"}
 
 func metaportClusterRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

@@ -8,6 +8,12 @@ import (
 	"net/http"
 )
 
+const (
+	description   = "Protocol Groups are protocols and ports that must be included into granular policies."
+	protocolsDesc = "A list of protocols"
+	protoDesc     = "Protocol type, can be one of: tcp, udp, icmp"
+)
+
 var excludedKeys = []string{"id"}
 
 func protocolGroupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

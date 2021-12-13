@@ -8,7 +8,7 @@ import (
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters.",
+		Description: description,
 
 		CreateContext: metaportFailoverCreate,
 		ReadContext:   metaportFailoverRead,
@@ -28,7 +28,7 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element IDs",
+				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Elem: &schema.Schema{
@@ -36,14 +36,13 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateID(true, "ed", "ne")},
 			},
 			"cluster_1": {
-				Description: "Priority #1 MetaPort cluster ID. This cluster is active by default. " +
-					"When failover condition is met for this cluster, the higher priority cluster becomes active.",
+				Description:      cluster1Desc,
 				Type:             schema.TypeString,
 				Optional:         true,
 				ValidateDiagFunc: common.ValidateID(false, "mpc"),
 			},
 			"cluster_2": {
-				Description:      "Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster.",
+				Description:      cluster2Desc,
 				Type:             schema.TypeString,
 				Optional:         true,
 				ValidateDiagFunc: common.ValidateID(false, "mpc"),
@@ -53,12 +52,12 @@ func Resource() *schema.Resource {
 				Computed: true,
 			},
 			"failback": {
-				Description: "Primary to secondary cluster switchover.",
+				Description: failbackDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"trigger": {
-							Description:      "ENUM: [auto, manual], defaults to auto.",
+							Description:      triggerDesc,
 							Type:             schema.TypeString,
 							Required:         true,
 							ValidateDiagFunc: common.ValidateENUM("auto", "manual"),
@@ -69,23 +68,23 @@ func Resource() *schema.Resource {
 				MaxItems: 1,
 			},
 			"failover": {
-				Description: "Secondary to primary cluster switchover.",
+				Description: failoverDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"trigger": {
-							Description:      "ENUM: [auto, manual], defaults to auto.",
+							Description:      triggerDesc,
 							Type:             schema.TypeString,
 							Required:         true,
 							ValidateDiagFunc: common.ValidateENUM("auto", "manual"),
 						},
 						"delay": {
-							Description: "Number of minutes to wait before execution of failover, defaults to 1.",
+							Description: failoverDelayDesc,
 							Type:        schema.TypeInt,
 							Required:    true,
 						},
 						"threshold": {
-							Description: "Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster.",
+							Description: failoverThresholdDesc,
 							Type:        schema.TypeInt,
 							Required:    true,
 						},

@@ -8,7 +8,7 @@ import (
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters",
+		Description: description,
 
 		ReadContext: metaportFailoverRead,
 		Schema: map[string]*schema.Schema{
@@ -26,19 +26,18 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"mapped_elements": {
-				Description: "List of mapped element IDs",
+				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 			"cluster_1": {
-				Description: "Priority #1 MetaPort cluster ID. This cluster is active by default. " +
-					"When failover condition is met for this cluster, the higher priority cluster becomes active.",
-				Type:     schema.TypeString,
-				Computed: true,
+				Description: cluster1Desc,
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 			"cluster_2": {
-				Description: "Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster.",
+				Description: cluster2Desc,
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
@@ -47,7 +46,7 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"failback": {
-				Description: "Primary to secondary cluster switchover.",
+				Description: failbackDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -60,7 +59,7 @@ func DataSource() *schema.Resource {
 				Computed: true,
 			},
 			"failover": {
-				Description: "Secondary to primary cluster switchover.",
+				Description: failoverDesc,
 				Type:        schema.TypeList,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -69,12 +68,12 @@ func DataSource() *schema.Resource {
 							Computed: true,
 						},
 						"delay": {
-							Description: "Number of minutes to wait before execution of failover.",
+							Description: failoverDelayDesc,
 							Type:        schema.TypeInt,
 							Computed:    true,
 						},
 						"threshold": {
-							Description: "Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster.",
+							Description: failoverThresholdDesc,
 							Type:        schema.TypeInt,
 							Computed:    true,
 						},

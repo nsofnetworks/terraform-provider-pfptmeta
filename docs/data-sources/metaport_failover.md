@@ -3,12 +3,12 @@
 page_title: "pfptmeta_metaport_failover Data Source - terraform-provider-pfptmeta"
 subcategory: ""
 description: |-
-  MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters
+  MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters.
 ---
 
 # pfptmeta_metaport_failover (Data Source)
 
-MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters
+MetaPort failover defines a failover model between a primary and a secondary MetaPort clusters.
 
 ## Example Usage
 
