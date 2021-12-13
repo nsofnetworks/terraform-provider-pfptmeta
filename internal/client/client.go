@@ -145,6 +145,9 @@ func RetryPolicy(ctx context.Context, resp *http.Response, _ error) (bool, error
 	}
 	return false, nil
 }
+func errorHandler(resp *http.Response, err error, _ int) (*http.Response, error) {
+	return resp, err
+}
 
 func NewClient(d *schema.ResourceData, userAgent string) (*Client, error) {
 	client := &Client{
@@ -156,6 +159,7 @@ func NewClient(d *schema.ResourceData, userAgent string) (*Client, error) {
 		Timeout:   time.Duration(requestTimeout) * time.Second,
 	}
 	client.HTTP.CheckRetry = RetryPolicy
+	client.HTTP.ErrorHandler = errorHandler
 	if url := os.Getenv(baseUrlEnvVar); url != "" {
 		client.BaseURL = url
 	} else {
@@ -224,7 +228,11 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	}
 	resp, err := c.HTTP.Do(retryableRequest)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute %s request to %s: %v", r.Method, r.URL, err)
+		if resp == nil {
+			return nil, fmt.Errorf("failed to execute %s request to %s: %v", r.Method, r.URL, err)
+		} else {
+			return nil, parseHttpError(resp)
+		}
 	}
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusIMUsed {
 		return nil, parseHttpError(resp)
