@@ -31,6 +31,9 @@ func TestAccResourceMetaport(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport.metaport", "allow_support", "true",
 					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_metaport.metaport", "notification_channels.0", regexp.MustCompile("^nch-.+$"),
+					),
 				),
 			},
 			{
@@ -43,6 +46,7 @@ func TestAccResourceMetaport(t *testing.T) {
 						"pfptmeta_metaport.metaport", "description", "metaport description1",
 					),
 					resource.TestCheckNoResourceAttr("pfptmeta_metaport.metaport", "mapped_elements"),
+					resource.TestCheckNoResourceAttr("pfptmeta_metaport.metaport", "notification_channels.0"),
 					resource.TestCheckResourceAttr("pfptmeta_metaport.metaport", "allow_support", "false"),
 				),
 			},
@@ -86,10 +90,19 @@ resource "pfptmeta_network_element" "mapped-subnet" {
   mapped_subnets = ["0.0.0.0/0"]
 }
 
+resource "pfptmeta_notification_channel" "mail" {
+  name        = "mail-channel"
+  description = "mail channel description"
+  email_config {
+    recipients = ["user1@example.com", "user2@example.com"]
+  }
+}
+
 resource "pfptmeta_metaport" "metaport" {
   name                  = "metaport name"
   description           = "metaport description"
   mapped_elements       = [pfptmeta_network_element.mapped-subnet.id]
+  notification_channels = [pfptmeta_notification_channel.mail.id]
 }
 `
 

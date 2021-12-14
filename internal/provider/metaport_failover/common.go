@@ -13,12 +13,13 @@ const (
 	mappedElementsDesc = "List of mapped element IDs"
 	cluster1Desc       = "Priority #1 MetaPort cluster ID. This cluster is active by default. " +
 		"When failover condition is met for this cluster, the higher priority cluster becomes active."
-	cluster2Desc          = "Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster."
-	failbackDesc          = "Primary to secondary cluster switchover."
-	failoverDesc          = "Secondary to primary cluster switchover."
-	failoverDelayDesc     = "Number of minutes to wait before execution of failover, defaults to 1."
-	failoverThresholdDesc = "Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster."
-	triggerDesc           = "ENUM: [auto, manual], defaults to auto."
+	cluster2Desc             = "Priority #2 MetaPort cluster ID. This cluster becomes active, when failover condition is met for a lower priority cluster."
+	failbackDesc             = "Primary to secondary cluster switchover."
+	failoverDesc             = "Secondary to primary cluster switchover."
+	failoverDelayDesc        = "Number of minutes to wait before execution of failover, defaults to 1."
+	failoverThresholdDesc    = "Minimum number of healthy MetaPorts to keep a cluster active. Zero (0) denotes all MetaPorts in a cluster."
+	triggerDesc              = "ENUM: [auto, manual], defaults to auto."
+	notificationChannelsDesc = "List of notification channel IDs"
 )
 
 var excludedKeys = []string{"id", "failback", "failover"}

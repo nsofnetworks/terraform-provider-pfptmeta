@@ -39,6 +39,7 @@ output "metaport_failover" {
 - **failover** (List of Object) Secondary to primary cluster switchover. (see [below for nested schema](#nestedatt--failover))
 - **mapped_elements** (Set of String) List of mapped element IDs
 - **name** (String)
+- **notification_channels** (List of String) List of notification channel IDs
 
 <a id="nestedatt--failback"></a>
 ### Nested Schema for `failback`

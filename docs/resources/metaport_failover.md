@@ -36,12 +36,21 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster2" {
   metaports = [pfptmeta_metaport.metaport2.id]
 }
 
+resource "pfptmeta_notification_channel" "mail" {
+  name        = "mail-channel"
+  description = "mail channel description"
+  email_config {
+    recipients = ["user1@example.com", "user2@example.com"]
+  }
+}
+
 resource "pfptmeta_metaport_failover" "failover" {
-  name            = "metaport failover name"
-  description     = "metaport failover description"
-  mapped_elements = [pfptmeta_network_element.mapped-subnet.id]
-  cluster_1       = pfptmeta_metaport_cluster.metaport_cluster1
-  cluster_2       = pfptmeta_metaport_cluster.metaport_cluster2
+  name                  = "metaport failover name"
+  description           = "metaport failover description"
+  mapped_elements       = [pfptmeta_network_element.mapped-subnet.id]
+  cluster_1             = pfptmeta_metaport_cluster.metaport_cluster1
+  cluster_2             = pfptmeta_metaport_cluster.metaport_cluster2
+  notification_channels = [pfptmeta_notification_channel.mail.id]
   failback {
     trigger = "auto"
   }
@@ -68,6 +77,7 @@ resource "pfptmeta_metaport_failover" "failover" {
 - **failback** (Block List, Max: 1) Primary to secondary cluster switchover. (see [below for nested schema](#nestedblock--failback))
 - **failover** (Block List, Max: 1) Secondary to primary cluster switchover. (see [below for nested schema](#nestedblock--failover))
 - **mapped_elements** (Set of String) List of mapped element IDs
+- **notification_channels** (List of String) List of notification channel IDs
 
 ### Read-Only
 

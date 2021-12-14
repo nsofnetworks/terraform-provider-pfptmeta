@@ -43,6 +43,12 @@ func DataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"notification_channels": {
+				Description: notificationChannelsDesc,
+				Type:        schema.TypeList,
+				Computed:    true,
+				Elem:        &schema.Schema{Type: schema.TypeString},
+			},
 		},
 	}
 }

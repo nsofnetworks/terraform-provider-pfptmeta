@@ -37,6 +37,9 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_failover.failover", "failover.0.trigger", "auto",
 					),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_metaport_failover.failover", "notification_channels.0", regexp.MustCompile("^nch-.+$"),
+					),
 				),
 			},
 			{
@@ -57,6 +60,9 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 					),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_failover.failover", "failover.0.trigger", "auto",
+					),
+					resource.TestCheckNoResourceAttr(
+						"pfptmeta_metaport_failover.failover", "notification_channels.0",
 					),
 				),
 			},
@@ -133,9 +139,18 @@ func TestAccDataSourceMetaportFailover(t *testing.T) {
 }
 
 const testAccMetaportFailoverStep1 = `
+resource "pfptmeta_notification_channel" "mail" {
+  name        = "mail-channel"
+  description = "mail channel description"
+  email_config {
+    recipients = ["user1@example.com", "user2@example.com"]
+  }
+}
+
 resource "pfptmeta_metaport_failover" "failover" {
   name               = "mf-name"
   description        = "mf-description"
+  notification_channels = [pfptmeta_notification_channel.mail.id]
   failback {
 	trigger   = "manual"
   }

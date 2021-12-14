@@ -37,5 +37,6 @@ output "metaport" {
 - **enabled** (Boolean)
 - **mapped_elements** (Set of String) List of mapped element IDs
 - **name** (String)
+- **notification_channels** (List of String) List of notification channel IDs
 
 

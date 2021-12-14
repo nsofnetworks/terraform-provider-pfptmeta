@@ -15,12 +15,13 @@ const (
 )
 
 type Metaport struct {
-	ID             string   `json:"id,omitempty"`
-	Name           string   `json:"name,omitempty"`
-	Description    string   `json:"description,omitempty"`
-	Enabled        *bool    `json:"enabled,omitempty"`
-	AllowSupport   *bool    `json:"allow_support,omitempty"`
-	MappedElements []string `json:"mapped_elements"`
+	ID                   string   `json:"id,omitempty"`
+	Name                 string   `json:"name,omitempty"`
+	Description          string   `json:"description,omitempty"`
+	Enabled              *bool    `json:"enabled,omitempty"`
+	AllowSupport         *bool    `json:"allow_support,omitempty"`
+	MappedElements       []string `json:"mapped_elements"`
+	NotificationChannels []string `json:"notification_channels"`
 }
 
 func NewMetaport(d *schema.ResourceData) *Metaport {
@@ -40,6 +41,12 @@ func NewMetaport(d *schema.ResourceData) *Metaport {
 
 	mes := d.Get("mapped_elements")
 	res.MappedElements = ResourceTypeSetToStringSlice(mes.(*schema.Set))
+	nc := d.Get("notification_channels").([]interface{})
+	nChannel := make([]string, len(nc))
+	for i, org := range nc {
+		nChannel[i] = org.(string)
+	}
+	res.NotificationChannels = nChannel
 
 	return res
 }

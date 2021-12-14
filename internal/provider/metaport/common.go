@@ -14,7 +14,8 @@ const (
 	description = "MetaPort is a lightweight virtual appliance that enables the secure authenticated interface " +
 		"interact between existing servers and the Proofpoint NaaS cloud. " +
 		"Once configured, metaports enable users to access your applications via the Proofpoint cloud."
-	mappedElementsDesc = "List of mapped element IDs"
+	mappedElementsDesc       = "List of mapped element IDs"
+	notificationChannelsDesc = "List of notification channel IDs"
 )
 
 func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

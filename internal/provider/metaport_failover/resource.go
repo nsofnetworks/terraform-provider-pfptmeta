@@ -93,6 +93,14 @@ func Resource() *schema.Resource {
 				Optional: true,
 				MaxItems: 1,
 			},
+			"notification_channels": {
+				Description: notificationChannelsDesc,
+				Type:        schema.TypeList,
+				Optional:    true,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: common.ValidateID(false, "nch")},
+			},
 		},
 	}
 }

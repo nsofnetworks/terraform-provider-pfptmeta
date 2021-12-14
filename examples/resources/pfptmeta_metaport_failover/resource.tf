@@ -21,12 +21,21 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster2" {
   metaports = [pfptmeta_metaport.metaport2.id]
 }
 
+resource "pfptmeta_notification_channel" "mail" {
+  name        = "mail-channel"
+  description = "mail channel description"
+  email_config {
+    recipients = ["user1@example.com", "user2@example.com"]
+  }
+}
+
 resource "pfptmeta_metaport_failover" "failover" {
-  name            = "metaport failover name"
-  description     = "metaport failover description"
-  mapped_elements = [pfptmeta_network_element.mapped-subnet.id]
-  cluster_1       = pfptmeta_metaport_cluster.metaport_cluster1
-  cluster_2       = pfptmeta_metaport_cluster.metaport_cluster2
+  name                  = "metaport failover name"
+  description           = "metaport failover description"
+  mapped_elements       = [pfptmeta_network_element.mapped-subnet.id]
+  cluster_1             = pfptmeta_metaport_cluster.metaport_cluster1
+  cluster_2             = pfptmeta_metaport_cluster.metaport_cluster2
+  notification_channels = [pfptmeta_notification_channel.mail.id]
   failback {
     trigger = "auto"
   }

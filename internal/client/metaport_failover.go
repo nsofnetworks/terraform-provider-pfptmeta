@@ -24,15 +24,16 @@ type FailOver struct {
 }
 
 type MetaportFailover struct {
-	ID             string    `json:"id,omitempty"`
-	Name           string    `json:"name,omitempty"`
-	Description    string    `json:"description,omitempty"`
-	MappedElements []string  `json:"mapped_elements"`
-	Cluster1       *string   `json:"cluster_1"`
-	Cluster2       *string   `json:"cluster_2"`
-	ActiveCluster  *string   `json:"active_cluster,omitempty"`
-	FailBack       *FailBack `json:"failback,omitempty"`
-	FailOver       *FailOver `json:"failover,omitempty"`
+	ID                   string    `json:"id,omitempty"`
+	Name                 string    `json:"name,omitempty"`
+	Description          string    `json:"description,omitempty"`
+	MappedElements       []string  `json:"mapped_elements"`
+	Cluster1             *string   `json:"cluster_1"`
+	Cluster2             *string   `json:"cluster_2"`
+	ActiveCluster        *string   `json:"active_cluster,omitempty"`
+	FailBack             *FailBack `json:"failback,omitempty"`
+	FailOver             *FailOver `json:"failover,omitempty"`
+	NotificationChannels []string  `json:"notification_channels"`
 }
 
 func (mf *MetaportFailover) ReqBody() ([]byte, error) {
@@ -80,6 +81,12 @@ func NewMetaportFailover(d *schema.ResourceData) *MetaportFailover {
 			res.FailOver = &FailOver{Delay: uint8(delay), Threshold: uint8(threshold), Trigger: trigger}
 		}
 	}
+	nc := d.Get("notification_channels").([]interface{})
+	nChannel := make([]string, len(nc))
+	for i, org := range nc {
+		nChannel[i] = org.(string)
+	}
+	res.NotificationChannels = nChannel
 	return res
 }
 
