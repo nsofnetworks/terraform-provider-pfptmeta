@@ -38,6 +38,7 @@ func Resource() *schema.Resource {
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidatePattern(common.PrivilegesPattern)},
 				Optional: true,
+				Computed: true,
 			},
 			"apply_to_orgs": {
 				Description: applyToOrgsDesc,
