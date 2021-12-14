@@ -33,7 +33,8 @@ func Resource() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(true, "ed", "ne")},
+					ValidateDiagFunc: common.ValidateID(true, "ed", "ne"),
+				},
 			},
 			"metaports": {
 				Description: metaportsDesc,

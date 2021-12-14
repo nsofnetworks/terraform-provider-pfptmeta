@@ -29,13 +29,13 @@ func DataSource() *schema.Resource {
 				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
-				Elem:        schema.TypeString,
+				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 			"metaports": {
 				Description: metaportsDesc,
 				Type:        schema.TypeSet,
 				Computed:    true,
-				Elem:        schema.TypeString,
+				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 		},
 	}
