@@ -10,7 +10,7 @@ Adds users to group.
 
 Adds users to group.
 
-!> **WARNING:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will produce inconsistent behavior!
+!> **WARNING:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will result in inconsistent behavior!
 
 ## Example Usage
 
@@ -53,7 +53,7 @@ resource "pfptmeta_group_users_attachment" "attachment" {
 ### Required
 
 - **group_id** (String)
-- **users** (Set of String) user IDs that will be added to the group
+- **users** (Set of String) User IDs to be added to the group
 
 ### Read-Only
 

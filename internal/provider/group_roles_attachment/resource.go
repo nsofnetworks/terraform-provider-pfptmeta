@@ -23,7 +23,7 @@ func Resource() *schema.Resource {
 				ForceNew:         true,
 			},
 			"roles": {
-				Description: "Role IDs that will be attached to the group",
+				Description: "Role IDs to be attached to the group",
 				Required:    true,
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{

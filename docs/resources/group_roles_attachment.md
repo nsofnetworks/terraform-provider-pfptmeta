@@ -10,9 +10,9 @@ Attaches roles to group.
 
 Attaches roles to group.
 
-!> **WARNING:** The **pfptmeta_group_roles_attachment** resource creates **exclusive** attachments of roles.
+!> **WARNING:** The **pfptmeta_group_roles_attachment** resource creates **exclusive** role attachments.
 Across the entire organization, all the roles attached to the group must be declared by a single pfptmeta_group_roles_attachment resource.
-This means that even any group that have the attached roles via any other mechanism (including other Terraform resources) will have that attached role revoked by this resource.
+This means that any group with the roles attached using any other method, including other Terraform resources, will have its role attachments revoked.
 
 ## Example Usage
 
@@ -43,7 +43,7 @@ resource "pfptmeta_group_roles_attachment" "attachment" {
 ### Required
 
 - **group_id** (String)
-- **roles** (Set of String) Role IDs that will be attached to the group
+- **roles** (Set of String) Role IDs to be attached to the group
 
 ### Read-Only
 

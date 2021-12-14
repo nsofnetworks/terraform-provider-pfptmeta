@@ -23,7 +23,7 @@ func Resource() *schema.Resource {
 				ForceNew:         true,
 			},
 			"users": {
-				Description: "user IDs that will be added to the group",
+				Description: "User IDs to be added to the group",
 				Required:    true,
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
