@@ -89,8 +89,8 @@ func UpdateMetaport(c *Client, mId string, m *Metaport) (*Metaport, error) {
 	return parseMetaport(resp)
 }
 
-func DeleteMetaport(c *Client, neID string) (*Metaport, error) {
-	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportEndpoint, neID)
+func DeleteMetaport(c *Client, mID string) (*Metaport, error) {
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportEndpoint, mID)
 	resp, err := c.Delete(url, nil)
 	if err != nil {
 		return nil, err

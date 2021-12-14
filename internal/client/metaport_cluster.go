@@ -84,8 +84,8 @@ func UpdateMetaportCluster(c *Client, mId string, m *MetaportCluster) (*Metaport
 	return parseMetaportCluster(resp)
 }
 
-func DeleteMetaportCluster(c *Client, neID string) (*MetaportCluster, error) {
-	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, neID)
+func DeleteMetaportCluster(c *Client, mcID string) (*MetaportCluster, error) {
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, mcID)
 	resp, err := c.Delete(url, nil)
 	if err != nil {
 		return nil, err
