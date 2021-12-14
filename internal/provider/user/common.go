@@ -35,19 +35,13 @@ func userToResource(u *client.User, d *schema.ResourceData) (diags diag.Diagnost
 	return
 }
 
-func updateUserTags(d *schema.ResourceData, u *client.User, c *client.Client) (diags diag.Diagnostics) {
-	if d.HasChange("tags") {
-		tags := client.NewTags(d)
-		err := client.AssignTagsToResource(c, u.ID, "users", tags)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-		userRead(nil, d, c)
-		if err != nil {
-			return diag.FromErr(err)
-		}
+func updateUserTags(d *schema.ResourceData, u *client.User, c *client.Client) diag.Diagnostics {
+	tags := client.NewTags(d)
+	err := client.AssignTagsToResource(c, u.ID, "users", tags)
+	if err != nil {
+		return diag.FromErr(err)
 	}
-	return
+	return userRead(nil, d, c)
 }
 
 func userRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
