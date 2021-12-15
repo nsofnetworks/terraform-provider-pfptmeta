@@ -6,7 +6,7 @@ description: |-
 Adds users to group.
 ---
 
-# pfptmeta_user (Resource)
+# pfptmeta_group_users_attachment (Resource)
 
 Adds users to group.
 

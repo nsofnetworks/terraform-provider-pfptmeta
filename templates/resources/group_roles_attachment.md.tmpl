@@ -6,7 +6,7 @@ description: |-
 Attaches roles to group.
 ---
 
-# pfptmeta_user (Resource)
+# pfptmeta_group_roles_attachment (Resource)
 
 Attaches roles to group.
 
