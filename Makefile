@@ -34,7 +34,7 @@ release:
 LAST_VERSION:=$(shell git describe --tags --abbrev=0)
 VERSION_PARTS:=$(subst ., ,$(LAST_VERSION))
 MAJOR:=0
-MINOR:=0
+MINOR:=1
 PATCH_AND_LABEL:=$(word 3, $(VERSION_PARTS))
 PATCH_AND_LABEL_PARTS:=$(subst -, ,$(PATCH_AND_LABEL))
 PATCH:=$(word 1, $(PATCH_AND_LABEL_PARTS))
