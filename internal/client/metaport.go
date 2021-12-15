@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -54,44 +55,44 @@ func parseMetaport(resp *http.Response) (*Metaport, error) {
 	return m, nil
 }
 
-func CreateMetaport(c *Client, m *Metaport) (*Metaport, error) {
+func CreateMetaport(ctx context.Context, c *Client, m *Metaport) (*Metaport, error) {
 	neUrl := fmt.Sprintf("%s/%s", c.BaseURL, metaportEndpoint)
 	body, err := json.Marshal(m)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaport(resp)
 }
 
-func GetMetaport(c *Client, mId string) (*Metaport, error) {
+func GetMetaport(ctx context.Context, c *Client, mId string) (*Metaport, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportEndpoint, mId)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaport(resp)
 }
 
-func UpdateMetaport(c *Client, mId string, m *Metaport) (*Metaport, error) {
+func UpdateMetaport(ctx context.Context, c *Client, mId string, m *Metaport) (*Metaport, error) {
 	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportEndpoint, mId)
 	body, err := json.Marshal(m)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaport(resp)
 }
 
-func DeleteMetaport(c *Client, mID string) (*Metaport, error) {
+func DeleteMetaport(ctx context.Context, c *Client, mID string) (*Metaport, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportEndpoint, mID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

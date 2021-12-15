@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -51,43 +52,43 @@ func parseProtocolGroup(resp *http.Response) (*ProtocolGroup, error) {
 	return pg, nil
 }
 
-func CreateProtocolGroup(c *Client, pg *ProtocolGroup) (*ProtocolGroup, error) {
+func CreateProtocolGroup(ctx context.Context, c *Client, pg *ProtocolGroup) (*ProtocolGroup, error) {
 	neUrl := fmt.Sprintf("%s%s", c.BaseURL, protocolGroupsEndpoint)
 	body, err := json.Marshal(pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert protocol group to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseProtocolGroup(resp)
 }
 
-func UpdateProtocolGroup(c *Client, pgID string, pg *ProtocolGroup) (*ProtocolGroup, error) {
+func UpdateProtocolGroup(ctx context.Context, c *Client, pgID string, pg *ProtocolGroup) (*ProtocolGroup, error) {
 	neUrl := fmt.Sprintf("%s%s/%s", c.BaseURL, protocolGroupsEndpoint, pgID)
 	body, err := json.Marshal(pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert protocol group to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseProtocolGroup(resp)
 }
 
-func GetProtocolGroupById(c *Client, pgID string) (*ProtocolGroup, error) {
+func GetProtocolGroupById(ctx context.Context, c *Client, pgID string) (*ProtocolGroup, error) {
 	url := fmt.Sprintf("%s%s/%s", c.BaseURL, protocolGroupsEndpoint, pgID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseProtocolGroup(resp)
 }
-func GetProtocolGroupByName(c *Client, name string) (*ProtocolGroup, error) {
+func GetProtocolGroupByName(ctx context.Context, c *Client, name string) (*ProtocolGroup, error) {
 	url := fmt.Sprintf("%s%s", c.BaseURL, protocolGroupsEndpoint)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -106,9 +107,9 @@ func GetProtocolGroupByName(c *Client, name string) (*ProtocolGroup, error) {
 	return nil, nil
 }
 
-func DeleteProtocolGroup(c *Client, pgID string) (*ProtocolGroup, error) {
+func DeleteProtocolGroup(ctx context.Context, c *Client, pgID string) (*ProtocolGroup, error) {
 	url := fmt.Sprintf("%s%s/%s", c.BaseURL, protocolGroupsEndpoint, pgID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -23,11 +23,11 @@ const (
 
 var excludedKeys = []string{"id", "failback", "failover"}
 
-func metaportFailoverRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportFailoverRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	m, err := client.GetMetaportFailover(c, id)
+	m, err := client.GetMetaportFailover(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -40,35 +40,35 @@ func metaportFailoverRead(_ context.Context, d *schema.ResourceData, meta interf
 	return metaportFailoverToResource(d, m)
 }
 
-func metaportFailoverCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportFailoverCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	body := client.NewMetaportFailover(d)
-	m, err := client.CreateMetaportFailover(c, body)
+	m, err := client.CreateMetaportFailover(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	return metaportFailoverToResource(d, m)
 }
 
-func metaportFailoverUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportFailoverUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	id := d.Id()
 	body := client.NewMetaportFailover(d)
-	m, err := client.UpdateMetaportFailover(c, id, body)
+	m, err := client.UpdateMetaportFailover(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	return metaportFailoverToResource(d, m)
 }
 
-func metaportFailoverDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportFailoverDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	id := d.Id()
-	_, err := client.DeleteMetaportFailover(c, id)
+	_, err := client.DeleteMetaportFailover(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

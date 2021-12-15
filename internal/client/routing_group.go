@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -49,44 +50,44 @@ func parseRoutingGroup(resp *http.Response) (*RoutingGroup, error) {
 	return pg, nil
 }
 
-func CreateRoutingGroup(c *Client, rg *RoutingGroup) (*RoutingGroup, error) {
+func CreateRoutingGroup(ctx context.Context, c *Client, rg *RoutingGroup) (*RoutingGroup, error) {
 	rgUrl := fmt.Sprintf("%s/%s", c.BaseURL, routingGroupsEndpoint)
 	body, err := json.Marshal(rg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert routing group to json: %v", err)
 	}
-	resp, err := c.Post(rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseRoutingGroup(resp)
 }
 
-func UpdateRoutingGroup(c *Client, rgID string, rg *RoutingGroup) (*RoutingGroup, error) {
+func UpdateRoutingGroup(ctx context.Context, c *Client, rgID string, rg *RoutingGroup) (*RoutingGroup, error) {
 	rgUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, routingGroupsEndpoint, rgID)
 	body, err := json.Marshal(rg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert routing group to json: %v", err)
 	}
-	resp, err := c.Patch(rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseRoutingGroup(resp)
 }
 
-func GetRoutingGroup(c *Client, rgID string) (*RoutingGroup, error) {
+func GetRoutingGroup(ctx context.Context, c *Client, rgID string) (*RoutingGroup, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, routingGroupsEndpoint, rgID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseRoutingGroup(resp)
 }
 
-func DeleteRoutingGroup(c *Client, pgID string) (*RoutingGroup, error) {
+func DeleteRoutingGroup(ctx context.Context, c *Client, pgID string) (*RoutingGroup, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, routingGroupsEndpoint, pgID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

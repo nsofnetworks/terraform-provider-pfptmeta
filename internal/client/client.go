@@ -152,7 +152,7 @@ func errorHandler(resp *http.Response, err error, _ int) (*http.Response, error)
 	return resp, err
 }
 
-func NewClient(d *schema.ResourceData, userAgent string) (*Client, error) {
+func NewClient(ctx context.Context, d *schema.ResourceData, userAgent string) (*Client, error) {
 	client := &Client{
 		HTTP:      retryablehttp.NewClient(),
 		UserAgent: userAgent,
@@ -174,25 +174,31 @@ func NewClient(d *schema.ResourceData, userAgent string) (*Client, error) {
 		return nil, fmt.Errorf("could not find credentials: %v", err)
 	}
 	client.Credentials = credentials
-	err = client.tokenRequest()
+	err = client.tokenRequest(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return client, nil
 }
 
-func (c *Client) tokenRequest() error {
+func (c *Client) tokenRequest(ctx context.Context) error {
 	jsonData, err := json.Marshal(c.Credentials)
 	if err != nil {
 		return fmt.Errorf("could not convert credentials to json: %v", err)
 	}
-	url := fmt.Sprintf("%s%s", c.BaseURL, oauthURL)
-	resp, err := c.HTTP.Post(url, "application/json", bytes.NewReader(jsonData))
+	u := fmt.Sprintf("%s%s", c.BaseURL, oauthURL)
+	r, err := http.NewRequestWithContext(ctx, http.MethodPost, u, bytes.NewReader(jsonData))
+	if err != nil {
+		return fmt.Errorf("error while trying to create access token request: %v", err)
+	}
+	r.Header.Set("Content-Type", "application/json")
+	retryableRequest, err := retryablehttp.FromRequest(r)
+	if err != nil {
+		return fmt.Errorf("error while trying to create access token retryable request: %v", err)
+	}
+	resp, err := c.HTTP.Do(retryableRequest)
 	if err != nil {
 		return fmt.Errorf("error while trying to create access token: %v", err)
-	}
-	if err != nil {
-		return fmt.Errorf("could not read authentication response: %v", err)
 	}
 	if resp.StatusCode != 200 {
 		return parseHttpError(resp)
@@ -212,7 +218,7 @@ func (c *Client) tokenRequest() error {
 func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	now := time.Now().Unix()
 	if c.Token == nil || c.TokenCreationTime+c.Token.Expiry-now < 30 {
-		err := c.tokenRequest()
+		err := c.tokenRequest(r.Context())
 		if err != nil {
 			return nil, err
 		}
@@ -249,8 +255,8 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	return resp, nil
 }
 
-func (c *Client) Get(url string, queryParams url.Values) (*http.Response, error) {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+func (c *Client) Get(ctx context.Context, url string, queryParams url.Values) (*http.Response, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -262,8 +268,8 @@ func (c *Client) Get(url string, queryParams url.Values) (*http.Response, error)
 	return resp, nil
 }
 
-func (c *Client) Delete(url string, queryParams url.Values) (*http.Response, error) {
-	req, err := http.NewRequest(http.MethodDelete, url, nil)
+func (c *Client) Delete(ctx context.Context, url string, queryParams url.Values) (*http.Response, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -275,10 +281,10 @@ func (c *Client) Delete(url string, queryParams url.Values) (*http.Response, err
 	return resp, nil
 }
 
-func (c *Client) Post(url string, body io.Reader) (*http.Response, error) {
+func (c *Client) Post(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
 	var resp *http.Response
 	var err error
-	req, err := http.NewRequest(http.MethodPost, url, body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -289,7 +295,7 @@ func (c *Client) Post(url string, body io.Reader) (*http.Response, error) {
 	return resp, nil
 }
 
-func (c *Client) Patch(url string, body io.Reader) (*http.Response, error) {
+func (c *Client) Patch(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
 	var resp *http.Response
 	var err error
 	req, err := http.NewRequest(http.MethodPatch, url, body)
@@ -303,7 +309,7 @@ func (c *Client) Patch(url string, body io.Reader) (*http.Response, error) {
 	return resp, nil
 }
 
-func (c *Client) Put(url string, body io.Reader) (*http.Response, error) {
+func (c *Client) Put(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(http.MethodPut, url, body)
 	if err != nil {
 		return nil, err
@@ -315,9 +321,9 @@ func (c *Client) Put(url string, body io.Reader) (*http.Response, error) {
 	return resp, nil
 }
 
-func (c *Client) GetResource(resourceUrl, ID string) (*http.Response, error) {
+func (c *Client) GetResource(ctx context.Context, resourceUrl, ID string) (*http.Response, error) {
 	u := fmt.Sprintf("%s/%s/%s", c.BaseURL, resourceUrl, ID)
-	resp, err := c.Get(u, nil)
+	resp, err := c.Get(ctx, u, nil)
 	if err != nil {
 		return nil, err
 	}

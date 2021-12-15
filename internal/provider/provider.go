@@ -88,9 +88,9 @@ func New(version string) func() *schema.Provider {
 }
 
 func configure(version string, p *schema.Provider) func(context.Context, *schema.ResourceData) (interface{}, diag.Diagnostics) {
-	return func(_ context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
+	return func(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		userAgent := p.UserAgent("terraform-provider-pfptmeta", version)
-		c, err := client.NewClient(d, userAgent)
+		c, err := client.NewClient(ctx, d, userAgent)
 		if err != nil {
 			return nil, diag.FromErr(err)
 		}

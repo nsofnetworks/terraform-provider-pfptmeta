@@ -35,25 +35,25 @@ func userToResource(u *client.User, d *schema.ResourceData) (diags diag.Diagnost
 	return
 }
 
-func updateUserTags(d *schema.ResourceData, u *client.User, c *client.Client) diag.Diagnostics {
+func updateUserTags(ctx context.Context, d *schema.ResourceData, u *client.User, c *client.Client) diag.Diagnostics {
 	tags := client.NewTags(d)
-	err := client.AssignTagsToResource(c, u.ID, "users", tags)
+	err := client.AssignTagsToResource(ctx, c, u.ID, "users", tags)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	return userRead(nil, d, c)
+	return userRead(ctx, d, c)
 }
 
-func userRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func userRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	var u *client.User
 	var err error
 	if id, exists := d.GetOk("id"); exists {
-		u, err = client.GetUserByID(c, id.(string))
+		u, err = client.GetUserByID(ctx, c, id.(string))
 	} else {
 		if email, exists := d.GetOk("email"); exists {
-			u, err = client.GetUserByEmail(c, email.(string))
+			u, err = client.GetUserByEmail(ctx, c, email.(string))
 		}
 	}
 	if err != nil {
@@ -72,34 +72,34 @@ func userRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diag
 	return userToResource(u, d)
 }
 
-func userCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func userCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	body := client.NewUser(d)
-	u, err := client.CreateUser(c, body)
+	u, err := client.CreateUser(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	d.SetId(u.ID)
-	return updateUserTags(d, u, c)
+	return updateUserTags(ctx, d, u, c)
 }
 
-func userUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func userUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	id := d.Id()
 	body := client.NewUser(d)
-	u, err := client.UpdateUser(c, id, body)
+	u, err := client.UpdateUser(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	return updateUserTags(d, u, c)
+	return updateUserTags(ctx, d, u, c)
 }
 
-func userDelete(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func userDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteUser(c, id)
+	_, err := client.DeleteUser(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

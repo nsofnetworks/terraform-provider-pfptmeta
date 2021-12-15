@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -30,31 +31,31 @@ func parseMappedDomain(resp *http.Response) (*MappedDomain, error) {
 	return md, nil
 }
 
-func GetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
+func GetMappedDomain(ctx context.Context, c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
 	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseMappedDomain(resp)
 }
 
-func SetMappedDomain(c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
+func SetMappedDomain(ctx context.Context, c *Client, neID string, mappedDomain *MappedDomain) (*MappedDomain, error) {
 	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, mappedDomain.Name)
 	body, err := mappedDomain.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedDomain to json")
 	}
-	resp, err := c.Put(url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMappedDomain(resp)
 }
 
-func DeleteMappedDomain(c *Client, neID, name string) error {
+func DeleteMappedDomain(ctx context.Context, c *Client, neID, name string) error {
 	url := fmt.Sprintf("%s/%s/%s/mapped_domains/%s", c.BaseURL, networkElementsEndpoint, neID, name)
-	_, err := c.Delete(url, nil)
+	_, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return err
 	}

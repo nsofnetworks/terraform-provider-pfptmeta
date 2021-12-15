@@ -1,29 +1,30 @@
 package client
 
 import (
+	"context"
 	"fmt"
 )
 
-func AssignNetworkElementAlias(c *Client, neID, alias string) error {
+func AssignNetworkElementAlias(ctx context.Context, c *Client, neID, alias string) error {
 	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
-	_, err := c.Put(url, nil)
+	_, err := c.Put(ctx, url, nil)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func DeleteNetworkElementAlias(c *Client, neID, alias string) error {
+func DeleteNetworkElementAlias(ctx context.Context, c *Client, neID, alias string) error {
 	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, networkElementsEndpoint, neID, alias)
-	_, err := c.Delete(url, nil)
+	_, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func AliasExists(c *Client, neID, alias string) (bool, error) {
-	ne, err := GetNetworkElement(c, neID)
+func AliasExists(ctx context.Context, c *Client, neID, alias string) (bool, error) {
+	ne, err := GetNetworkElement(ctx, c, neID)
 	if err != nil {
 		return false, err
 	}

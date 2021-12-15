@@ -16,11 +16,11 @@ const (
 
 var excludedKeys = []string{"id", "expression", "roles", "users"}
 
-func groupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func groupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	body := client.NewGroup(d)
-	g, err := client.CreateGroup(c, body)
+	g, err := client.CreateGroup(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -44,16 +44,16 @@ func groupToResource(d *schema.ResourceData, g *client.Group) (diags diag.Diagno
 	return
 }
 
-func groupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func groupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	var pg *client.Group
 	var err error
 	if id, exists := d.GetOk("id"); exists {
-		pg, err = client.GetGroupById(c, id.(string))
+		pg, err = client.GetGroupById(ctx, c, id.(string))
 	}
 	if name, exists := d.GetOk("name"); exists {
-		pg, err = client.GetGroupByName(c, name.(string))
+		pg, err = client.GetGroupByName(ctx, c, name.(string))
 	} else if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -75,11 +75,11 @@ func groupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag
 	return diags
 }
 
-func groupUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func groupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 	id := d.Id()
 	body := client.NewGroup(d)
-	g, err := client.UpdateGroup(c, id, body)
+	g, err := client.UpdateGroup(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -87,11 +87,11 @@ func groupUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) di
 	return groupToResource(d, g)
 
 }
-func groupDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func groupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteGroup(c, id)
+	_, err := client.DeleteGroup(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

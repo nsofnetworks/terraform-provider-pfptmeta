@@ -16,12 +16,12 @@ const (
 
 var excludedKeys = []string{"id"}
 
-func protocolGroupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func protocolGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewProtocolGroup(d)
-	pg, err := client.CreateProtocolGroup(c, body)
+	pg, err := client.CreateProtocolGroup(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -32,16 +32,16 @@ func protocolGroupCreate(_ context.Context, d *schema.ResourceData, meta interfa
 	}
 	return diags
 }
-func protocolGroupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func protocolGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	var pg *client.ProtocolGroup
 	var err error
 	if id, exists := d.GetOk("id"); exists {
-		pg, err = client.GetProtocolGroupById(c, id.(string))
+		pg, err = client.GetProtocolGroupById(ctx, c, id.(string))
 	}
 	if name, exists := d.GetOk("name"); exists {
-		pg, err = client.GetProtocolGroupByName(c, name.(string))
+		pg, err = client.GetProtocolGroupByName(ctx, c, name.(string))
 	}
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
@@ -64,12 +64,12 @@ func protocolGroupRead(_ context.Context, d *schema.ResourceData, meta interface
 	return diags
 }
 
-func protocolGroupUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func protocolGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
 	body := client.NewProtocolGroup(d)
-	pg, err := client.UpdateProtocolGroup(c, id, body)
+	pg, err := client.UpdateProtocolGroup(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -80,11 +80,11 @@ func protocolGroupUpdate(_ context.Context, d *schema.ResourceData, meta interfa
 	}
 	return diags
 }
-func protocolGroupDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func protocolGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteProtocolGroup(c, id)
+	_, err := client.DeleteProtocolGroup(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

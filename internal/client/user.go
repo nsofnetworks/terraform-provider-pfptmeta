@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -61,44 +62,44 @@ func parseUser(resp *http.Response) (*User, error) {
 	return user, nil
 }
 
-func CreateUser(c *Client, ed *User) (*User, error) {
+func CreateUser(ctx context.Context, c *Client, ed *User) (*User, error) {
 	uUrl := fmt.Sprintf("%s/%s", c.BaseURL, UsersEndpoint)
 	body, err := json.Marshal(ed)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert user to json: %v", err)
 	}
-	resp, err := c.Post(uUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, uUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseUser(resp)
 }
 
-func UpdateUser(c *Client, edID string, ed *User) (*User, error) {
+func UpdateUser(ctx context.Context, c *Client, edID string, ed *User) (*User, error) {
 	uUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, UsersEndpoint, edID)
 	body, err := json.Marshal(ed)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert user to json: %v", err)
 	}
-	resp, err := c.Patch(uUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, uUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseUser(resp)
 }
 
-func GetUserByID(c *Client, uID string) (*User, error) {
+func GetUserByID(ctx context.Context, c *Client, uID string) (*User, error) {
 	uUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, UsersEndpoint, uID)
-	resp, err := c.Get(uUrl, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, uUrl, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	return parseUser(resp)
 }
 
-func GetUserByEmail(c *Client, email string) (*User, error) {
+func GetUserByEmail(ctx context.Context, c *Client, email string) (*User, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL, UsersEndpoint)
-	resp, err := c.Get(url, u.Values{"expand": {"true"}, "pagination": {"false"}, "email": {email}})
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}, "pagination": {"false"}, "email": {email}})
 	if err != nil {
 		return nil, err
 	}
@@ -117,9 +118,9 @@ func GetUserByEmail(c *Client, email string) (*User, error) {
 	return nil, nil
 }
 
-func DeleteUser(c *Client, uID string) (*User, error) {
+func DeleteUser(ctx context.Context, c *Client, uID string) (*User, error) {
 	uUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, UsersEndpoint, uID)
-	resp, err := c.Delete(uUrl, nil)
+	resp, err := c.Delete(ctx, uUrl, nil)
 	if err != nil {
 		return nil, err
 	}

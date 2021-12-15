@@ -22,14 +22,14 @@ func mappedDomainToResource(d *schema.ResourceData, neID string, md *client.Mapp
 	return
 }
 
-func mappedDomainRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func mappedDomainRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
 	mappedDomain := d.Get("mapped_domain").(string)
 	mdBody := &client.MappedDomain{MappedDomain: mappedDomain, Name: name}
-	md, err := client.GetMappedDomain(c, neID, mdBody)
+	md, err := client.GetMappedDomain(ctx, c, neID, mdBody)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -41,26 +41,26 @@ func mappedDomainRead(_ context.Context, d *schema.ResourceData, meta interface{
 	}
 	return mappedDomainToResource(d, neID, md)
 }
-func mappedDomainCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func mappedDomainCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
 	mappedDomain := d.Get("mapped_domain").(string)
 	mdBody := &client.MappedDomain{MappedDomain: mappedDomain, Name: name}
-	md, err := client.SetMappedDomain(c, neID, mdBody)
+	md, err := client.SetMappedDomain(ctx, c, neID, mdBody)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	return mappedDomainToResource(d, neID, md)
 }
 
-func mappedDomainDelete(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func mappedDomainDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
-	err := client.DeleteMappedDomain(c, neID, name)
+	err := client.DeleteMappedDomain(ctx, c, neID, name)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

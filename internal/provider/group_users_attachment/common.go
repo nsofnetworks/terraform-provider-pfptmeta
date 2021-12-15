@@ -38,11 +38,11 @@ func groupToUsersAttachmentResource(d *schema.ResourceData, g *client.Group) (di
 	return
 }
 
-func readResource(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func readResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
-	g, err := client.GetGroupById(c, gID)
+	g, err := client.GetGroupById(ctx, c, gID)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -55,19 +55,19 @@ func readResource(_ context.Context, d *schema.ResourceData, meta interface{}) (
 	}
 	return groupToUsersAttachmentResource(d, g)
 }
-func createResource(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func createResource(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
 	u := client.ResourceTypeSetToStringSlice(d.Get("users").(*schema.Set))
-	err := client.AddUsersToGroup(c, gID, u)
+	err := client.AddUsersToGroup(ctx, c, gID, u)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	return readResource(nil, d, c)
+	return readResource(ctx, d, c)
 }
 
-func updateResource(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func updateResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
@@ -77,27 +77,27 @@ func updateResource(_ context.Context, d *schema.ResourceData, meta interface{})
 		toRemove := beforeSet.Difference(afterSet)
 		toAdd := afterSet.Difference(beforeSet)
 		if toRemove.Len() > 0 {
-			err := client.RemoveUsersFromGroup(c, gID, client.ResourceTypeSetToStringSlice(toRemove))
+			err := client.RemoveUsersFromGroup(ctx, c, gID, client.ResourceTypeSetToStringSlice(toRemove))
 			if err != nil {
 				return append(diag.FromErr(err), readResource(nil, d, c)...)
 			}
 		}
 		if toAdd.Len() > 0 {
-			err := client.AddUsersToGroup(c, gID, client.ResourceTypeSetToStringSlice(toAdd))
+			err := client.AddUsersToGroup(ctx, c, gID, client.ResourceTypeSetToStringSlice(toAdd))
 			if err != nil {
 				return append(diag.FromErr(err), readResource(nil, d, c)...)
 			}
 		}
 	}
-	return readResource(nil, d, c)
+	return readResource(ctx, d, c)
 }
 
-func deleteResource(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func deleteResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
 	u := d.Get("users").(*schema.Set)
-	err := client.RemoveUsersFromGroup(c, gID, client.ResourceTypeSetToStringSlice(u))
+	err := client.RemoveUsersFromGroup(ctx, c, gID, client.ResourceTypeSetToStringSlice(u))
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -27,13 +28,13 @@ func NewTags(d *schema.ResourceData) []Tag {
 	return tags
 }
 
-func AssignTagsToResource(c *Client, rID, rName string, tags []Tag) error {
+func AssignTagsToResource(ctx context.Context, c *Client, rID, rName string, tags []Tag) error {
 	body, err := json.Marshal(tags)
 	if err != nil {
 		return fmt.Errorf("could not convert tags to json: %v", err)
 	}
 	url := fmt.Sprintf("%s/v1/%s/%s/tags", c.BaseURL, rName, rID)
-	_, err = c.Put(url, bytes.NewReader(body))
+	_, err = c.Put(ctx, url, bytes.NewReader(body))
 	if err != nil {
 		return err
 	}

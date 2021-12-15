@@ -27,12 +27,12 @@ func aliasToResource(d *schema.ResourceData, neID, alias string) diag.Diagnostic
 	return diags
 }
 
-func networkElementsAliasRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func networkElementsAliasRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	exists, err := client.AliasExists(c, neID, alias)
+	exists, err := client.AliasExists(ctx, c, neID, alias)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -42,25 +42,25 @@ func networkElementsAliasRead(_ context.Context, d *schema.ResourceData, meta in
 	}
 	return aliasToResource(d, neID, alias)
 }
-func networkElementAliasCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementAliasCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.AssignNetworkElementAlias(c, neID, alias)
+	err := client.AssignNetworkElementAlias(ctx, c, neID, alias)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	return aliasToResource(d, neID, alias)
 }
 
-func networkElementAliasDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementAliasDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.DeleteNetworkElementAlias(c, neID, alias)
+	err := client.DeleteNetworkElementAlias(ctx, c, neID, alias)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

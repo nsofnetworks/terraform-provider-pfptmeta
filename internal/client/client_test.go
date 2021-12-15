@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/go-retryablehttp"
@@ -39,7 +40,7 @@ func TestParseHttpError(t *testing.T) {
 	assert.EqualError(t, formattedError, "POST request to https://example.com failed with status code 403: title - error details")
 }
 
-func TestDoRequest(t *testing.T) {
+func TestSendRequest(t *testing.T) {
 	server := configureServer(t)
 	client := &Client{
 		HTTP:        retryablehttp.NewClient(),
@@ -74,6 +75,13 @@ func TestDoRequest(t *testing.T) {
 		assert.Nil(t, err)
 		//Asserting token was created for the second time
 		assert.Equal(t, "token-2", client.Token.Token)
+	})
+	t.Run("check-with-timeout-context", func(t *testing.T) {
+		ctx, _ := context.WithTimeout(context.Background(), time.Second)
+		req, _ := http.NewRequestWithContext(ctx, http.MethodPost, server.URL+"/v1/context", nil)
+		resp, err := client.SendRequest(req)
+		assert.Contains(t, err.Error(), "context deadline exceeded")
+		assert.Nil(t, resp)
 	})
 }
 
@@ -152,6 +160,9 @@ func configureServer(t *testing.T) *httptest.Server {
 			retryCounter++
 			rw.WriteHeader(http.StatusBadRequest)
 			rw.Write(bytesRes)
+		case "/v1/context":
+			time.Sleep(time.Minute)
+			rw.Write([]byte("ok"))
 		}
 	}))
 	return server

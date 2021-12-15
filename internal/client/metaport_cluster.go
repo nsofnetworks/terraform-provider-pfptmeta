@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -49,44 +50,44 @@ func parseMetaportCluster(resp *http.Response) (*MetaportCluster, error) {
 	return mc, nil
 }
 
-func CreateMetaportCluster(c *Client, m *MetaportCluster) (*MetaportCluster, error) {
+func CreateMetaportCluster(ctx context.Context, c *Client, m *MetaportCluster) (*MetaportCluster, error) {
 	neUrl := fmt.Sprintf("%s/%s", c.BaseURL, metaportClusterEndpoint)
 	body, err := json.Marshal(m)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport cluster to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportCluster(resp)
 }
 
-func GetMetaportCluster(c *Client, mId string) (*MetaportCluster, error) {
+func GetMetaportCluster(ctx context.Context, c *Client, mId string) (*MetaportCluster, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, mId)
-	resp, err := c.Get(url, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportCluster(resp)
 }
 
-func UpdateMetaportCluster(c *Client, mId string, m *MetaportCluster) (*MetaportCluster, error) {
+func UpdateMetaportCluster(ctx context.Context, c *Client, mId string, m *MetaportCluster) (*MetaportCluster, error) {
 	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, mId)
 	body, err := json.Marshal(m)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport cluster to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportCluster(resp)
 }
 
-func DeleteMetaportCluster(c *Client, mcID string) (*MetaportCluster, error) {
+func DeleteMetaportCluster(ctx context.Context, c *Client, mcID string) (*MetaportCluster, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, mcID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

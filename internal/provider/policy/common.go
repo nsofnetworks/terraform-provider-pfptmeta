@@ -19,12 +19,12 @@ const (
 
 var policyExcludedKeys = []string{"id"}
 
-func policyCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func policyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewPolicy(d)
-	r, err := client.CreatePolicy(c, body)
+	r, err := client.CreatePolicy(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -35,11 +35,11 @@ func policyCreate(_ context.Context, d *schema.ResourceData, meta interface{}) d
 	}
 	return diags
 }
-func policyRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func policyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Get("id").(string)
-	rg, err := client.GetPolicy(c, id)
+	rg, err := client.GetPolicy(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -57,12 +57,12 @@ func policyRead(_ context.Context, d *schema.ResourceData, meta interface{}) dia
 	return diags
 }
 
-func policyUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func policyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
 	body := client.NewPolicy(d)
-	r, err := client.UpdatePolicy(c, id, body)
+	r, err := client.UpdatePolicy(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -73,11 +73,11 @@ func policyUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) d
 	}
 	return diags
 }
-func policyDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func policyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeletePolicy(c, id)
+	_, err := client.DeletePolicy(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -93,44 +94,44 @@ func parseMetaportFailover(resp *http.Response) (*MetaportFailover, error) {
 	return mf, nil
 }
 
-func CreateMetaportFailover(c *Client, m *MetaportFailover) (*MetaportFailover, error) {
+func CreateMetaportFailover(ctx context.Context, c *Client, m *MetaportFailover) (*MetaportFailover, error) {
 	neUrl := fmt.Sprintf("%s/%s", c.BaseURL, metaportFailoverEndpoint)
 	body, err := m.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport failover to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportFailover(resp)
 }
 
-func GetMetaportFailover(c *Client, mId string) (*MetaportFailover, error) {
+func GetMetaportFailover(ctx context.Context, c *Client, mId string) (*MetaportFailover, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportFailoverEndpoint, mId)
-	resp, err := c.Get(url, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportFailover(resp)
 }
 
-func UpdateMetaportFailover(c *Client, mId string, m *MetaportFailover) (*MetaportFailover, error) {
+func UpdateMetaportFailover(ctx context.Context, c *Client, mId string, m *MetaportFailover) (*MetaportFailover, error) {
 	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportFailoverEndpoint, mId)
 	body, err := m.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport failover to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMetaportFailover(resp)
 }
 
-func DeleteMetaportFailover(c *Client, mcID string) (*MetaportFailover, error) {
+func DeleteMetaportFailover(ctx context.Context, c *Client, mcID string) (*MetaportFailover, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportFailoverEndpoint, mcID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

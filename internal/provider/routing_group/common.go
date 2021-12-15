@@ -18,12 +18,12 @@ const (
 
 var excludedKeys = []string{"id"}
 
-func routingGroupCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func routingGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewRoutingGroup(d)
-	r, err := client.CreateRoutingGroup(c, body)
+	r, err := client.CreateRoutingGroup(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -34,11 +34,11 @@ func routingGroupCreate(_ context.Context, d *schema.ResourceData, meta interfac
 	}
 	return diags
 }
-func routingGroupRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func routingGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Get("id").(string)
-	rg, err := client.GetRoutingGroup(c, id)
+	rg, err := client.GetRoutingGroup(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -56,12 +56,12 @@ func routingGroupRead(_ context.Context, d *schema.ResourceData, meta interface{
 	return diags
 }
 
-func routingGroupUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func routingGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
 	body := client.NewRoutingGroup(d)
-	r, err := client.UpdateRoutingGroup(c, id, body)
+	r, err := client.UpdateRoutingGroup(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -72,11 +72,11 @@ func routingGroupUpdate(_ context.Context, d *schema.ResourceData, meta interfac
 	}
 	return diags
 }
-func routingGroupDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func routingGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteRoutingGroup(c, id)
+	_, err := client.DeleteRoutingGroup(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

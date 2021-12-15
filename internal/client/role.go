@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -69,43 +70,43 @@ func parseRole(resp *http.Response) (*Role, error) {
 	return pg, nil
 }
 
-func CreateRole(c *Client, r *Role) (*Role, error) {
+func CreateRole(ctx context.Context, c *Client, r *Role) (*Role, error) {
 	neUrl := fmt.Sprintf("%s%s", c.BaseURL, rolesEndpoint)
 	body, err := json.Marshal(r)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert role to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseRole(resp)
 }
 
-func UpdateRole(c *Client, rID string, r *Role) (*Role, error) {
+func UpdateRole(ctx context.Context, c *Client, rID string, r *Role) (*Role, error) {
 	neUrl := fmt.Sprintf("%s%s/%s", c.BaseURL, rolesEndpoint, rID)
 	body, err := json.Marshal(r)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert role to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseRole(resp)
 }
 
-func GetRoleByID(c *Client, rID string) (*Role, error) {
+func GetRoleByID(ctx context.Context, c *Client, rID string) (*Role, error) {
 	url := fmt.Sprintf("%s%s/%s", c.BaseURL, rolesEndpoint, rID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseRole(resp)
 }
-func GetRoleByName(c *Client, name string) (*Role, error) {
+func GetRoleByName(ctx context.Context, c *Client, name string) (*Role, error) {
 	url := fmt.Sprintf("%s%s", c.BaseURL, rolesEndpoint)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -124,9 +125,9 @@ func GetRoleByName(c *Client, name string) (*Role, error) {
 	return nil, nil
 }
 
-func DeleteRole(c *Client, rID string) (*Role, error) {
+func DeleteRole(ctx context.Context, c *Client, rID string) (*Role, error) {
 	url := fmt.Sprintf("%s%s/%s", c.BaseURL, rolesEndpoint, rID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

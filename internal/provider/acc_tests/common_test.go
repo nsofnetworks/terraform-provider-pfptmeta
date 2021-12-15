@@ -1,6 +1,7 @@
 package acc_tests
 
 import (
+	"context"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -48,7 +49,7 @@ func validateResourceDestroyed(resource, resourcePath string) func(s *terraform.
 				continue
 			}
 			neId := rs.Primary.ID
-			_, err := c.GetResource(resourcePath, neId)
+			_, err := c.GetResource(context.Background(), resourcePath, neId)
 			if err == nil {
 				return fmt.Errorf("%s %s still exists", resource, neId)
 			}

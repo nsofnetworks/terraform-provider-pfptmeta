@@ -20,11 +20,11 @@ const (
 
 var excludedKeys = []string{"id", "tags", "aliases"}
 
-func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	networkElement, err := client.GetNetworkElement(c, id)
+	networkElement, err := client.GetNetworkElement(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -46,11 +46,11 @@ func networkElementsRead(_ context.Context, d *schema.ResourceData, meta interfa
 	d.SetId(networkElement.ID)
 	return diags
 }
-func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	body := client.NewNetworkElementBody(d)
-	networkElement, err := client.CreateNetworkElement(c, body)
+	networkElement, err := client.CreateNetworkElement(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -59,13 +59,13 @@ func networkElementCreate(_ context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	return updateTags(d, networkElement, c)
+	return updateTags(ctx, d, networkElement, c)
 }
 
-func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 	id := d.Id()
-	networkElement, err := client.GetNetworkElement(c, id)
+	networkElement, err := client.GetNetworkElement(ctx, c, id)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -74,7 +74,7 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 	}
 	if d.HasChanges("name", "description", "enabled", "mapped_subnets", "mapped_service") {
 		body := client.NewNetworkElementBody(d)
-		networkElement, err = client.UpdateNetworkElement(c, id, body)
+		networkElement, err = client.UpdateNetworkElement(ctx, c, id, body)
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -83,14 +83,14 @@ func networkElementUpdate(_ context.Context, d *schema.ResourceData, meta interf
 			return diag.FromErr(err)
 		}
 	}
-	return updateTags(d, networkElement, c)
+	return updateTags(ctx, d, networkElement, c)
 }
 
-func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func networkElementDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteNetworkElement(c, id)
+	_, err := client.DeleteNetworkElement(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -103,14 +103,14 @@ func networkElementDelete(_ context.Context, d *schema.ResourceData, meta interf
 	return diags
 }
 
-func updateTags(d *schema.ResourceData, ne *client.NetworkElementResponse, c *client.Client) (diags diag.Diagnostics) {
+func updateTags(ctx context.Context, d *schema.ResourceData, ne *client.NetworkElementResponse, c *client.Client) (diags diag.Diagnostics) {
 	if d.HasChange("tags") {
 		tags := client.NewTags(d)
-		err := client.AssignTagsToResource(c, ne.ID, "network_elements", tags)
+		err := client.AssignTagsToResource(ctx, c, ne.ID, "network_elements", tags)
 		if err != nil {
 			return diag.FromErr(err)
 		}
-		networkElementsRead(nil, d, c)
+		networkElementsRead(ctx, d, c)
 		if err != nil {
 			return diag.FromErr(err)
 		}

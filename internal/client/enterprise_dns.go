@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -52,44 +53,44 @@ func parseEnterpriseDNS(resp *http.Response) (*EnterpriseDNS, error) {
 	return ed, nil
 }
 
-func CreateEnterpriseDNS(c *Client, ed *EnterpriseDNS) (*EnterpriseDNS, error) {
+func CreateEnterpriseDNS(ctx context.Context, c *Client, ed *EnterpriseDNS) (*EnterpriseDNS, error) {
 	edUrl := fmt.Sprintf("%s/%s", c.BaseURL, enterpriseDNSEndpoint)
 	body, err := json.Marshal(ed)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert enterprise dns to json: %v", err)
 	}
-	resp, err := c.Post(edUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, edUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseEnterpriseDNS(resp)
 }
 
-func UpdateEnterpriseDNS(c *Client, edID string, ed *EnterpriseDNS) (*EnterpriseDNS, error) {
+func UpdateEnterpriseDNS(ctx context.Context, c *Client, edID string, ed *EnterpriseDNS) (*EnterpriseDNS, error) {
 	edUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, enterpriseDNSEndpoint, edID)
 	body, err := json.Marshal(ed)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert enterprise dns to json: %v", err)
 	}
-	resp, err := c.Patch(edUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, edUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseEnterpriseDNS(resp)
 }
 
-func GetEnterpriseDNS(c *Client, edID string) (*EnterpriseDNS, error) {
+func GetEnterpriseDNS(ctx context.Context, c *Client, edID string) (*EnterpriseDNS, error) {
 	edUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, enterpriseDNSEndpoint, edID)
-	resp, err := c.Get(edUrl, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, edUrl, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	return parseEnterpriseDNS(resp)
 }
 
-func DeleteEnterpriseDNS(c *Client, edID string) (*EnterpriseDNS, error) {
+func DeleteEnterpriseDNS(ctx context.Context, c *Client, edID string) (*EnterpriseDNS, error) {
 	edUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, enterpriseDNSEndpoint, edID)
-	resp, err := c.Delete(edUrl, nil)
+	resp, err := c.Delete(ctx, edUrl, nil)
 	if err != nil {
 		return nil, err
 	}

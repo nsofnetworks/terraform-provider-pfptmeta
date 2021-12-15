@@ -16,11 +16,11 @@ const (
 
 var excludedKeys = []string{"id"}
 
-func metaportClusterRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportClusterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	m, err := client.GetMetaportCluster(c, id)
+	m, err := client.GetMetaportCluster(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -38,12 +38,12 @@ func metaportClusterRead(_ context.Context, d *schema.ResourceData, meta interfa
 	return diags
 }
 
-func metaportClusterCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportClusterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewMetaportCluster(d)
-	m, err := client.CreateMetaportCluster(c, body)
+	m, err := client.CreateMetaportCluster(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -55,13 +55,13 @@ func metaportClusterCreate(_ context.Context, d *schema.ResourceData, meta inter
 	return diags
 }
 
-func metaportClusterUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportClusterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	id := d.Id()
 	body := client.NewMetaportCluster(d)
-	m, err := client.UpdateMetaportCluster(c, id, body)
+	m, err := client.UpdateMetaportCluster(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -72,12 +72,12 @@ func metaportClusterUpdate(_ context.Context, d *schema.ResourceData, meta inter
 	return diags
 }
 
-func metaportClusterDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportClusterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	id := d.Id()
-	_, err := client.DeleteMetaportCluster(c, id)
+	_, err := client.DeleteMetaportCluster(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

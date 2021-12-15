@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -72,44 +73,44 @@ func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
 	return networkElement, nil
 }
 
-func CreateNetworkElement(c *Client, ne *NetworkElementBody) (*NetworkElementResponse, error) {
+func CreateNetworkElement(ctx context.Context, c *Client, ne *NetworkElementBody) (*NetworkElementResponse, error) {
 	neUrl := fmt.Sprintf("%s/%s", c.BaseURL, networkElementsEndpoint)
 	body, err := json.Marshal(ne)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
-	resp, err := c.Post(neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseNetworkElement(resp)
 }
 
-func UpdateNetworkElement(c *Client, neId string, ne *NetworkElementBody) (*NetworkElementResponse, error) {
+func UpdateNetworkElement(ctx context.Context, c *Client, neId string, ne *NetworkElementBody) (*NetworkElementResponse, error) {
 	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neId)
 	body, err := json.Marshal(ne)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
-	resp, err := c.Patch(neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseNetworkElement(resp)
 }
 
-func GetNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) {
+func GetNetworkElement(ctx context.Context, c *Client, neID string) (*NetworkElementResponse, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neID)
-	resp, err := c.Get(url, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	return parseNetworkElement(resp)
 }
 
-func DeleteNetworkElement(c *Client, neID string) (*NetworkElementResponse, error) {
+func DeleteNetworkElement(ctx context.Context, c *Client, neID string) (*NetworkElementResponse, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, networkElementsEndpoint, neID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

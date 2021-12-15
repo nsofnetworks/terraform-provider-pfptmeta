@@ -17,11 +17,11 @@ const (
 	mappedElementsDesc = "List of mapped element IDs"
 )
 
-func metaportRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	m, err := client.GetMetaport(c, id)
+	m, err := client.GetMetaport(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -39,12 +39,12 @@ func metaportRead(_ context.Context, d *schema.ResourceData, meta interface{}) d
 	return diags
 }
 
-func metaportCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewMetaport(d)
-	m, err := client.CreateMetaport(c, body)
+	m, err := client.CreateMetaport(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -56,13 +56,13 @@ func metaportCreate(_ context.Context, d *schema.ResourceData, meta interface{})
 	return diags
 }
 
-func metaportUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	id := d.Id()
 	body := client.NewMetaport(d)
-	m, err := client.UpdateMetaport(c, id, body)
+	m, err := client.UpdateMetaport(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -73,12 +73,12 @@ func metaportUpdate(_ context.Context, d *schema.ResourceData, meta interface{})
 	return diags
 }
 
-func metaportDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	id := d.Id()
-	_, err := client.DeleteMetaport(c, id)
+	_, err := client.DeleteMetaport(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

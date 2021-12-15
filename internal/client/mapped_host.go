@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -30,31 +31,31 @@ func parseMappedHost(resp *http.Response) (*MappedHost, error) {
 	return mh, nil
 }
 
-func SetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
+func SetMappedHost(ctx context.Context, c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
 	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
 	body, err := mappedHost.ReqBody()
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedHost to json")
 	}
-	resp, err := c.Put(url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parseMappedHost(resp)
 }
 
-func GetMappedHost(c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
+func GetMappedHost(ctx context.Context, c *Client, neID string, mappedHost *MappedHost) (*MappedHost, error) {
 	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, mappedHost.Name)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parseMappedHost(resp)
 }
 
-func DeleteMappedHost(c *Client, neID, name string) error {
+func DeleteMappedHost(ctx context.Context, c *Client, neID, name string) error {
 	url := fmt.Sprintf("%s/%s/%s/mapped_hosts/%s", c.BaseURL, networkElementsEndpoint, neID, name)
-	_, err := c.Delete(url, nil)
+	_, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return err
 	}

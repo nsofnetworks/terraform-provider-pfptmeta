@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -53,44 +54,44 @@ func parsePolicy(resp *http.Response) (*Policy, error) {
 	return pg, nil
 }
 
-func CreatePolicy(c *Client, rg *Policy) (*Policy, error) {
+func CreatePolicy(ctx context.Context, c *Client, rg *Policy) (*Policy, error) {
 	rgUrl := fmt.Sprintf("%s/%s", c.BaseURL, policyEndpoint)
 	body, err := json.Marshal(rg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert policy to json: %v", err)
 	}
-	resp, err := c.Post(rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parsePolicy(resp)
 }
 
-func UpdatePolicy(c *Client, rgID string, rg *Policy) (*Policy, error) {
+func UpdatePolicy(ctx context.Context, c *Client, rgID string, rg *Policy) (*Policy, error) {
 	rgUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, policyEndpoint, rgID)
 	body, err := json.Marshal(rg)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert policy to json: %v", err)
 	}
-	resp, err := c.Patch(rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
 	return parsePolicy(resp)
 }
 
-func GetPolicy(c *Client, rgID string) (*Policy, error) {
+func GetPolicy(ctx context.Context, c *Client, rgID string) (*Policy, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, policyEndpoint, rgID)
-	resp, err := c.Get(url, nil)
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	return parsePolicy(resp)
 }
 
-func DeletePolicy(c *Client, pgID string) (*Policy, error) {
+func DeletePolicy(ctx context.Context, c *Client, pgID string) (*Policy, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, policyEndpoint, pgID)
-	resp, err := c.Delete(url, nil)
+	resp, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}

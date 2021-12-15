@@ -17,12 +17,12 @@ const (
 
 var excludedKeys = []string{"id", "roles"}
 
-func roleCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func roleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewRole(d)
-	r, err := client.CreateRole(c, body)
+	r, err := client.CreateRole(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -33,16 +33,16 @@ func roleCreate(_ context.Context, d *schema.ResourceData, meta interface{}) dia
 	}
 	return diags
 }
-func roleRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func roleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	var r *client.Role
 	var err error
 	if id, exists := d.GetOk("id"); exists {
-		r, err = client.GetRoleByID(c, id.(string))
+		r, err = client.GetRoleByID(ctx, c, id.(string))
 	} else {
 		if name, exists := d.GetOk("name"); exists {
-			r, err = client.GetRoleByName(c, name.(string))
+			r, err = client.GetRoleByName(ctx, c, name.(string))
 		}
 	}
 	if err != nil {
@@ -66,12 +66,12 @@ func roleRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.
 	return diags
 }
 
-func roleUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func roleUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
 	body := client.NewRole(d)
-	r, err := client.UpdateRole(c, id, body)
+	r, err := client.UpdateRole(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -82,11 +82,11 @@ func roleUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) dia
 	}
 	return diags
 }
-func roleDelete(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func roleDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteRole(c, id)
+	_, err := client.DeleteRole(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

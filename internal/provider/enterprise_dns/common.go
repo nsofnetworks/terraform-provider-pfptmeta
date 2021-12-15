@@ -18,10 +18,10 @@ const (
 
 var excludedKeys = []string{"id"}
 
-func enterpriseDNSRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func enterpriseDNSRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	ed, err := client.GetEnterpriseDNS(c, id)
+	ed, err := client.GetEnterpriseDNS(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -38,11 +38,11 @@ func enterpriseDNSRead(_ context.Context, d *schema.ResourceData, meta interface
 	d.SetId(ed.ID)
 	return
 }
-func enterpriseDNSCreate(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func enterpriseDNSCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	body := client.NewEnterpriseDNS(d)
-	ed, err := client.CreateEnterpriseDNS(c, body)
+	ed, err := client.CreateEnterpriseDNS(ctx, c, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -54,12 +54,12 @@ func enterpriseDNSCreate(_ context.Context, d *schema.ResourceData, meta interfa
 	return
 }
 
-func enterpriseDNSUpdate(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func enterpriseDNSUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	id := d.Id()
 	body := client.NewEnterpriseDNS(d)
-	ed, err := client.UpdateEnterpriseDNS(c, id, body)
+	ed, err := client.UpdateEnterpriseDNS(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -71,10 +71,10 @@ func enterpriseDNSUpdate(_ context.Context, d *schema.ResourceData, meta interfa
 	return
 }
 
-func enterpriseDNSDelete(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func enterpriseDNSDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 	id := d.Id()
-	_, err := client.DeleteEnterpriseDNS(c, id)
+	_, err := client.DeleteEnterpriseDNS(ctx, c, id)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

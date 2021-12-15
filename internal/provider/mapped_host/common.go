@@ -22,12 +22,12 @@ func mappedHostToResource(d *schema.ResourceData, neID string, mh *client.Mapped
 	return
 }
 
-func mappedHostRead(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func mappedHostRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
-	mh, err := client.GetMappedHost(c, neID, &client.MappedHost{Name: name})
+	mh, err := client.GetMappedHost(ctx, c, neID, &client.MappedHost{Name: name})
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -39,26 +39,26 @@ func mappedHostRead(_ context.Context, d *schema.ResourceData, meta interface{})
 	}
 	return mappedHostToResource(d, neID, mh)
 }
-func mappedHostCreate(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func mappedHostCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
 	mappedHost := d.Get("mapped_host").(string)
 	mhBody := &client.MappedHost{MappedHost: mappedHost, Name: name}
-	mh, err := client.SetMappedHost(c, neID, mhBody)
+	mh, err := client.SetMappedHost(ctx, c, neID, mhBody)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	return mappedHostToResource(d, neID, mh)
 }
 
-func mappedHostDelete(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func mappedHostDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	neID := d.Get("network_element_id").(string)
 	name := d.Get("name").(string)
-	err := client.DeleteMappedHost(c, neID, name)
+	err := client.DeleteMappedHost(ctx, c, neID, name)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

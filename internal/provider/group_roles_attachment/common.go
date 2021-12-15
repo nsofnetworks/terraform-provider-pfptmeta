@@ -30,11 +30,11 @@ func attachmentToResource(d *schema.ResourceData, gID string, r []string) (diags
 	return
 }
 
-func readResource(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func readResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
-	g, err := client.GetGroupById(c, gID)
+	g, err := client.GetGroupById(ctx, c, gID)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -47,12 +47,12 @@ func readResource(_ context.Context, d *schema.ResourceData, meta interface{}) (
 	}
 	return attachmentToResource(d, gID, g.Roles)
 }
-func createResource(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func createResource(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
 	r := client.ResourceTypeSetToStringSlice(d.Get("roles").(*schema.Set))
-	roles, err := client.AssignRolesToGroup(c, gID, r)
+	roles, err := client.AssignRolesToGroup(ctx, c, gID, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -60,11 +60,11 @@ func createResource(_ context.Context, d *schema.ResourceData, meta interface{})
 
 }
 
-func deleteResource(_ context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
+func deleteResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
 
 	gID := d.Get("group_id").(string)
-	_, err := client.AssignRolesToGroup(c, gID, []string{})
+	_, err := client.AssignRolesToGroup(ctx, c, gID, []string{})
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
