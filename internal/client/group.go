@@ -85,18 +85,20 @@ func GetGroupById(ctx context.Context, c *Client, gID string) (*Group, error) {
 }
 func GetGroupByName(ctx context.Context, c *Client, name string) (*Group, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL, groupEndpoint)
-	resp, err := c.Get(ctx, url, u.Values{"name": {name}, "pagination": {"false"}})
+	resp, err := c.Get(ctx, url, u.Values{"name": {name}, "expand": {"true"}})
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	gs := &[]Group{}
-	err = json.Unmarshal(body, gs)
+	respBody := &struct {
+		Groups []Group `json:"items"`
+	}{}
+	err = json.Unmarshal(body, respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse group response: %v", err)
 	}
-	for _, g := range *gs {
+	for _, g := range respBody.Groups {
 		if g.Name == name {
 			return &g, nil
 		}

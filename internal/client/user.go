@@ -99,18 +99,20 @@ func GetUserByID(ctx context.Context, c *Client, uID string) (*User, error) {
 
 func GetUserByEmail(ctx context.Context, c *Client, email string) (*User, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL, UsersEndpoint)
-	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}, "pagination": {"false"}, "email": {email}})
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}, "email": {email}})
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	users := &[]User{}
-	err = json.Unmarshal(body, users)
+	respBody := &struct {
+		Users []User `json:"items"`
+	}{}
+	err = json.Unmarshal(body, respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse user response: %v", err)
 	}
-	for _, r := range *users {
+	for _, r := range respBody.Users {
 		if r.Email == email {
 			return &r, nil
 		}
