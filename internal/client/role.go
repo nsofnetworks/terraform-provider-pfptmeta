@@ -34,12 +34,8 @@ func NewRole(d *schema.ResourceData) *Role {
 	s := d.Get("suborgs_expression").(string)
 	res.SubOrgsExpression = s
 
-	p := d.Get("privileges").([]interface{})
-	privs := make([]string, len(p))
-	for i, priv := range p {
-		privs[i] = priv.(string)
-	}
-	res.Privileges = privs
+	p := d.Get("privileges").(*schema.Set)
+	res.Privileges = ResourceTypeSetToStringSlice(p)
 
 	o := d.Get("apply_to_orgs").([]interface{})
 	orgs := make([]string, len(o))

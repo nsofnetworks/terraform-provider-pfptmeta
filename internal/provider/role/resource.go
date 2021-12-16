@@ -33,7 +33,7 @@ func Resource() *schema.Resource {
 			},
 			"privileges": {
 				Description: privilegesDesc,
-				Type:        schema.TypeList,
+				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidatePattern(common.PrivilegesPattern)},

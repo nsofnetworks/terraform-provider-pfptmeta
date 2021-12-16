@@ -45,7 +45,7 @@ output "role_by_name" {
 - **all_write_privileges** (Boolean)
 - **apply_to_orgs** (List of String) indicates which orgs this role applies to. By default, it is applied to current org.
 - **description** (String)
-- **privileges** (List of String) Privileges to be assigned to the new role. It has the following structure - `resource:read/write` For example, metaports:read etc.
+- **privileges** (Set of String) Privileges to be assigned to the new role. It has the following structure - `resource:read/write` For example, metaports:read etc.
 - **suborgs_expression** (String) Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis.
 
 

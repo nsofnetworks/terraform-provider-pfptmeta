@@ -15,10 +15,27 @@ const (
 	subOrgsExpressionDesc = "Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis."
 )
 
-var excludedKeys = []string{"id", "roles"}
+var excludedKeys = []string{"id", "privileges"}
+
+func roleToResource(r *client.Role, d *schema.ResourceData) (diags diag.Diagnostics) {
+	d.SetId(r.ID)
+	err := client.MapResponseToResource(r, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	origPrivs := schema.NewSet(schema.HashString, d.Get("privileges").(*schema.Set).List())
+	newPrivs := &schema.Set{F: schema.HashString}
+	for _, i := range r.Privileges {
+		newPrivs.Add(i)
+	}
+	err = d.Set("privileges", origPrivs.Intersection(newPrivs))
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return
+}
 
 func roleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 
 	body := client.NewRole(d)
@@ -26,12 +43,7 @@ func roleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) d
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.SetId(r.ID)
-	err = client.MapResponseToResource(r, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return diags
+	return roleToResource(r, d)
 }
 func roleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
@@ -58,30 +70,21 @@ func roleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) dia
 		d.SetId("")
 		return diags
 	}
-	err = client.MapResponseToResource(r, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	d.SetId(r.ID)
-	return diags
+	return roleToResource(r, d)
 }
 
 func roleUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
 	c := meta.(*client.Client)
+
 	id := d.Id()
 	body := client.NewRole(d)
 	r, err := client.UpdateRole(ctx, c, id, body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.SetId(r.ID)
-	err = client.MapResponseToResource(r, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return diags
+	return roleToResource(r, d)
 }
+
 func roleDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
