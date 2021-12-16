@@ -3,14 +3,12 @@
 page_title: "pfptmeta_group_users_attachment Resource - terraform-provider-pfptmeta"
 subcategory: "Users & Groups"
 description: |-
-Adds users to group.
+  Adds users to group.
 ---
 
 # pfptmeta_group_users_attachment (Resource)
 
 Adds users to group.
-
-~> **NOTE:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will result in inconsistent behavior!
 
 ## Example Usage
 

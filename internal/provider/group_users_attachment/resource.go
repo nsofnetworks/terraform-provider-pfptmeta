@@ -7,6 +7,7 @@ import (
 
 func Resource() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Adds users to group.",
 		ReadContext:   readResource,
 		CreateContext: createResource,
 		DeleteContext: deleteResource,
