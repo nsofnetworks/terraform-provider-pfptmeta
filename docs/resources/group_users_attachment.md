@@ -10,7 +10,7 @@ Adds users to group.
 
 Adds users to group.
 
-!> **WARNING:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will result in inconsistent behavior!
+~> **NOTE:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will result in inconsistent behavior!
 
 ## Example Usage
 
