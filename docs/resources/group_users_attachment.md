@@ -10,6 +10,8 @@ description: |-
 
 Adds users to group.
 
+~> **NOTE:** Multiple **pfptmeta_group_users_attachment** resources with the same group and users will result in inconsistent behavior!
+
 ## Example Usage
 
 ```terraform
