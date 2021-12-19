@@ -9,6 +9,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_users_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/location"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
@@ -64,6 +65,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_notification_channel":  notification_channel.DataSource(),
 				"pfptmeta_routing_group":         routing_group.DataSource(),
 				"pfptmeta_policy":                policy.DataSource(),
+				"pfptmeta_location":              location.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":        network_element.Resource(),
