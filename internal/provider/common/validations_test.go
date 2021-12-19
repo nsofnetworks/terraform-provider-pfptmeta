@@ -1,6 +1,8 @@
 package common
 
 import (
+	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/stretchr/testify/assert"
 	"regexp"
 	"testing"
@@ -499,6 +501,43 @@ func TestValidateJson(t *testing.T) {
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			diags := ValidateJson()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
+
+func TestComposeOrValidations(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		Fs          []func(interface{}, cty.Path) diag.Diagnostics
+		ShouldError bool
+	}{
+		"positive-test-two-positive-funcs": {
+			Input:       "123",
+			Fs:          []func(interface{}, cty.Path) diag.Diagnostics{ValidateStringENUM("123"), ValidateStringENUM("123")},
+			ShouldError: false,
+		},
+		"positive-test-one-positive-func": {
+			Input:       "123",
+			Fs:          []func(interface{}, cty.Path) diag.Diagnostics{ValidateStringENUM("1234"), ValidateStringENUM("123")},
+			ShouldError: false,
+		},
+		"positive-test-one-positive-func-2": {
+			Input:       "123",
+			Fs:          []func(interface{}, cty.Path) diag.Diagnostics{ValidateStringENUM("123"), ValidateStringENUM("1234")},
+			ShouldError: false,
+		},
+		"negative-test-two-negative-funcs": {
+			Input:       "123",
+			Fs:          []func(interface{}, cty.Path) diag.Diagnostics{ValidateStringENUM("1234"), ValidateStringENUM("1234")},
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ComposeOrValidations(tc.Fs...)(tc.Input, nil)
 			if diags.HasError() && !tc.ShouldError {
 				t.Errorf("%s failed: %+v", name, diags[0])
 			}

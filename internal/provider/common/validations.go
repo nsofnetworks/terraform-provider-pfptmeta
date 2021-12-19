@@ -197,3 +197,18 @@ func ValidateJson() func(interface{}, cty.Path) diag.Diagnostics {
 		return
 	}
 }
+
+// ComposeOrValidations will take a list of validation functions and will allow the validated attribute
+// if at least one function has approved the attribute
+func ComposeOrValidations(fs ...func(interface{}, cty.Path) diag.Diagnostics) func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, p cty.Path) (diags diag.Diagnostics) {
+		for _, f := range fs {
+			fDiags := f(input, p)
+			if !fDiags.HasError() {
+				return diag.Diagnostics{}
+			}
+			diags = append(diags, fDiags...)
+		}
+		return
+	}
+}
