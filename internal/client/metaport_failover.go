@@ -81,12 +81,8 @@ func NewMetaportFailover(d *schema.ResourceData) *MetaportFailover {
 			res.FailOver = &FailOver{Delay: uint8(delay), Threshold: uint8(threshold), Trigger: trigger}
 		}
 	}
-	nc := d.Get("notification_channels").([]interface{})
-	nChannel := make([]string, len(nc))
-	for i, org := range nc {
-		nChannel[i] = org.(string)
-	}
-	res.NotificationChannels = nChannel
+	res.NotificationChannels = ConfigToStringSlice("notification_channels", d)
+
 	return res
 }
 

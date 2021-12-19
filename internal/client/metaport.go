@@ -41,12 +41,8 @@ func NewMetaport(d *schema.ResourceData) *Metaport {
 
 	mes := d.Get("mapped_elements")
 	res.MappedElements = ResourceTypeSetToStringSlice(mes.(*schema.Set))
-	nc := d.Get("notification_channels").([]interface{})
-	nChannel := make([]string, len(nc))
-	for i, org := range nc {
-		nChannel[i] = org.(string)
-	}
-	res.NotificationChannels = nChannel
+
+	res.NotificationChannels = ConfigToStringSlice("notification_channels", d)
 
 	return res
 }

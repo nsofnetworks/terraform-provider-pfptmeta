@@ -81,6 +81,15 @@ func ResourceTypeSetToStringSlice(s *schema.Set) []string {
 	return values
 }
 
+func ConfigToStringSlice(key string, d *schema.ResourceData) []string {
+	data := d.Get(key).([]interface{})
+	res := make([]string, len(data))
+	for i, val := range data {
+		res[i] = val.(string)
+	}
+	return res
+}
+
 func ConvertTagsListToMap(tags []Tag) map[string]string {
 	res := make(map[string]string)
 	for _, tag := range tags {

@@ -37,12 +37,7 @@ func NewRole(d *schema.ResourceData) *Role {
 	p := d.Get("privileges").(*schema.Set)
 	res.Privileges = ResourceTypeSetToStringSlice(p)
 
-	o := d.Get("apply_to_orgs").([]interface{})
-	orgs := make([]string, len(o))
-	for i, org := range o {
-		orgs[i] = org.(string)
-	}
-	res.ApplyToOrgs = orgs
+	res.ApplyToOrgs = ConfigToStringSlice("apply_to_orgs", d)
 
 	allRead := d.Get("all_read_privileges").(bool)
 	res.AllReadPrivs = &allRead
