@@ -23,6 +23,9 @@ func (md *MappedDomain) ReqBody() ([]byte, error) {
 func parseMappedDomain(resp *http.Response) (*MappedDomain, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read mapped domain response body: %v", err)
+	}
 	md := &MappedDomain{}
 	err = json.Unmarshal(body, md)
 	if err != nil {

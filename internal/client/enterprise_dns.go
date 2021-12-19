@@ -45,6 +45,9 @@ func newMappedDomains(d *schema.ResourceData) []MappedDomain {
 func parseEnterpriseDNS(resp *http.Response) (*EnterpriseDNS, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read enterprise dns response body: %v", err)
+	}
 	ed := &EnterpriseDNS{}
 	err = json.Unmarshal(body, ed)
 	if err != nil {

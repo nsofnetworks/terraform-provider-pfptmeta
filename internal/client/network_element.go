@@ -65,6 +65,9 @@ type NetworkElementResponse struct {
 func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read network element response body: %v", err)
+	}
 	networkElement := &NetworkElementResponse{}
 	err = json.Unmarshal(body, networkElement)
 	if err != nil {

@@ -54,6 +54,9 @@ func NewUser(d *schema.ResourceData) *User {
 func parseUser(resp *http.Response) (*User, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read user response body: %v", err)
+	}
 	user := &User{}
 	err = json.Unmarshal(body, user)
 	if err != nil {
@@ -105,6 +108,9 @@ func GetUserByEmail(ctx context.Context, c *Client, email string) (*User, error)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read user response body: %v", err)
+	}
 	respBody := &struct {
 		Users []User `json:"items"`
 	}{}

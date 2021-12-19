@@ -58,6 +58,9 @@ func NewRole(d *schema.ResourceData) *Role {
 func parseRole(resp *http.Response) (*Role, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read role response body: %v", err)
+	}
 	pg := &Role{}
 	err = json.Unmarshal(body, pg)
 	if err != nil {

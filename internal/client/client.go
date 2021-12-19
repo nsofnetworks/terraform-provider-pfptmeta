@@ -205,6 +205,9 @@ func (c *Client) tokenRequest(ctx context.Context) error {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("could not read authentication response: %v", err)
+	}
 	token := &Token{}
 	err = json.Unmarshal(body, token)
 	if err != nil {
