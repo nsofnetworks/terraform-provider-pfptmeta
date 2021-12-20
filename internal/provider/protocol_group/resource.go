@@ -50,7 +50,7 @@ func Resource() *schema.Resource {
 							Description:      protoDesc,
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateDiagFunc: common.ValidateENUM("tcp", "udp", "icmp"),
+							ValidateDiagFunc: common.ValidateStringENUM("tcp", "udp", "icmp"),
 						},
 					},
 				},

@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestValidateENUM(t *testing.T) {
+func TestValidateStringENUM(t *testing.T) {
 	cases := map[string]struct {
 		Input       string
 		Enum        []string
@@ -25,7 +25,7 @@ func TestValidateENUM(t *testing.T) {
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			diags := ValidateENUM(tc.Enum...)(tc.Input, nil)
+			diags := ValidateStringENUM(tc.Enum...)(tc.Input, nil)
 			if diags.HasError() && !tc.ShouldError {
 				t.Errorf("%s failed: %+v", name, diags[0])
 			}

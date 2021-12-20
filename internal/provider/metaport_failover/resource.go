@@ -60,7 +60,7 @@ func Resource() *schema.Resource {
 							Description:      triggerDesc,
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateDiagFunc: common.ValidateENUM("auto", "manual"),
+							ValidateDiagFunc: common.ValidateStringENUM("auto", "manual"),
 						},
 					},
 				},
@@ -76,7 +76,7 @@ func Resource() *schema.Resource {
 							Description:      triggerDesc,
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateDiagFunc: common.ValidateENUM("auto", "manual"),
+							ValidateDiagFunc: common.ValidateStringENUM("auto", "manual"),
 						},
 						"delay": {
 							Description: failoverDelayDesc,

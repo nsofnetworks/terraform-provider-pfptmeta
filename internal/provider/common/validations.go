@@ -19,7 +19,7 @@ var TagPattern = regexp.MustCompile("^[a-zA-Z0-9-_]+$")
 var PrivilegesPattern = regexp.MustCompile("^[a-z_]+:(read|write)$")
 var HttpHeaderPattern = regexp.MustCompile("^([\\w\\-]+):(.*)$")
 
-func contains(v string, a []string) bool {
+func containsString(v string, a []string) bool {
 	for _, i := range a {
 		if i == v {
 			return true
@@ -28,13 +28,13 @@ func contains(v string, a []string) bool {
 	return false
 }
 
-// ValidateENUM validates ENUM values
-func ValidateENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnostics {
+// ValidateStringENUM validates ENUM values
+func ValidateStringENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
 		var diags diag.Diagnostics
 		inputString := input.(string)
 		switch {
-		case contains(inputString, enum):
+		case containsString(inputString, enum):
 			return diags
 		default:
 			return append(diags, diag.Diagnostic{
@@ -54,7 +54,7 @@ func ValidateID(numeric bool, prefixes ...string) func(interface{}, cty.Path) di
 			return diag.Errorf("\"%s\" should be of the form <prefix>-<unique>", ID)
 		}
 		switch {
-		case !contains(parts[0], prefixes):
+		case !containsString(parts[0], prefixes):
 			return diag.Errorf("\"%s\" should have a prefix of %v", ID, prefixes)
 		}
 		if numeric {

@@ -76,7 +76,7 @@ func Resource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateDiagFunc: common.ValidateENUM("Android", "macOS", "iOS", "Linux", "Windows", "ChromeOS", "Unknown"),
+				ValidateDiagFunc: common.ValidateStringENUM("Android", "macOS", "iOS", "Linux", "Windows", "ChromeOS", "Unknown"),
 				ForceNew:         true,
 			},
 			"owner_id": {

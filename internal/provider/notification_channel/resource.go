@@ -161,7 +161,7 @@ func Resource() *schema.Resource {
 							Description:      methodDesc,
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateDiagFunc: common.ValidateENUM("POST", "PUT"),
+							ValidateDiagFunc: common.ValidateStringENUM("POST", "PUT"),
 						},
 						"url": {
 							Type:             schema.TypeString,
