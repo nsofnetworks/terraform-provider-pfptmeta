@@ -32,7 +32,7 @@ output "enterprise_dns" {
 ### Read-Only
 
 - **description** (String)
-- **mapped_domains** (List of Object) DNS suffixes to be resolved within the enterprise DNS server (see [below for nested schema](#nestedatt--mapped_domains))
+- **mapped_domains** (Set of Object) DNS suffixes to be resolved within the enterprise DNS server (see [below for nested schema](#nestedatt--mapped_domains))
 - **name** (String)
 
 <a id="nestedatt--mapped_domains"></a>

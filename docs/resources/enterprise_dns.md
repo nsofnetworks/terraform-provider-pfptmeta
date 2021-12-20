@@ -32,7 +32,7 @@ resource "pfptmeta_enterprise_dns" "enterprise_dns" {
 
 ### Required
 
-- **mapped_domains** (Block List, Min: 1) DNS suffixes to be resolved within the enterprise DNS server (see [below for nested schema](#nestedblock--mapped_domains))
+- **mapped_domains** (Block Set, Min: 1) DNS suffixes to be resolved within the enterprise DNS server (see [below for nested schema](#nestedblock--mapped_domains))
 - **name** (String)
 
 ### Optional

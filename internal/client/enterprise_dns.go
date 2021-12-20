@@ -33,9 +33,9 @@ func NewEnterpriseDNS(d *schema.ResourceData) *EnterpriseDNS {
 }
 
 func newMappedDomains(d *schema.ResourceData) []MappedDomain {
-	mds := d.Get("mapped_domains").([]interface{})
-	resp := make([]MappedDomain, len(mds))
-	for i, v := range mds {
+	mds := d.Get("mapped_domains").(*schema.Set)
+	resp := make([]MappedDomain, mds.Len())
+	for i, v := range mds.List() {
 		md := v.(map[string]interface{})
 		resp[i] = MappedDomain{Name: md["name"].(string), MappedDomain: md["mapped_domain"].(string)}
 	}
