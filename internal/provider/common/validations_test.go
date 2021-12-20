@@ -33,6 +33,33 @@ func TestValidateStringENUM(t *testing.T) {
 	}
 }
 
+func TestValidateIntENUM(t *testing.T) {
+	cases := map[string]struct {
+		Input       int
+		Enum        []int
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       1,
+			Enum:        []int{3, 2, 1},
+			ShouldError: false,
+		},
+		"negative-test": {
+			Input:       4,
+			Enum:        []int{3, 2, 1},
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateIntENUM(tc.Enum...)(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
+
 func TestValidateID(t *testing.T) {
 	cases := map[string]struct {
 		Input       string

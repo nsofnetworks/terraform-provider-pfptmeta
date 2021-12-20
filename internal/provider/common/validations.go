@@ -28,6 +28,15 @@ func containsString(v string, a []string) bool {
 	return false
 }
 
+func containsInt(v int, a []int) bool {
+	for _, i := range a {
+		if i == v {
+			return true
+		}
+	}
+	return false
+}
+
 // ValidateStringENUM validates ENUM values
 func ValidateStringENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
@@ -41,6 +50,19 @@ func ValidateStringENUM(enum ...string) func(interface{}, cty.Path) diag.Diagnos
 				Severity: diag.Error,
 				Summary:  fmt.Sprintf("\"%s\" is not one of %+v", inputString, enum),
 			})
+		}
+	}
+}
+
+// ValidateIntENUM validates ENUM values
+func ValidateIntENUM(enum ...int) func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) diag.Diagnostics {
+		var diags diag.Diagnostics
+		switch {
+		case containsInt(input.(int), enum):
+			return diags
+		default:
+			return diag.Errorf("%d is not one of %+v", input, enum)
 		}
 	}
 }
