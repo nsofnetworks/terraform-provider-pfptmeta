@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
@@ -70,6 +71,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_location":              location.DataSource(),
 				"pfptmeta_egress_route":          egress_route.DataSource(),
 				"pfptmeta_alert":                 alert.DataSource(),
+				"pfptmeta_certificate":           certificate.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":        network_element.Resource(),
@@ -91,6 +93,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_notification_channel":   notification_channel.Resource(),
 				"pfptmeta_egress_route":           egress_route.Resource(),
 				"pfptmeta_alert":                  alert.Resource(),
+				"pfptmeta_certificate":            certificate.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
