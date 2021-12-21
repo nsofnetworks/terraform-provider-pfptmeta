@@ -212,3 +212,16 @@ func ComposeOrValidations(fs ...func(interface{}, cty.Path) diag.Diagnostics) fu
 		return
 	}
 }
+
+func ValidateDomainName() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		if strings.Contains(inputString, "_") || !strings.Contains(inputString, ".") {
+			return diag.Errorf("\"%s\" is not a valid domain name", inputString)
+		}
+		if ValidateHostName()(inputString, path).HasError() {
+			return diag.Errorf("\"%s\" is not a valid domain name", inputString)
+		}
+		return
+	}
+}

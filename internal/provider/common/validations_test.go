@@ -544,3 +544,39 @@ func TestComposeOrValidations(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateDomainName(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "test.com",
+			ShouldError: false,
+		},
+		"negative-test-numeric-tld": {
+			Input:       "test.com.1234",
+			ShouldError: true,
+		},
+		"negative-test-dot-suffix": {
+			Input:       "test.com.",
+			ShouldError: true,
+		},
+		"negative-test-hyphen-suffix": {
+			Input:       "test-.com",
+			ShouldError: true,
+		},
+		"negative-test-with-underscore": {
+			Input:       "test_1.com",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateDomainName()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
