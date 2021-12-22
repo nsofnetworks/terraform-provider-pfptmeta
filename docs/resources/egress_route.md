@@ -62,9 +62,9 @@ resource "pfptmeta_egress_route" "DIRECT" {
 
 - **name** (String)
 - **via** (String) Defines how the traffic will be routed:
-	- DIRECT: will egress the traffic from the same PoP it has entered. Use it to override other, less specific egress rules.
-	- Mapped Subnet ID
-	- Region: will egress all traffic from that region, see `locations` data-source.
+	- **DIRECT**: Directs the traffic to egress from the same PoP it has entered. Use it to override other, less specific egress rules.
+	- **Mapped Subnet ID**: Directs the traffic to egress via specified mapped subnet.
+	- **Region**: Directs the traffic to egress from a specific region, see `location` data-source.
 
 ### Optional
 
@@ -72,7 +72,7 @@ resource "pfptmeta_egress_route" "DIRECT" {
 - **destinations** (List of String) Target hostnames or domains.
 - **enabled** (Boolean)
 - **exempt_sources** (List of String) Entities (users, groups or network elements) to be excluded from the egress route.
-- **sources** (List of String) Entities (users, groups or network elements) to be affected by the egress route (cannot be Mapped Subnet if `via` is also a Mapped Subnet).
+- **sources** (List of String) Entities (users, groups or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet).
 
 ### Read-Only
 

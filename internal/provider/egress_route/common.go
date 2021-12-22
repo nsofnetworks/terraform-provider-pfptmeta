@@ -13,13 +13,13 @@ const (
 This can be useful for a variety of use cases including testing, security and compliance.
 For example, you can define egress rules for SaaS applications that require access from a specific region for regulatory purposes.
 You can set up egress rules to route traffic from a source to a MetaPort in your own data center or public cloud instance for service chaining or any type of traffic manipulation.`
-	sourcesDesc       = "Entities (users, groups or network elements) to be affected by the egress route (cannot be Mapped Subnet if `via` is also a Mapped Subnet)."
+	sourcesDesc       = "Entities (users, groups or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet)."
 	exemptSourcesDesc = "Entities (users, groups or network elements) to be excluded from the egress route."
 	destinationsDesc  = "Target hostnames or domains."
 	viaDesc           = "Defines how the traffic will be routed:\n" +
-		"	- DIRECT: will egress the traffic from the same PoP it has entered. Use it to override other, less specific egress rules.\n" +
-		"	- Mapped Subnet ID\n" +
-		"	- Region: will egress all traffic from that region, see `locations` data-source."
+		"	- **DIRECT**: Directs the traffic to egress from the same PoP it has entered. Use it to override other, less specific egress rules.\n" +
+		"	- **Mapped Subnet ID**: Directs the traffic to egress via specified mapped subnet.\n" +
+		"	- **Region**: Directs the traffic to egress from a specific region, see `location` data-source."
 )
 
 var excludedKeys = []string{"id"}
