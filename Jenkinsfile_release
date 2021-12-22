@@ -13,6 +13,7 @@
           VERBOSE = 'true'
           WORKING_DIR = '/home/ubuntu/workspace/terraform-provider-pfptmeta'
           GITHUB_TOKEN = credentials('GitHub-API-Key')
+          RELEASE = 'true'
         }
 
     stages {

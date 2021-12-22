@@ -36,7 +36,15 @@ func testAccPreCheck(t *testing.T) {
 	if os.Getenv("PFPTMETA_ORG_SHORTNAME") == "" {
 		t.Fatalf("PFPTMETA_ORG_SHORTNAME env var must be set")
 	}
+}
 
+// testAccReleasePreCheck is a validation for tests that are to be executed only before a new version is released
+// Mostly because these tests use limited resources.
+func testAccReleasePreCheck(t *testing.T) {
+	testAccPreCheck(t)
+	if os.Getenv("RELEASE") == "" {
+		t.Skip("RELEASE env var must be set for deployment test")
+	}
 }
 
 func validateResourceDestroyed(resource, resourcePath string) func(s *terraform.State) error {
