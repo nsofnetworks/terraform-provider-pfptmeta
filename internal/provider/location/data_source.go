@@ -8,7 +8,7 @@ func DataSource() *schema.Resource {
 		Description: "Locations are Points-of-Presence (POPs). " +
 			"PoPs ensure lower latency for users while improving location awareness to make ads more relevant. " +
 			"Moreover, they enhance data privacy for local users. " +
-			"In addition, Egress rules can be defined to route traffic via specific location.",
+			"In addition, egress rules can be defined to route traffic via specific location.",
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

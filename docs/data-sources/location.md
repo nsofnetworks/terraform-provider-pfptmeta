@@ -3,12 +3,12 @@
 page_title: "pfptmeta_location Data Source - terraform-provider-pfptmeta"
 subcategory: "Network Resources"
 description: |-
-  Locations are Points-of-Presence (POPs). PoPs ensure lower latency for users while improving location awareness to make ads more relevant. Moreover, they enhance data privacy for local users. In addition, Egress rules can be defined to route traffic via specific location.
+  Locations are Points-of-Presence (POPs). PoPs ensure lower latency for users while improving location awareness to make ads more relevant. Moreover, they enhance data privacy for local users. In addition, egress rules can be defined to route traffic via specific location.
 ---
 
 # pfptmeta_location (Data Source)
 
-Locations are Points-of-Presence (POPs). PoPs ensure lower latency for users while improving location awareness to make ads more relevant. Moreover, they enhance data privacy for local users. In addition, Egress rules can be defined to route traffic via specific location.
+Locations are Points-of-Presence (POPs). PoPs ensure lower latency for users while improving location awareness to make ads more relevant. Moreover, they enhance data privacy for local users. In addition, egress rules can be defined to route traffic via specific location.
 
 ## Example Usage
 
