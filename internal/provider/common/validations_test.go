@@ -476,6 +476,50 @@ func TestValidateURL(t *testing.T) {
 	}
 }
 
+func TestValidateHTTPNetLocation(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "http://google.com",
+			ShouldError: false,
+		},
+		"positive-test2": {
+			Input:       "https://google.com:123",
+			ShouldError: false,
+		},
+		"negative-test-bad-port": {
+			Input:       "http://google.com:abc",
+			ShouldError: true,
+		},
+		"negative-test-with-path": {
+			Input:       "http://google.com/test",
+			ShouldError: true,
+		},
+		"negative-test-with-query": {
+			Input:       "http://google.com?test=1",
+			ShouldError: true,
+		},
+		"negative-test-with-bad-schema": {
+			Input:       "httpr://google.com?test=1",
+			ShouldError: true,
+		},
+		"negative-test-non-http-prefix": {
+			Input:       "rdp://google.com",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateHTTPNetLocation()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
+
 func TestValidateJson(t *testing.T) {
 	cases := map[string]struct {
 		Input       string

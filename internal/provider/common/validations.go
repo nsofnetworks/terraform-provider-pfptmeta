@@ -186,6 +186,38 @@ func ValidateURL() func(interface{}, cty.Path) diag.Diagnostics {
 	}
 }
 
+func ValidateHTTPNetLocation() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		h, err := url.ParseRequestURI(inputString)
+		if err != nil {
+			return diag.Errorf(
+				"\"%s\" is not a valid host: %s", inputString, err)
+		}
+		if h.Scheme != "http" && h.Scheme != "https" {
+			return diag.Errorf(
+				"\"%s\" is not a valid host: should have http or https schema only, got \"%s\"",
+				inputString, h.Scheme)
+		}
+		if h.Path != "" {
+			return diag.Errorf(
+				"\"%s\" is not a valid host: path is not allowed - got \"%s\"",
+				inputString, h.Path)
+		}
+		if h.RawQuery != "" {
+			return diag.Errorf(
+				"\"%s\" is not a valid host: query params are not allowed - got \"%s\"",
+				inputString, h.RawQuery)
+		}
+		if h.RawFragment != "" {
+			return diag.Errorf(
+				"\"%s\" is not a valid host: fragment is not allowed - got \"%s\"",
+				inputString, h.RawFragment)
+		}
+		return
+	}
+}
+
 func ValidateJson() func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
 		inputString := input.(string)
