@@ -23,6 +23,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/notification_channel"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/policy"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/posture_check"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
@@ -74,6 +75,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_alert":                 alert.DataSource(),
 				"pfptmeta_certificate":           certificate.DataSource(),
 				"pfptmeta_easylink":              easylink.DataSource(),
+				"pfptmeta_posture_check":         posture_check.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":        network_element.Resource(),
@@ -97,6 +99,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_alert":                  alert.Resource(),
 				"pfptmeta_certificate":            certificate.Resource(),
 				"pfptmeta_easylink":               easylink.Resource(),
+				"pfptmeta_posture_check":          posture_check.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
