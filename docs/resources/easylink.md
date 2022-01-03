@@ -107,7 +107,6 @@ resource "pfptmeta_easylink" "native_easylink" {
   proxy {
     rewrite_content_types = ["json", "html"]
     rewrite_http          = true
-    rewrite_hosts         = true
   }
 }
 ```

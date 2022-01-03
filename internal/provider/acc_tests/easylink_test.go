@@ -108,7 +108,6 @@ resource "pfptmeta_easylink" "native_easylink" {
   proxy {
     rewrite_content_types = ["json"]
     rewrite_http          = true
-    rewrite_hosts         = true
   }
 }
 `
@@ -127,7 +126,6 @@ resource "pfptmeta_easylink" "native_easylink" {
   proxy {
     rewrite_content_types = ["javascript"]
     rewrite_http          = false
-    rewrite_hosts         = true
   }
 }
 `
