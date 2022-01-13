@@ -35,20 +35,20 @@ func New(version string) func() *schema.Provider {
 		p := &schema.Provider{
 			Schema: map[string]*schema.Schema{
 				"api_key": {
-					Description: "Alternatively use the `PFPTMETA_API_KEY` env variable",
+					Description: "Alternatively, use the `PFPTMETA_API_KEY` env variable",
 					Type:        schema.TypeString,
 					DefaultFunc: schema.EnvDefaultFunc("PFPTMETA_API_KEY", nil),
 					Optional:    true,
 				},
 				"api_secret": {
-					Description: "Alternatively use the `PFPTMETA_API_SECRET` env variable",
+					Description: "Alternatively, use the `PFPTMETA_API_SECRET` env variable",
 					Type:        schema.TypeString,
 					DefaultFunc: schema.EnvDefaultFunc("PFPTMETA_API_SECRET", nil),
 					Optional:    true,
 					Sensitive:   true,
 				},
 				"org_shortname": {
-					Description: "Alternatively use the `PFPTMETA_ORG_SHORTNAME` env variable",
+					Description: "Alternatively, use the `PFPTMETA_ORG_SHORTNAME` env variable",
 					Type:        schema.TypeString,
 					DefaultFunc: schema.EnvDefaultFunc("PFPTMETA_ORG_SHORTNAME", nil),
 					Optional:    true,
