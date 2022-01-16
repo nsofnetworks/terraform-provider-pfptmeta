@@ -93,3 +93,33 @@ func DeleteRoutingGroup(ctx context.Context, c *Client, pgID string) (*RoutingGr
 	}
 	return parseRoutingGroup(resp)
 }
+
+func AddMappedElementsToRoutingGroups(ctx context.Context, c *Client, rgID string, meIDs []string) (*RoutingGroup, error) {
+	url := fmt.Sprintf("%s/%s/%s/add_mapped_elements", c.BaseURL, routingGroupsEndpoint, rgID)
+	body := make(map[string][]string)
+	body["mapped_element_ids"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseRoutingGroup(resp)
+}
+
+func RemoveMappedElementsFromRoutingGroups(ctx context.Context, c *Client, pgID string, meIDs []string) (*RoutingGroup, error) {
+	url := fmt.Sprintf("%s/%s/%s/remove_mapped_elements", c.BaseURL, routingGroupsEndpoint, pgID)
+	body := make(map[string][]string)
+	body["mapped_element_ids"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseRoutingGroup(resp)
+}

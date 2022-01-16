@@ -10,6 +10,10 @@ description: |-
 
 User routing groups is a logical group of subnets which co-exist at the same time. These are independent subnets, which can be the same or contain overlapping IP addresses that can be used without conflicting with each other.
 
+When using the `mapped_element_ids` argument of this resource, the resource will take over the management of the Routing Group's mapped elements.
+This argument is incompatible with other methods of managing Routing Group's mapped elements, such as `routing_group_mapped_elements_attachment`.
+Any attempt to manage Routing Group's mapped elements using different methods, will result in resource cycling and/or errors.
+
 ## Example Usage
 
 ```terraform

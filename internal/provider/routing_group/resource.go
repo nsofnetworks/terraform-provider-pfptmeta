@@ -38,6 +38,7 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateID(true, "ne"),
 				},
 				Optional: true,
+				Computed: true,
 				MinItems: 1,
 			},
 			"sources": {
