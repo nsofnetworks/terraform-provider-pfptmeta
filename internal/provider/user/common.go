@@ -19,7 +19,7 @@ Users can be provisioned in the system either by locally creating the users and 
 	tagsDesc       = "Key/value attributes for combining elements together into Smart Groups, and placed as targets or sources in Policies"
 )
 
-var excludedKeys = []string{"id", "tags"}
+var excludedKeys = []string{"id", "tags", "roles"}
 
 func userToResource(u *client.User, d *schema.ResourceData) (diags diag.Diagnostics) {
 	err := client.MapResponseToResource(u, d, excludedKeys)

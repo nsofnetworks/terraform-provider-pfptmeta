@@ -14,15 +14,16 @@ import (
 const UsersEndpoint = "v1/users"
 
 type User struct {
-	ID          string  `json:"id,omitempty"`
-	GivenName   string  `json:"given_name,omitempty"`
-	FamilyName  string  `json:"family_name,omitempty"`
-	Description string  `json:"description"`
-	Email       string  `json:"email,omitempty"`
-	Enabled     *bool   `json:"enabled,omitempty"`
-	Phone       *string `json:"phone"`
-	Name        string  `json:"name,omitempty"`
-	Tags        []Tag   `json:"tags,omitempty"`
+	ID          string   `json:"id,omitempty"`
+	GivenName   string   `json:"given_name,omitempty"`
+	FamilyName  string   `json:"family_name,omitempty"`
+	Description string   `json:"description"`
+	Email       string   `json:"email,omitempty"`
+	Enabled     *bool    `json:"enabled,omitempty"`
+	Phone       *string  `json:"phone"`
+	Name        string   `json:"name,omitempty"`
+	Tags        []Tag    `json:"tags,omitempty"`
+	Roles       []string `json:"roles,omitempty"`
 }
 
 func NewUser(d *schema.ResourceData) *User {
@@ -133,4 +134,21 @@ func DeleteUser(ctx context.Context, c *Client, uID string) (*User, error) {
 		return nil, err
 	}
 	return parseUser(resp)
+}
+
+func AssignRolesToUser(ctx context.Context, c *Client, uID string, roles []string) ([]string, error) {
+	url := fmt.Sprintf("%s/%s/%s/roles", c.BaseURL, UsersEndpoint, uID)
+	body, err := json.Marshal(roles)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert roles to json: %v", err)
+	}
+	resp, err := c.Put(ctx, url, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	user, err := parseUser(resp)
+	if err != nil {
+		return nil, err
+	}
+	return user.Roles, nil
 }

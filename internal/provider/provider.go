@@ -28,6 +28,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
 )
 
 func New(version string) func() *schema.Provider {
@@ -100,6 +101,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_certificate":            certificate.Resource(),
 				"pfptmeta_easylink":               easylink.Resource(),
 				"pfptmeta_posture_check":          posture_check.Resource(),
+				"pfptmeta_user_roles_attachment":  user_roles_attachment.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
