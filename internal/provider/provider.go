@@ -21,6 +21,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_failover"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_mapped_elements_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/notification_channel"
@@ -89,6 +90,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_mapped_domain":                            mapped_domain.Resource(),
 				"pfptmeta_mapped_host":                              mapped_host.Resource(),
 				"pfptmeta_metaport":                                 metaport.Resource(),
+				"pfptmeta_metaport_mapped_elements_attachment":      metaport_mapped_elements_attachment.Resource(),
 				"pfptmeta_metaport_cluster":                         metaport_cluster.Resource(),
 				"pfptmeta_metaport_failover":                        metaport_failover.Resource(),
 				"pfptmeta_enterprise_dns":                           enterprise_dns.Resource(),

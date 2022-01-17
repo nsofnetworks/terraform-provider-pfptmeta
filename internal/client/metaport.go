@@ -101,3 +101,33 @@ func DeleteMetaport(ctx context.Context, c *Client, mID string) (*Metaport, erro
 	}
 	return parseMetaport(resp)
 }
+
+func AddMappedElementsToMetaport(ctx context.Context, c *Client, mID string, meIDs []string) (*Metaport, error) {
+	url := fmt.Sprintf("%s/%s/%s/add_mapped_elements", c.BaseURL, metaportEndpoint, mID)
+	body := make(map[string][]string)
+	body["mapped_elements"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseMetaport(resp)
+}
+
+func RemoveMappedElementsFromMetaport(ctx context.Context, c *Client, mID string, meIDs []string) (*Metaport, error) {
+	url := fmt.Sprintf("%s/%s/%s/remove_mapped_elements", c.BaseURL, metaportEndpoint, mID)
+	body := make(map[string][]string)
+	body["mapped_elements"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseMetaport(resp)
+}

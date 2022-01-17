@@ -10,6 +10,10 @@ description: |-
 
 MetaPort is a lightweight virtual appliance that enables the secure authenticated interface interact between existing servers and the Proofpoint NaaS cloud. Once configured, metaports enable users to access your applications via the Proofpoint cloud.
 
+~> **NOTE:** When using the `mapped_elements` argument of this resource, the resource will take over the management of the MetaPort's mapped elements.
+This argument is incompatible with other methods of managing MetaPort's mapped elements, such as `metaport_mapped_elements_attachment`.
+Any attempt to manage MetaPort's mapped elements using different methods, will result in resource cycling and/or errors.
+
 ## Example Usage
 
 ```terraform
