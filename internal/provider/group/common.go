@@ -47,13 +47,13 @@ func groupToResource(d *schema.ResourceData, g *client.Group) (diags diag.Diagno
 func groupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
-	var pg *client.Group
+	var g *client.Group
 	var err error
 	if id, exists := d.GetOk("id"); exists {
-		pg, err = client.GetGroupById(ctx, c, id.(string))
+		g, err = client.GetGroupById(ctx, c, id.(string))
 	}
 	if name, exists := d.GetOk("name"); exists {
-		pg, err = client.GetGroupByName(ctx, c, name.(string))
+		g, err = client.GetGroupByName(ctx, c, name.(string))
 	} else if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -63,15 +63,15 @@ func groupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) di
 			return diag.FromErr(err)
 		}
 	}
-	if pg == nil {
+	if g == nil {
 		d.SetId("")
 		return diags
 	}
-	err = client.MapResponseToResource(pg, d, excludedKeys)
+	err = client.MapResponseToResource(g, d, excludedKeys)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.SetId(pg.ID)
+	d.SetId(g.ID)
 	return diags
 }
 
