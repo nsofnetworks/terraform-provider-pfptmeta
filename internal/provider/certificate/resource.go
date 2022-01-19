@@ -32,7 +32,7 @@ func Resource() *schema.Resource {
 				Required:    true,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateDomainName(),
+					ValidateDiagFunc: common.ValidateDNS(),
 				},
 				ForceNew: true,
 				MinItems: 1,

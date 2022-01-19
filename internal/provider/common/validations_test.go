@@ -617,7 +617,7 @@ func TestValidateDomainName(t *testing.T) {
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			diags := ValidateDomainName()(tc.Input, nil)
+			diags := ValidateDNS()(tc.Input, nil)
 			if diags.HasError() && !tc.ShouldError {
 				t.Errorf("%s failed: %+v", name, diags[0])
 			}

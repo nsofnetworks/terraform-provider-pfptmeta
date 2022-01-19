@@ -50,7 +50,7 @@ func Resource() *schema.Resource {
 				Description:      accessFQDNDesc,
 				Type:             schema.TypeString,
 				Optional:         true,
-				ValidateDiagFunc: common.ValidateDomainName(),
+				ValidateDiagFunc: common.ValidateDNS(),
 			},
 			"access_type": {
 				Description:      accessTypeDesc,

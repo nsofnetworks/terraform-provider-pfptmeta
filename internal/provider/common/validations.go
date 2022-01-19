@@ -245,7 +245,7 @@ func ComposeOrValidations(fs ...func(interface{}, cty.Path) diag.Diagnostics) fu
 	}
 }
 
-func ValidateDomainName() func(interface{}, cty.Path) diag.Diagnostics {
+func ValidateDNS() func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
 		inputString := input.(string)
 		if strings.Contains(inputString, "_") || !strings.Contains(inputString, ".") {
