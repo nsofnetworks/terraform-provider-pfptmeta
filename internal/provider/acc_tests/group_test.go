@@ -54,23 +54,24 @@ func TestAccDataSourceGroup(t *testing.T) {
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		Steps: []resource.TestStep{
+			{Config: groupResourceForDataSourceTest},
 			{
-				Config: testAccDataSourceGroup,
+				Config: groupResourceForDataSourceTest + testAccDataSourceGroup,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(
-						"data.pfptmeta_group.group_by_id", "id", "grp-Y5mxUn6ove1ybrn",
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_group.group_by_id", "id", regexp.MustCompile("^grp-.+$"),
 					),
 					resource.TestCheckResourceAttr(
-						"data.pfptmeta_group.group_by_id", "name", "test-group",
+						"data.pfptmeta_group.group_by_id", "name", "data-source-group",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_group.group_by_id", "description", "Some group description",
 					),
-					resource.TestCheckResourceAttr(
-						"data.pfptmeta_group.group_by_name", "id", "grp-Y5mxUn6ove1ybrn",
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_group.group_by_id", "id", regexp.MustCompile("^grp-.+$"),
 					),
 					resource.TestCheckResourceAttr(
-						"data.pfptmeta_group.group_by_name", "name", "test-group",
+						"data.pfptmeta_group.group_by_name", "name", "data-source-group",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_group.group_by_name", "description", "Some group description",
@@ -81,12 +82,17 @@ func TestAccDataSourceGroup(t *testing.T) {
 	})
 }
 
+const groupResourceForDataSourceTest = `
+resource "pfptmeta_group" "new_group" {
+  name = "data-source-group"
+  description = "Some group description"
+}`
 const testAccDataSourceGroup = `
 data "pfptmeta_group" "group_by_id" {
-  id = "grp-Y5mxUn6ove1ybrn"
+  id = pfptmeta_group.new_group.id
 }
 
 data "pfptmeta_group" "group_by_name" {
-  name = "test-group"
+  name = "data-source-group"
 }
 `

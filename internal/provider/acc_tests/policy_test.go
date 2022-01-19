@@ -88,8 +88,8 @@ func TestAccDataSourcePolicy(t *testing.T) {
 }
 
 const testAccPolicyStep1 = `
-data "pfptmeta_group" "group" {
-  name = "test-group"
+resource "pfptmeta_group" "group" {
+  name = "policy-test-group"
 }
 
 data "pfptmeta_protocol_group" "HTTPS" {
@@ -104,15 +104,15 @@ resource "pfptmeta_network_element" "mapped-service" {
 resource "pfptmeta_policy" "policy" {
   name = "policy name"
   description = "policy description"
-  sources = [data.pfptmeta_group.group.id]
+  sources = [pfptmeta_group.group.id]
   destinations = [pfptmeta_network_element.mapped-service.id]
   protocol_groups = [data.pfptmeta_protocol_group.HTTPS.id]
 }
 `
 
 const testAccPolicyStep2 = `
-data "pfptmeta_group" "group" {
-  name = "test-group"
+resource "pfptmeta_group" "group" {
+  name = "policy-test-group"
 }
 
 data "pfptmeta_protocol_group" "HTTPS" {
