@@ -7,6 +7,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
@@ -77,6 +78,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_certificate":           certificate.DataSource(),
 				"pfptmeta_easylink":              easylink.DataSource(),
 				"pfptmeta_posture_check":         posture_check.DataSource(),
+				"pfptmeta_device_settings":       device_settings.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":        network_element.Resource(),
@@ -102,6 +104,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_easylink":               easylink.Resource(),
 				"pfptmeta_posture_check":          posture_check.Resource(),
 				"pfptmeta_user_roles_attachment":  user_roles_attachment.Resource(),
+				"pfptmeta_device_settings":        device_settings.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
