@@ -589,7 +589,7 @@ func TestComposeOrValidations(t *testing.T) {
 	}
 }
 
-func TestValidateDomainName(t *testing.T) {
+func TestValidateDNS(t *testing.T) {
 	cases := map[string]struct {
 		Input       string
 		ShouldError bool
