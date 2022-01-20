@@ -2,6 +2,7 @@ package acc_tests
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"regexp"
 	"testing"
 )
 
@@ -17,12 +18,10 @@ func TestAccResourceUserRolesAttachment(t *testing.T) {
 					resource.TestCheckResourceAttrPair(
 						"pfptmeta_user_roles_attachment.attachment", "user_id",
 						"pfptmeta_user.user", "id"),
-					resource.TestCheckResourceAttrPair(
-						"pfptmeta_user_roles_attachment.attachment", "roles.0",
-						"pfptmeta_role.metaport_role", "id"),
-					resource.TestCheckResourceAttrPair(
-						"pfptmeta_user_roles_attachment.attachment", "roles.1",
-						"pfptmeta_role.network_element_role", "id"),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_user_roles_attachment.attachment", "roles.0", regexp.MustCompile("^rol-.+$")),
+					resource.TestMatchResourceAttr(
+						"pfptmeta_user_roles_attachment.attachment", "roles.1", regexp.MustCompile("^rol-.+$")),
 				),
 			},
 			{
