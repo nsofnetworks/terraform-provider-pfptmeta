@@ -624,3 +624,47 @@ func TestValidateDNS(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateCIDR4(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "192.0.2.0/24",
+			ShouldError: true,
+		},
+		"negative-host-bits-set": {
+			Input:       "192.0.2.1/24",
+			ShouldError: true,
+		},
+		"negative-hostname": {
+			Input:       "test.com.1234",
+			ShouldError: true,
+		},
+		"negative-ipv4-no-cidr": {
+			Input:       "192.0.2.1",
+			ShouldError: true,
+		},
+		"negative-bad-ipv4": {
+			Input:       "192.0.2.1111/12",
+			ShouldError: true,
+		},
+		"negative-ipv6-cidr": {
+			Input:       "2001:db8:a0b:12f0::1/32",
+			ShouldError: true,
+		},
+		"negative-non-related-input": {
+			Input:       "testtttt",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateCIDR4()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}

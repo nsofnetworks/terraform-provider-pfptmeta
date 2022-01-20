@@ -40,9 +40,12 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"mapped_subnets": {
-				Description:   mappedSubnetsDesc,
-				Type:          schema.TypeSet,
-				Elem:          &schema.Schema{Type: schema.TypeString},
+				Description: mappedSubnetsDesc,
+				Type:        schema.TypeSet,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: common.ValidateCIDR4(),
+				},
 				Optional:      true,
 				ConflictsWith: []string{"mapped_service", "platform", "owner_id"},
 			},

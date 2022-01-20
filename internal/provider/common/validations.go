@@ -270,3 +270,17 @@ func ValidateDomainName() func(interface{}, cty.Path) diag.Diagnostics {
 		return
 	}
 }
+
+func ValidateCIDR4() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		ipv4addr, ipv4Net, err := net.ParseCIDR(inputString)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+		if len(ipv4Net.Mask) != net.IPv4len || !ipv4addr.Equal(ipv4Net.IP) {
+			return diag.Errorf("\"%s\" is not a valid IPV4-CIDR", inputString)
+		}
+		return
+	}
+}
