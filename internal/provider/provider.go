@@ -34,6 +34,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_settings"
 )
 
 func New(version string) func() *schema.Provider {
@@ -85,6 +86,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_access_control":        access_control.DataSource(),
 				"pfptmeta_device_settings":       device_settings.DataSource(),
 				"pfptmeta_trusted_network":       trusted_network.DataSource(),
+				"pfptmeta_user_settings":         user_settings.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                          network_element.Resource(),
@@ -115,6 +117,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_device_settings":                          device_settings.Resource(),
 				"pfptmeta_trusted_network":                          trusted_network.Resource(),
 				"pfptmeta_user_roles_attachment":                    user_roles_attachment.Resource(),
+				"pfptmeta_user_settings":                            user_settings.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
