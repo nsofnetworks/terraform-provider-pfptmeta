@@ -29,6 +29,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
 )
@@ -81,6 +82,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_posture_check":         posture_check.DataSource(),
 				"pfptmeta_access_control":        access_control.DataSource(),
 				"pfptmeta_device_settings":       device_settings.DataSource(),
+				"pfptmeta_trusted_network":       trusted_network.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":        network_element.Resource(),
@@ -107,6 +109,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_posture_check":          posture_check.Resource(),
 				"pfptmeta_access_control":         access_control.Resource(),
 				"pfptmeta_device_settings":        device_settings.Resource(),
+				"pfptmeta_trusted_network":        trusted_network.Resource(),
 				"pfptmeta_user_roles_attachment":  user_roles_attachment.Resource(),
 			},
 		}
