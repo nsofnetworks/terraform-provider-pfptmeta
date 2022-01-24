@@ -1,7 +1,9 @@
 package common
 
 import (
+	"crypto/x509"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
 	"github.com/go-ldap/ldap"
 	"github.com/hashicorp/go-cty/cty"
@@ -289,6 +291,21 @@ func ValidateLDAPFilter() func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
 		inputString := input.(string)
 		_, err := ldap.CompileFilter(inputString)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+		return
+	}
+}
+
+func ValidatePEMCert() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		block, _ := pem.Decode([]byte(inputString))
+		if block == nil || block.Type != "CERTIFICATE" {
+			return diag.Errorf("failed to decode PEM block containing certificate")
+		}
+		_, err := x509.ParsePKIXPublicKey(block.Bytes)
 		if err != nil {
 			return diag.FromErr(err)
 		}
