@@ -3,6 +3,7 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-ldap/ldap"
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"net"
@@ -280,6 +281,16 @@ func ValidateCIDR4() func(interface{}, cty.Path) diag.Diagnostics {
 		}
 		if len(ipv4Net.Mask) != net.IPv4len || !ipv4addr.Equal(ipv4Net.IP) {
 			return diag.Errorf("\"%s\" is not a valid IPV4-CIDR", inputString)
+		}
+		return
+	}
+}
+func ValidateLDAPFilter() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		_, err := ldap.CompileFilter(inputString)
+		if err != nil {
+			return diag.FromErr(err)
 		}
 		return
 	}

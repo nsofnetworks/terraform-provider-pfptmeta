@@ -668,3 +668,27 @@ func TestValidateCIDR4(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateLDAPFilter(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "(&(givenName=John)(sn=Doe))",
+			ShouldError: false,
+		},
+		"negative-test": {
+			Input:       "(&(givenName=John))(sn=Doe))",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateLDAPFilter()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
