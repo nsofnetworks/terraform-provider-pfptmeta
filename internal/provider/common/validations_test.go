@@ -693,6 +693,30 @@ func TestValidateLDAPFilter(t *testing.T) {
 	}
 }
 
+func TestValidateLDAPDn(t *testing.T) {
+	cases := map[string]struct {
+		Input       string
+		ShouldError bool
+	}{
+		"positive-test": {
+			Input:       "OU=Sales+CN=J. Smith,DC=example,DC=net",
+			ShouldError: false,
+		},
+		"negative-test": {
+			Input:       "DC=example,=net",
+			ShouldError: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diags := ValidateLDAPDn()(tc.Input, nil)
+			if diags.HasError() && !tc.ShouldError {
+				t.Errorf("%s failed: %+v", name, diags[0])
+			}
+		})
+	}
+}
+
 func TestValidatePEMCert(t *testing.T) {
 	cases := map[string]struct {
 		Input       string

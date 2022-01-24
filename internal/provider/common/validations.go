@@ -298,6 +298,17 @@ func ValidateLDAPFilter() func(interface{}, cty.Path) diag.Diagnostics {
 	}
 }
 
+func ValidateLDAPDn() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		_, err := ldap.ParseDN(inputString)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+		return
+	}
+}
+
 func ValidatePEMCert() func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, path cty.Path) (diags diag.Diagnostics) {
 		inputString := input.(string)
