@@ -16,6 +16,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_users_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/location"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/log_streaming_access_bridge"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
@@ -62,31 +63,32 @@ func New(version string) func() *schema.Provider {
 				},
 			},
 			DataSourcesMap: map[string]*schema.Resource{
-				"pfptmeta_network_element_alias": network_element_alias.DataSource(),
-				"pfptmeta_mapped_domain":         mapped_domain.DataSource(),
-				"pfptmeta_mapped_host":           mapped_host.DataSource(),
-				"pfptmeta_network_element":       network_element.DataSource(),
-				"pfptmeta_metaport":              metaport.DataSource(),
-				"pfptmeta_metaport_cluster":      metaport_cluster.DataSource(),
-				"pfptmeta_metaport_failover":     metaport_failover.DataSource(),
-				"pfptmeta_enterprise_dns":        enterprise_dns.DataSource(),
-				"pfptmeta_protocol_group":        protocol_group.DataSource(),
-				"pfptmeta_role":                  role.DataSource(),
-				"pfptmeta_group":                 group.DataSource(),
-				"pfptmeta_user":                  user.DataSource(),
-				"pfptmeta_notification_channel":  notification_channel.DataSource(),
-				"pfptmeta_routing_group":         routing_group.DataSource(),
-				"pfptmeta_policy":                policy.DataSource(),
-				"pfptmeta_location":              location.DataSource(),
-				"pfptmeta_egress_route":          egress_route.DataSource(),
-				"pfptmeta_alert":                 alert.DataSource(),
-				"pfptmeta_certificate":           certificate.DataSource(),
-				"pfptmeta_easylink":              easylink.DataSource(),
-				"pfptmeta_posture_check":         posture_check.DataSource(),
-				"pfptmeta_access_control":        access_control.DataSource(),
-				"pfptmeta_device_settings":       device_settings.DataSource(),
-				"pfptmeta_trusted_network":       trusted_network.DataSource(),
-				"pfptmeta_user_settings":         user_settings.DataSource(),
+				"pfptmeta_network_element_alias":       network_element_alias.DataSource(),
+				"pfptmeta_mapped_domain":               mapped_domain.DataSource(),
+				"pfptmeta_mapped_host":                 mapped_host.DataSource(),
+				"pfptmeta_network_element":             network_element.DataSource(),
+				"pfptmeta_metaport":                    metaport.DataSource(),
+				"pfptmeta_metaport_cluster":            metaport_cluster.DataSource(),
+				"pfptmeta_metaport_failover":           metaport_failover.DataSource(),
+				"pfptmeta_enterprise_dns":              enterprise_dns.DataSource(),
+				"pfptmeta_protocol_group":              protocol_group.DataSource(),
+				"pfptmeta_role":                        role.DataSource(),
+				"pfptmeta_group":                       group.DataSource(),
+				"pfptmeta_user":                        user.DataSource(),
+				"pfptmeta_notification_channel":        notification_channel.DataSource(),
+				"pfptmeta_routing_group":               routing_group.DataSource(),
+				"pfptmeta_policy":                      policy.DataSource(),
+				"pfptmeta_location":                    location.DataSource(),
+				"pfptmeta_egress_route":                egress_route.DataSource(),
+				"pfptmeta_alert":                       alert.DataSource(),
+				"pfptmeta_certificate":                 certificate.DataSource(),
+				"pfptmeta_easylink":                    easylink.DataSource(),
+				"pfptmeta_posture_check":               posture_check.DataSource(),
+				"pfptmeta_access_control":              access_control.DataSource(),
+				"pfptmeta_device_settings":             device_settings.DataSource(),
+				"pfptmeta_trusted_network":             trusted_network.DataSource(),
+				"pfptmeta_user_settings":               user_settings.DataSource(),
+				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                          network_element.Resource(),
@@ -118,6 +120,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_trusted_network":                          trusted_network.Resource(),
 				"pfptmeta_user_roles_attachment":                    user_roles_attachment.Resource(),
 				"pfptmeta_user_settings":                            user_settings.Resource(),
+				"pfptmeta_log_streaming_access_bridge":              log_streaming_access_bridge.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
