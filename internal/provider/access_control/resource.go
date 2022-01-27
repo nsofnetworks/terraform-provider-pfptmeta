@@ -67,7 +67,6 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateCIDR4(),
 				},
 				Required: true,
-				MinItems: 1,
 			},
 		},
 	}
