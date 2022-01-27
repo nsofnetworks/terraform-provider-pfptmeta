@@ -114,7 +114,7 @@ func Resource() *schema.Resource {
 						},
 					},
 				},
-				Required: true,
+				Optional: true,
 				MinItems: 1,
 			},
 		},
