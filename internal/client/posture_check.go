@@ -26,7 +26,7 @@ func newCheck(d *schema.ResourceData) *Check {
 
 type PostureCheck struct {
 	ID                string   `json:"id,omitempty"`
-	Name              string   `json:"name"`
+	Name              string   `json:"name,omitempty"`
 	Description       string   `json:"description"`
 	Enabled           bool     `json:"enabled"`
 	Action            string   `json:"action"`
