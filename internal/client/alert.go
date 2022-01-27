@@ -52,7 +52,7 @@ func newThresholdCondition(d *schema.ResourceData) *ThresholdCondition {
 
 type Alert struct {
 	ID                 string              `json:"id,omitempty"`
-	Name               string              `json:"name"`
+	Name               string              `json:"name,omitempty"`
 	Description        string              `json:"description"`
 	Channels           []string            `json:"channels"`
 	Enabled            bool                `json:"enabled"`

@@ -15,7 +15,7 @@ const certificateEndpoint = "v1/certificates"
 
 type Certificate struct {
 	ID                string   `json:"id,omitempty"`
-	Name              string   `json:"name"`
+	Name              string   `json:"name,omitempty"`
 	Description       string   `json:"description"`
 	Sans              []string `json:"sans,omitempty"`
 	SerialNumber      string   `json:"serial_number,omitempty"`

@@ -14,7 +14,7 @@ const egressRouteEndpoint = "v1/egress_routes"
 
 type EgressRoute struct {
 	ID            string   `json:"id,omitempty"`
-	Name          string   `json:"name"`
+	Name          string   `json:"name,omitempty"`
 	Description   string   `json:"description"`
 	Destinations  []string `json:"destinations"`
 	Enabled       bool     `json:"enabled"`

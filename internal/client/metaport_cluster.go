@@ -17,7 +17,7 @@ const (
 
 type MetaportCluster struct {
 	ID             string   `json:"id,omitempty"`
-	Name           string   `json:"name"`
+	Name           string   `json:"name,omitempty"`
 	Description    string   `json:"description,omitempty"`
 	MappedElements []string `json:"mapped_elements"`
 	Metaports      []string `json:"metaports"`
