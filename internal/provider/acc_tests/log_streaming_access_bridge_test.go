@@ -8,10 +8,11 @@ import (
 
 const (
 	logStreamDependencies = `
-resource "pfptmeta_notification_channel" "mail" {
-  name = "mail-channel"
-  email_config {
-    recipients = ["user1@example.com", "user2@example.com"]
+resource "pfptmeta_notification_channel" "pagerduty" {
+  name        = "pagerduty-channel"
+  description = "pagerduty channel description"
+  pagerduty_config {
+    api_key = "api-key"
   }
 }
 `
@@ -19,7 +20,7 @@ resource "pfptmeta_notification_channel" "mail" {
 resource "pfptmeta_log_streaming_access_bridge" "casb_log_stream" {
   name                  = "CASB log stream"
   description           = "log stream description"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
   export_logs = ["traffic", "webfilter"]
   proofpoint_casb_config {
     region    = "EU"
@@ -31,7 +32,7 @@ resource "pfptmeta_log_streaming_access_bridge" "casb_log_stream" {
 resource "pfptmeta_log_streaming_access_bridge" "casb_log_stream" {
   name                  = "CASB log stream1"
   description           = "log stream description1"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
   export_logs = ["webfilter", "traffic"]
   proofpoint_casb_config {
     region    = "US"
@@ -43,7 +44,7 @@ resource "pfptmeta_log_streaming_access_bridge" "casb_log_stream" {
 resource "pfptmeta_log_streaming_access_bridge" "qradar_http_log_stream" {
   name                  = "QRadar HTTP log stream"
   description           = "log stream description"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
   export_logs = ["api", "traffic", "security", "metaproxy", "webfilter"]
   qradar_http_config {
   certificate  = <<-EOT
@@ -70,7 +71,7 @@ resource "pfptmeta_log_streaming_access_bridge" "qradar_http_log_stream" {
 resource "pfptmeta_log_streaming_access_bridge" "s3_log_stream" {
   name                  = "S3 log stream"
   description           = "log stream description"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
   export_logs = ["api", "traffic", "security", "metaproxy", "webfilter"]
   s3_config {
     bucket   = "mybucket"
@@ -84,7 +85,7 @@ resource "pfptmeta_log_streaming_access_bridge" "s3_log_stream" {
 resource "pfptmeta_log_streaming_access_bridge" "splunk_http_log_stream" {
   name                  = "Splunk HTTP log stream"
   description           = "log stream description"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
     export_logs = ["api", "traffic", "security", "metaproxy", "webfilter"]
     splunk_http_config {
 	certificate         = <<-EOT
@@ -113,7 +114,7 @@ resource "pfptmeta_log_streaming_access_bridge" "splunk_http_log_stream" {
 resource "pfptmeta_log_streaming_access_bridge" "syslog_log_stream" {
   name                  = "Syslog log stream"
   description           = "log stream description"
-  notification_channels = [pfptmeta_notification_channel.mail.id]
+  notification_channels = [pfptmeta_notification_channel.pagerduty.id]
   export_logs = ["api", "traffic", "security", "metaproxy", "webfilter"]
   syslog_config {
     host  = "syslog.hostname.com"
@@ -149,7 +150,7 @@ func TestAccResourceLogStreamAccessBridge(t *testing.T) {
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "description", "log stream description"),
 					resource.TestCheckResourceAttrPair(
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "notification_channels.0",
-						"pfptmeta_notification_channel.mail", "id"),
+						"pfptmeta_notification_channel.pagerduty", "id"),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "export_logs.0", "traffic"),
 					resource.TestCheckResourceAttr(
@@ -208,7 +209,7 @@ func TestAccResourceLogStreamAccessBridge(t *testing.T) {
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "description", "log stream description1"),
 					resource.TestCheckResourceAttrPair(
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "notification_channels.0",
-						"pfptmeta_notification_channel.mail", "id"),
+						"pfptmeta_notification_channel.pagerduty", "id"),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_log_streaming_access_bridge.casb_log_stream", "export_logs.0", "webfilter"),
 					resource.TestCheckResourceAttr(
@@ -243,7 +244,7 @@ func TestAccDataSourceLogStreamAccessBridge(t *testing.T) {
 						"data.pfptmeta_log_streaming_access_bridge.log_stream", "description", "log stream description"),
 					resource.TestCheckResourceAttrPair(
 						"data.pfptmeta_log_streaming_access_bridge.log_stream", "notification_channels.0",
-						"pfptmeta_notification_channel.mail", "id"),
+						"pfptmeta_notification_channel.pagerduty", "id"),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_log_streaming_access_bridge.log_stream", "export_logs.0", "traffic"),
 					resource.TestCheckResourceAttr(
