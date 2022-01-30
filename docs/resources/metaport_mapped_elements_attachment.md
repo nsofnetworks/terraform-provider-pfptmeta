@@ -11,6 +11,7 @@ description: |-
 Attaches mapped elements to metaport.
 
 ~> **NOTE:** Having multiple **metaport_mapped_elements_attachment** resources in conjunction with the same MetaPort and mapped elements will result in erratic behavior!
+
 ~> **NOTE:** For any given MetaPort, this resource is incompatible with the `pfptmeta_metaport`
 [resource](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/metaport) `mapped_elements` argument.
 When using this argument and resource simulteneously, both of them will attempt to manage the MetaPort's mapped elements. As a result, Terraform will display a permanent difference.
