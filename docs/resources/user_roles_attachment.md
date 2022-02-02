@@ -17,6 +17,10 @@ This means that any user with the roles attached using any other method, includi
 ## Example Usage
 
 ```terraform
+locals {
+  org_id = "org123abc"
+}
+
 resource "pfptmeta_user" "user" {
   given_name  = "John"
   family_name = "Smith"
@@ -24,13 +28,15 @@ resource "pfptmeta_user" "user" {
 }
 
 resource "pfptmeta_role" "metaport_role" {
-  name       = "metaport role"
-  privileges = ["metaports:read", "metaports:write"]
+  name          = "metaport role"
+  apply_to_orgs = [local.org_id]
+  privileges    = ["metaports:read", "metaports:write"]
 }
 
 resource "pfptmeta_role" "network_element_role" {
-  name       = "network element role"
-  privileges = ["network_elements:read", "network_elements:write"]
+  name          = "network element role"
+  apply_to_orgs = [local.org_id]
+  privileges    = ["network_elements:read", "network_elements:write"]
 }
 
 resource "pfptmeta_user_roles_attachment" "attachment" {

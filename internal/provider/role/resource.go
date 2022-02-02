@@ -41,8 +41,9 @@ func Resource() *schema.Resource {
 				Computed: true,
 			},
 			"apply_to_orgs": {
-				Description: applyToOrgsDesc,
-				Type:        schema.TypeList,
+				AtLeastOneOf: []string{"all_suborgs", "suborgs_expression"},
+				Description:  applyToOrgsDesc,
+				Type:         schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidateID(false, "org"),
@@ -58,13 +59,15 @@ func Resource() *schema.Resource {
 				Optional: true,
 			},
 			"all_suborgs": {
-				Type:     schema.TypeBool,
-				Optional: true,
+				AtLeastOneOf: []string{"apply_to_orgs", "suborgs_expression"},
+				Type:         schema.TypeBool,
+				Optional:     true,
 			},
 			"suborgs_expression": {
-				Description: subOrgsExpressionDesc,
-				Type:        schema.TypeString,
-				Optional:    true,
+				AtLeastOneOf: []string{"apply_to_orgs", "all_suborgs"},
+				Description:  subOrgsExpressionDesc,
+				Type:         schema.TypeString,
+				Optional:     true,
 			},
 		},
 	}

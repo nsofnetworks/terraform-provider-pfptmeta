@@ -13,9 +13,14 @@ Roles define operations on the enterprise network, such as adding and removing u
 ## Example Usage
 
 ```terraform
+locals {
+  org_id = "org123abc"
+}
+
 resource "pfptmeta_role" "read_only" {
   name                = "all read only"
   description         = "role with all read privileges"
+  apply_to_orgs       = [local.org_id]
   all_read_privileges = true
 }
 
@@ -28,8 +33,9 @@ resource "pfptmeta_role" "admin_role" {
 }
 
 resource "pfptmeta_role" "with_privileges" {
-  name       = "with privs"
-  privileges = ["metaports:read", "metaports:write"]
+  name          = "with privs"
+  apply_to_orgs = [local.org_id]
+  privileges    = ["metaports:read", "metaports:write"]
 }
 ```
 
@@ -45,7 +51,7 @@ resource "pfptmeta_role" "with_privileges" {
 - **all_read_privileges** (Boolean)
 - **all_suborgs** (Boolean)
 - **all_write_privileges** (Boolean)
-- **apply_to_orgs** (List of String) indicates which orgs this role applies to. By default, it is applied to current org.
+- **apply_to_orgs** (List of String) indicates which orgs this role applies to.
 - **description** (String)
 - **privileges** (Set of String) Privileges to be assigned to the new role. It has the following structure - `resource:read/write` For example, metaports:read etc.
 - **suborgs_expression** (String) Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis.

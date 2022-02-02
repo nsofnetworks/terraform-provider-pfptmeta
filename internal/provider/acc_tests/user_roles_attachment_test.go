@@ -49,11 +49,13 @@ resource "pfptmeta_user" "user" {
 
 resource "pfptmeta_role" "metaport_role" {
   name       = "metaport role"
+  apply_to_orgs = ["org-31126"]
   privileges = ["metaports:read", "metaports:write"]
 }
 
 resource "pfptmeta_role" "network_element_role" {
   name       = "network element role"
+  apply_to_orgs = ["org-31126"]
   privileges = ["network_elements:read", "network_elements:write"]
 }
 
@@ -72,11 +74,13 @@ resource "pfptmeta_user" "user" {
 
 resource "pfptmeta_role" "metaport_role" {
   name       = "metaport role"
+  apply_to_orgs = ["org-31126"]
   privileges = ["metaports:read", "metaports:write"]
 }
 
 resource "pfptmeta_role" "network_element_role" {
   name       = "network element role"
+  apply_to_orgs = ["org-31126"]
   privileges = ["network_elements:read", "network_elements:write"]
 }
 

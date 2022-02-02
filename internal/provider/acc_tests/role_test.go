@@ -75,12 +75,14 @@ const testAccResourceRoleStep1 = `
 resource "pfptmeta_role" "admin_role" {
   name                 = "admin role"
   description          = "role with all privileges"
+  apply_to_orgs = ["org-31126"]
   all_read_privileges  = true
   all_write_privileges = true
 }
 
 resource "pfptmeta_role" "with_privileges" {
   name                 = "with privs"
+  apply_to_orgs = ["org-31126"]
   privileges		   = ["metaports:read", "metaports:write"]
 }
 `
@@ -89,6 +91,7 @@ const testAccResourceRoleStep2 = `
 resource "pfptmeta_role" "admin_role" {
   name                 = "admin role1"
   description          = "role with all privileges1"
+  apply_to_orgs = ["org-31126"]
   all_read_privileges  = false
 }
 `
