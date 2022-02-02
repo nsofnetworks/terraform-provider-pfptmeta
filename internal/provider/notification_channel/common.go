@@ -112,10 +112,8 @@ func ncRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diag
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	return notificationChannelToResource(d, nc)
 }

@@ -60,10 +60,8 @@ func userRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (di
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	if u == nil {
 		d.SetId("")

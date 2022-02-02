@@ -43,10 +43,8 @@ func routingGroupRead(ctx context.Context, d *schema.ResourceData, meta interfac
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(rg, d, excludedKeys)
 	if err != nil {

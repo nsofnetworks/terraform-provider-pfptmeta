@@ -39,10 +39,8 @@ func deviceSettingsRead(ctx context.Context, d *schema.ResourceData, meta interf
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	d.SetId(ds.ID)
 	err = client.MapResponseToResource(ds, d, excludedKeys)

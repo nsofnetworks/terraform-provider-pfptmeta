@@ -25,7 +25,6 @@ const (
 var excludedKeys = []string{"id", "failback", "failover"}
 
 func metaportFailoverRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
 	m, err := client.GetMetaportFailover(ctx, c, id)
@@ -33,10 +32,8 @@ func metaportFailoverRead(ctx context.Context, d *schema.ResourceData, meta inte
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	return metaportFailoverToResource(d, m)
 }

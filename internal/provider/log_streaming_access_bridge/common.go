@@ -162,10 +162,8 @@ func abRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diag
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	if ab.Type != "siem" {
 		return diag.Errorf("access bridge %s is not of type siem", id)

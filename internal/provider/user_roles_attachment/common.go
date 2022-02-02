@@ -39,11 +39,8 @@ func readResource(ctx context.Context, d *schema.ResourceData, meta interface{})
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			diags = append(diags, diag.Diagnostic{Severity: diag.Warning, Summary: fmt.Sprintf("user %s was not not found", uID)})
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	return attachmentToResource(d, uID, u.Roles)
 }

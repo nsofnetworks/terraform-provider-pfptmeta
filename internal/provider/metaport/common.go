@@ -27,10 +27,8 @@ func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{})
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {

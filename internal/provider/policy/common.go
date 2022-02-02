@@ -44,10 +44,8 @@ func policyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) d
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(rg, d, policyExcludedKeys)
 	if err != nil {

@@ -47,10 +47,8 @@ func protocolGroupRead(ctx context.Context, d *schema.ResourceData, meta interfa
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	if pg == nil {
 		d.SetId("")

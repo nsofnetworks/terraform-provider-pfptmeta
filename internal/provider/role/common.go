@@ -61,10 +61,8 @@ func roleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) dia
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	if r == nil {
 		d.SetId("")

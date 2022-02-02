@@ -38,7 +38,7 @@ func networkElementsAliasRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	if !exists {
 		d.SetId("")
-		return
+		return diag.Errorf("alias \"%s\" for network element \"%s\" was not found", alias, neID)
 	}
 	return aliasToResource(d, neID, alias)
 }

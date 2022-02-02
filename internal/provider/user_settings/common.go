@@ -39,10 +39,8 @@ func userSettingsRead(ctx context.Context, d *schema.ResourceData, meta interfac
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	d.SetId(us.ID)
 	err = client.MapResponseToResource(us, d, excludedKeys)

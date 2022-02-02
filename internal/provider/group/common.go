@@ -54,18 +54,17 @@ func groupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) di
 	}
 	if name, exists := d.GetOk("name"); exists {
 		g, err = client.GetGroupByName(ctx, c, name.(string))
-	} else if err != nil {
+		if g == nil {
+			d.SetId("")
+			return diag.Errorf("Could not find group with name \"%s\"", name)
+		}
+	}
+	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return diags
-		} else {
-			return diag.FromErr(err)
 		}
-	}
-	if g == nil {
-		d.SetId("")
-		return diags
+		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(g, d, excludedKeys)
 	if err != nil {

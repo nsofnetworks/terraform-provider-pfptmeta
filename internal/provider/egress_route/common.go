@@ -32,10 +32,8 @@ func egressRouteRead(ctx context.Context, d *schema.ResourceData, meta interface
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
 			d.SetId("")
-			return
-		} else {
-			return diag.FromErr(err)
 		}
+		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(er, d, excludedKeys)
 	if err != nil {
