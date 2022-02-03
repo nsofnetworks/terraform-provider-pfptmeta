@@ -57,7 +57,27 @@ func TestAccDataMetaportCluster(t *testing.T) {
 		CheckDestroy:      validateResourceDestroyed("metaport_cluster", "v1/metaport_clusters"),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccMetaportClusterStep1 + testAccDataSourceMetaportCluster,
+				Config: testAccMetaportClusterStep1 + testAccDataSourceMetaportClusterByID,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "id", regexp.MustCompile("^mpc-.+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "name", "metaport cluster name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description",
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.0", regexp.MustCompile("^mp-[\\d]+$"),
+					),
+				),
+			},
+			{
+				Config: testAccMetaportClusterStep1 + testAccDataSourceMetaportClusterByName,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestMatchResourceAttr(
 						"data.pfptmeta_metaport_cluster.metaport_cluster", "id", regexp.MustCompile("^mpc-.+$"),
@@ -116,8 +136,14 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster" {
 }
 `
 
-const testAccDataSourceMetaportCluster = `
+const testAccDataSourceMetaportClusterByID = `
 
 data "pfptmeta_metaport_cluster" "metaport_cluster" {
   id = pfptmeta_metaport_cluster.metaport_cluster.id
+}`
+
+const testAccDataSourceMetaportClusterByName = `
+
+data "pfptmeta_metaport_cluster" "metaport_cluster" {
+  name = "metaport cluster name"
 }`

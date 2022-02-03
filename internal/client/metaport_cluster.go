@@ -72,6 +72,38 @@ func GetMetaportCluster(ctx context.Context, c *Client, mId string) (*MetaportCl
 	return parseMetaportCluster(resp)
 }
 
+func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*MetaportCluster, error) {
+	url := fmt.Sprintf("%s/%s", c.BaseURL, metaportClusterEndpoint)
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read metaport cluster response")
+	}
+	var respBody []MetaportCluster
+	err = json.Unmarshal(body, &respBody)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse metaport cluster response: %v", err)
+	}
+	var nameMatch []MetaportCluster
+	for _, m := range respBody {
+		if m.Name == name {
+			nameMatch = append(nameMatch, m)
+		}
+	}
+	switch len(nameMatch) {
+	case 0:
+		return nil, fmt.Errorf("could not find metaport cluster with name \"%s\"", name)
+	case 1:
+		return &nameMatch[0], nil
+	default:
+		return nil, fmt.Errorf("found more then one metaport cluster with name \"%s\"", name)
+	}
+}
+
 func UpdateMetaportCluster(ctx context.Context, c *Client, mId string, m *MetaportCluster) (*MetaportCluster, error) {
 	neUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, metaportClusterEndpoint, mId)
 	body, err := json.Marshal(m)

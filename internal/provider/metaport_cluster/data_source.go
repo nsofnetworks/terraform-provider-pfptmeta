@@ -14,12 +14,14 @@ func DataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:             schema.TypeString,
-				Required:         true,
+				ExactlyOneOf:     []string{"name"},
+				Optional:         true,
 				ValidateDiagFunc: common.ValidateID(false, "mpc"),
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
+				ExactlyOneOf: []string{"id"},
+				Type:         schema.TypeString,
+				Optional:     true,
 			},
 			"description": {
 				Type:     schema.TypeString,
