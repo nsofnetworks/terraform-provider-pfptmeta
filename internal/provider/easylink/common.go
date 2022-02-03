@@ -167,11 +167,6 @@ func easyLinkUpdate(ctx context.Context, d *schema.ResourceData, meta interface{
 
 	if d.HasChange("proxy") && len(d.Get("proxy").([]interface{})) == 1 {
 		proxy := client.NewProxy(d)
-		// In case access_type is native - the value is forced to be the value of access_fqdn and cannot be modified.
-		// Setting it to empty string will omit it from the request should be removed when NSOF-5878 is resolved
-		if e.AccessType == "native" {
-			proxy.HttpHostHeader = ""
-		}
 		err = client.UpdateEasylinkProxy(ctx, c, e.ID, proxy)
 		if err != nil {
 			return diag.FromErr(err)

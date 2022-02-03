@@ -16,7 +16,7 @@ const easyLinkEndpoint = "v1/easylinks"
 type Proxy struct {
 	EnterpriseAccess    bool     `json:"enterprise_access"`
 	Hosts               []string `json:"hosts"`
-	HttpHostHeader      string   `json:"http_host_header,omitempty"`
+	HttpHostHeader      string   `json:"http_host_header"`
 	RewriteContentTypes []string `json:"rewrite_content_types"`
 	RewriteHosts        bool     `json:"rewrite_hosts"`
 	RewriteHostsClient  bool     `json:"rewrite_hosts_client"`
