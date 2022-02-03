@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io/ioutil"
 	"net/http"
+	u "net/url"
 )
 
 const (
@@ -78,6 +79,38 @@ func GetMetaport(ctx context.Context, c *Client, mId string) (*Metaport, error) 
 		return nil, err
 	}
 	return parseMetaport(resp)
+}
+
+func GetMetaportByName(ctx context.Context, c *Client, name string) (*Metaport, error) {
+	url := fmt.Sprintf("%s/%s", c.BaseURL, metaportEndpoint)
+	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read metaport response")
+	}
+	var respBody []Metaport
+	err = json.Unmarshal(body, &respBody)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse metaport response: %v", err)
+	}
+	var nameMatch []Metaport
+	for _, m := range respBody {
+		if m.Name == name {
+			nameMatch = append(nameMatch, m)
+		}
+	}
+	switch len(nameMatch) {
+	case 0:
+		return nil, fmt.Errorf("could not find metaport with name \"%s\"", name)
+	case 1:
+		return &nameMatch[0], nil
+	default:
+		return nil, fmt.Errorf("found more then one metaport with name \"%s\"", name)
+	}
 }
 
 func UpdateMetaport(ctx context.Context, c *Client, mId string, m *Metaport) (*Metaport, error) {

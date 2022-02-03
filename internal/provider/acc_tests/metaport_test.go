@@ -61,7 +61,27 @@ func TestAccDataSourceMetaport(t *testing.T) {
 		CheckDestroy:      validateResourceDestroyed("metaport", "v1/metaports"),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccMetaportStep1 + testAccMetaportDataSource,
+				Config: testAccMetaportStep1 + testAccMetaportByIDDataSource,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport.metaport", "id", regexp.MustCompile("^mp-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "name", "metaport name",
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "description", "metaport description",
+					),
+					resource.TestMatchResourceAttr(
+						"data.pfptmeta_metaport.metaport", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					),
+					resource.TestCheckResourceAttr(
+						"data.pfptmeta_metaport.metaport", "allow_support", "true",
+					),
+				),
+			},
+			{
+				Config: testAccMetaportStep1 + testAccMetaportByNameDataSource,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestMatchResourceAttr(
 						"data.pfptmeta_metaport.metaport", "id", regexp.MustCompile("^mp-[\\d]+$"),
@@ -119,8 +139,14 @@ resource "pfptmeta_metaport" "metaport" {
 }
 `
 
-const testAccMetaportDataSource = `
+const testAccMetaportByIDDataSource = `
 
 data "pfptmeta_metaport" "metaport" {
   id = pfptmeta_metaport.metaport.id
+}`
+
+const testAccMetaportByNameDataSource = `
+
+data "pfptmeta_metaport" "metaport" {
+  name = "metaport name"
 }`

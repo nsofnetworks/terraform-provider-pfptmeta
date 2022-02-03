@@ -20,9 +20,15 @@ const (
 
 func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	id := d.Get("id").(string)
 	c := meta.(*client.Client)
-	m, err := client.GetMetaport(ctx, c, id)
+	var err error
+	var m *client.Metaport
+	if id, exists := d.GetOk("id"); exists {
+		m, err = client.GetMetaport(ctx, c, id.(string))
+	}
+	if name, exists := d.GetOk("name"); exists {
+		m, err = client.GetMetaportByName(ctx, c, name.(string))
+	}
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
