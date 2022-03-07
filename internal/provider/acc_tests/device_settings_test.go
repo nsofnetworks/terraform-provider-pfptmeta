@@ -20,7 +20,7 @@ resource "pfptmeta_device_settings" "settings" {
   tunnel_mode                 = "full"
   ztna_always_on              = true
   proxy_always_on             = true
-  overlay_mfa_required        = true
+  overlay_mfa_required        = false
   overlay_mfa_refresh_period  = 20
   vpn_login_browser           = "EXTERNAL"
   session_lifetime            = 15
@@ -63,7 +63,7 @@ func TestAccResourceDeviceSettings(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "tunnel_mode", "full"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "ztna_always_on", "true"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "proxy_always_on", "true"),
-					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "overlay_mfa_required", "true"),
+					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "overlay_mfa_required", "false"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "overlay_mfa_refresh_period", "20"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "vpn_login_browser", "EXTERNAL"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "session_lifetime", "15"),
@@ -115,7 +115,7 @@ func TestAccDataSourceDeviceSettings(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "tunnel_mode", "full"),
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "ztna_always_on", "true"),
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "proxy_always_on", "true"),
-					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "overlay_mfa_required", "true"),
+					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "overlay_mfa_required", "false"),
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "overlay_mfa_refresh_period", "20"),
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "vpn_login_browser", "EXTERNAL"),
 					resource.TestCheckResourceAttr("data.pfptmeta_device_settings.settings", "session_lifetime", "15"),

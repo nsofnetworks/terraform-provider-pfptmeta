@@ -62,7 +62,7 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 		res.OverlayMfaRefreshPeriod = &overlayMfaRefreshPeriod
 	}
 
-	omr, exists := d.GetOk("overlay_mfa_required")
+	omr, exists := d.GetOkExists("overlay_mfa_required")
 	if exists {
 		overlayMfaRequired := omr.(bool)
 		res.OverlayMfaRequired = &overlayMfaRequired
@@ -74,7 +74,7 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 		res.ProtocolSelectionLifetime = &protocolSelectionLifetime
 	}
 
-	pao, exists := d.GetOk("proxy_always_on")
+	pao, exists := d.GetOkExists("proxy_always_on")
 	if exists {
 		proxyAlwaysOn := pao.(bool)
 		res.ProxyAlwaysOn = &proxyAlwaysOn
@@ -101,7 +101,7 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 		vpnLoginBrowser := vlb.(string)
 		res.VpnLoginBrowser = &vpnLoginBrowser
 	}
-	ztnaAlwaysOn, exists := d.GetOk("ztna_always_on")
+	ztnaAlwaysOn, exists := d.GetOkExists("ztna_always_on")
 	if exists {
 		alwaysOn := ztnaAlwaysOn.(bool)
 		res.ZtnaAlwaysOn = &alwaysOn
