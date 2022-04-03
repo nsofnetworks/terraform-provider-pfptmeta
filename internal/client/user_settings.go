@@ -50,7 +50,7 @@ func NewUserSettings(d *schema.ResourceData) *UserSettings {
 	} else {
 		res.MaxDevicesPerUser = nil
 	}
-	mfar, exists := d.GetOk("mfa_required")
+	mfar, exists := d.GetOkExists("mfa_required")
 	if exists {
 		mfaRequired := mfar.(bool)
 		res.MfaRequired = &mfaRequired
@@ -69,10 +69,10 @@ func NewUserSettings(d *schema.ResourceData) *UserSettings {
 		proxyPops := pp.(string)
 		res.ProxyPops = &proxyPops
 	}
-	ssoM, exists := d.GetOk("sso_mandatory")
+	ssoM, exists := d.GetOkExists("sso_mandatory")
 	if exists {
 		ssoMandatory := ssoM.(bool)
-		res.MfaRequired = &ssoMandatory
+		res.SsoMandatory = &ssoMandatory
 	}
 	return res
 }

@@ -88,13 +88,11 @@ func Resource() *schema.Resource {
 				Description: ssoMandatoryDesc,
 				Type:        schema.TypeBool,
 				Optional:    true,
-				ForceNew:    true,
 			},
 			"mfa_required": {
 				Description: mfaRequiredDesc,
 				Type:        schema.TypeBool,
 				Optional:    true,
-				ForceNew:    true,
 			},
 			"allowed_factors": {
 				Description: allowedFactorsDesc,
