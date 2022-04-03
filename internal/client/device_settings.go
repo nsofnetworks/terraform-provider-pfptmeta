@@ -74,6 +74,8 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 	if exists {
 		protocolSelectionLifetime, _ := strconv.Atoi(psl.(string))
 		res.ProtocolSelectionLifetime = &protocolSelectionLifetime
+	} else {
+		res.ProtocolSelectionLifetime = nil
 	}
 
 	pao, exists := d.GetOkExists("proxy_always_on")
@@ -93,6 +95,8 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 	if exists {
 		sessionLifetimeGrace, _ := strconv.Atoi(slg.(string))
 		res.SessionLifetimeGrace = &sessionLifetimeGrace
+	} else {
+		res.SessionLifetimeGrace = nil
 	}
 	tm, exists := d.GetOk("tunnel_mode")
 	if exists {
