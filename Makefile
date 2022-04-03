@@ -1,3 +1,5 @@
+TEST_KW?=
+
 debug-build:
 	go build -o ./bin/terraform_provider_pfptmeta_linux_amd64 -gcflags="all=-N -l"
 	./bin/terraform_provider_pfptmeta_linux_amd64 --debug
@@ -7,11 +9,11 @@ mod-tidy:
 
 
 unittest:
-	go test ./... $(if $(VERBOSE),"-v") -timeout 120m
+	go test ./... $(if $(VERBOSE),"-v") -timeout 120m $(if $(TEST_KW),-run $(TEST_KW))
 
 
 acc_tests:
-	TF_ACC=1 go test ./... $(if $(VERBOSE),"-v") -run "TestAcc*" -timeout 120m
+	TF_ACC=1 go test ./... $(if $(VERBOSE),"-v") -run "TestAcc*" -timeout 120m $(if $(TEST_KW),-run $(TEST_KW))
 
 
 generate:
