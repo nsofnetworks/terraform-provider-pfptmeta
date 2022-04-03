@@ -62,7 +62,7 @@ func DataSource() *schema.Resource {
 			},
 			"protocol_selection_lifetime": {
 				Description: protocolSelectionLifeTimeDesc,
-				Type:        schema.TypeInt,
+				Type:        schema.TypeString,
 				Computed:    true,
 			},
 			"proxy_always_on": {
@@ -83,7 +83,7 @@ func DataSource() *schema.Resource {
 			},
 			"session_lifetime_grace": {
 				Description: sessionLifeTimeGraceDesc,
-				Type:        schema.TypeInt,
+				Type:        schema.TypeString,
 				Computed:    true,
 			},
 			"tunnel_mode": {

@@ -24,8 +24,8 @@ resource "pfptmeta_device_settings" "settings" {
   overlay_mfa_refresh_period  = 20
   vpn_login_browser           = "EXTERNAL"
   session_lifetime            = 15
-  session_lifetime_grace      = 3
-  protocol_selection_lifetime = 10
+  session_lifetime_grace      = "3"
+  protocol_selection_lifetime = "10"
   search_domains              = ["example1.com", "example2.com"]
 }
 `
@@ -37,8 +37,6 @@ resource "pfptmeta_device_settings" "settings" {
   tunnel_mode                 = "split"
   vpn_login_browser           = "USER_DEFINED"
   session_lifetime            = 14
-  session_lifetime_grace      = 4
-  protocol_selection_lifetime = 12
 }
 `
 	deviceSettingsDataSource = `
@@ -90,8 +88,8 @@ func TestAccResourceDeviceSettings(t *testing.T) {
 					resource.TestCheckNoResourceAttr("pfptmeta_device_settings.settings", "overlay_mfa_refresh_period"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "vpn_login_browser", "USER_DEFINED"),
 					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "session_lifetime", "14"),
-					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "session_lifetime_grace", "4"),
-					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "protocol_selection_lifetime", "12"),
+					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "session_lifetime_grace", ""),
+					resource.TestCheckResourceAttr("pfptmeta_device_settings.settings", "protocol_selection_lifetime", ""),
 					resource.TestCheckNoResourceAttr("pfptmeta_device_settings.settings", "search_domains"),
 				),
 			},

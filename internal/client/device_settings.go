@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 const deviceSettingsEndpoint = "v1/settings/device"
@@ -68,9 +69,10 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 		res.OverlayMfaRequired = &overlayMfaRequired
 	}
 
-	psl, exists := d.GetOk("protocol_selection_lifetime")
+	psl := d.Get("protocol_selection_lifetime")
+	exists = psl.(string) != ""
 	if exists {
-		protocolSelectionLifetime := psl.(int)
+		protocolSelectionLifetime, _ := strconv.Atoi(psl.(string))
 		res.ProtocolSelectionLifetime = &protocolSelectionLifetime
 	}
 
@@ -86,9 +88,10 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 		sessionLifetime := slt.(int)
 		res.SessionLifetime = &sessionLifetime
 	}
-	slg, exists := d.GetOk("session_lifetime_grace")
+	slg := d.Get("session_lifetime_grace")
+	exists = slg.(string) != ""
 	if exists {
-		sessionLifetimeGrace := slg.(int)
+		sessionLifetimeGrace, _ := strconv.Atoi(slg.(string))
 		res.SessionLifetimeGrace = &sessionLifetimeGrace
 	}
 	tm, exists := d.GetOk("tunnel_mode")

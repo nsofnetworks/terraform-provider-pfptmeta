@@ -86,8 +86,8 @@ func Resource() *schema.Resource {
 			},
 			"protocol_selection_lifetime": {
 				Description:      protocolSelectionLifeTimeDesc,
-				Type:             schema.TypeInt,
-				ValidateDiagFunc: common.ValidateIntRange(0, 525600),
+				Type:             schema.TypeString,
+				ValidateDiagFunc: common.ValidateStringToIntRange(0, 525600),
 				Optional:         true,
 				ForceNew:         true,
 			},
@@ -116,8 +116,8 @@ func Resource() *schema.Resource {
 			},
 			"session_lifetime_grace": {
 				Description:      sessionLifeTimeGraceDesc,
-				Type:             schema.TypeInt,
-				ValidateDiagFunc: common.ValidateIntRange(0, 60),
+				Type:             schema.TypeString,
+				ValidateDiagFunc: common.ValidateStringToIntRange(0, 60),
 				Optional:         true,
 				ForceNew:         true,
 			},
