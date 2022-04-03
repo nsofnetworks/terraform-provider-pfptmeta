@@ -11,6 +11,7 @@ import (
 	"net/mail"
 	"net/url"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -141,6 +142,28 @@ func ValidateIntRange(min, max int) func(interface{}, cty.Path) diag.Diagnostics
 	return func(input interface{}, _ cty.Path) diag.Diagnostics {
 		var diags diag.Diagnostics
 		inputInt := input.(int)
+		if inputInt < min {
+			return diag.Errorf("%d is lower than minimum value %d", inputInt, min)
+		}
+		if inputInt > max {
+			return diag.Errorf("%d is lower than maximum value %d", inputInt, min)
+		}
+		return diags
+	}
+}
+
+// ValidateStringToIntRange that integer value given as string is between specified range
+func ValidateStringToIntRange(min, max int) func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) diag.Diagnostics {
+		var diags diag.Diagnostics
+		origInput := input.(string)
+		if origInput == "" {
+			return diags
+		}
+		inputInt, err := strconv.Atoi(input.(string))
+		if err != nil {
+			return diag.FromErr(err)
+		}
 		if inputInt < min {
 			return diag.Errorf("%d is lower than minimum value %d", inputInt, min)
 		}
