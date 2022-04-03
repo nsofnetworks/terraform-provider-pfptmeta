@@ -12,7 +12,7 @@ resource "pfptmeta_group" "ztna_group" {
 resource "pfptmeta_user_settings" "ztna_settings" {
   name                 = "ZTNA settings"
   apply_to_entities    = [pfptmeta_group.ztna_group.id]
-  max_devices_per_user = 5
+  max_devices_per_user = "5"
   prohibited_os        = ["macOS", "iOS"]
 }
 

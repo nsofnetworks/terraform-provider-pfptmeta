@@ -31,7 +31,7 @@ resource "pfptmeta_group" "ztna_group" {
 resource "pfptmeta_user_settings" "ztna_settings" {
   name                 = "ZTNA settings"
   apply_to_entities    = [pfptmeta_group.ztna_group.id]
-  max_devices_per_user = 5
+  max_devices_per_user = "5"
   prohibited_os        = ["macOS", "iOS"]
 }
 
@@ -60,7 +60,7 @@ This applies ONLY to local Proofpoint accounts, not to accounts that authenticat
 - **apply_to_entities** (List of String) Entities (users, groups or network elements) that the user settings will be applied to.
 - **description** (String)
 - **enabled** (Boolean)
-- **max_devices_per_user** (Number) Provides the administrator the flexibility to restrict how many devices the user can own or authenticate from.
+- **max_devices_per_user** (String) Integer wrapped as string. Provides the administrator the flexibility to restrict how many devices the user can own or authenticate from.
 - **mfa_required** (Boolean) Forces the user for second factor authentication when logging in to Proofpoint NaaS. Enabling this enforces the user to authenticate also by a second factor, as specified by `allowed_factors` parameter.
 - **password_expiration** (Number) Allows the administrator to set how often (in days) the end user should set a new login password.
 - **prohibited_os** (List of String) Allows the administrator to select operating systems which are prohibited from onboarding. ENUM: `Android`, `macOS`, `iOS`, `Linux`, `Windows`, `ChromeOS`

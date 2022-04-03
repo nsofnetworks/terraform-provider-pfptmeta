@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 const userSettingsEndpoint = "v1/settings/user"
@@ -41,10 +42,13 @@ func NewUserSettings(d *schema.ResourceData) *UserSettings {
 	if exists {
 		res.AllowedFactors = ConfigToStringSlice("allowed_factors", d)
 	}
-	mdpu, exists := d.GetOk("max_devices_per_user")
+	mdpu := d.Get("max_devices_per_user")
+	exists = mdpu.(string) != ""
 	if exists {
-		maxDevicesPerUser := mdpu.(int)
+		maxDevicesPerUser, _ := strconv.Atoi(mdpu.(string))
 		res.MaxDevicesPerUser = &maxDevicesPerUser
+	} else {
+		res.MaxDevicesPerUser = nil
 	}
 	mfar, exists := d.GetOk("mfa_required")
 	if exists {

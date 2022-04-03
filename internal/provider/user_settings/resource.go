@@ -53,8 +53,8 @@ func Resource() *schema.Resource {
 			},
 			"max_devices_per_user": {
 				Description:      maxDevicesPerUserDesc,
-				Type:             schema.TypeInt,
-				ValidateDiagFunc: common.ValidateIntRange(0, maxInt),
+				Type:             schema.TypeString,
+				ValidateDiagFunc: common.ValidateStringToIntRange(0, maxInt),
 				Optional:         true,
 				ForceNew:         true,
 			},

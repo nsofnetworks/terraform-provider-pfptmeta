@@ -41,7 +41,7 @@ func DataSource() *schema.Resource {
 			},
 			"max_devices_per_user": {
 				Description: maxDevicesPerUserDesc,
-				Type:        schema.TypeInt,
+				Type:        schema.TypeString,
 				Computed:    true,
 			},
 			"password_expiration": {

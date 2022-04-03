@@ -18,7 +18,7 @@ resource "pfptmeta_user_settings" "settings" {
   description          = "settings-desc"
   apply_on_org         = true
   proxy_pops           = "POPS_WITH_DEDICATED_IPS"
-  max_devices_per_user = 5
+  max_devices_per_user = "5"
   prohibited_os        = ["macOS", "iOS"]
   sso_mandatory        = true
   mfa_required         = true
@@ -32,7 +32,6 @@ resource "pfptmeta_user_settings" "settings" {
   description          = "settings-desc1"
   apply_to_entities    = [pfptmeta_group.ds_group.id]
   proxy_pops           = "ALL_POPS"
-  max_devices_per_user = 6
   prohibited_os        = ["Windows", "ChromeOS"]
   sso_mandatory        = false
   password_expiration  = 15
@@ -78,7 +77,7 @@ func TestAccResourceUserSettings(t *testing.T) {
 						"pfptmeta_user_settings.settings", "apply_to_entities.0",
 						"pfptmeta_group.ds_group", "id"),
 					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "proxy_pops", "ALL_POPS"),
-					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "max_devices_per_user", "6"),
+					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "max_devices_per_user", ""),
 					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "prohibited_os.0", "Windows"),
 					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "prohibited_os.1", "ChromeOS"),
 					resource.TestCheckResourceAttr("pfptmeta_user_settings.settings", "sso_mandatory", "false"),

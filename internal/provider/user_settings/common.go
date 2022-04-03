@@ -6,9 +6,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"net/http"
+	"strconv"
 )
 
-var excludedKeys = []string{"id"}
+var excludedKeys = []string{"id", "max_devices_per_user"}
 
 const (
 	description = "The `pfptmeta_user_settings` resource is a tool with which the administrator can configure specific user settings for particular groups.\n" +
@@ -17,7 +18,7 @@ const (
 		"In addition, the administrator can choose the type of authentication factor that should be applied or if users can only log in using SSO."
 	applyOnOrgDesc        = "Indicates whether this user setting applies to the entire org. Note: this attribute overrides `apply_to_entities`."
 	applyToEntitiesDesc   = "Entities (users, groups or network elements) that the user settings will be applied to."
-	maxDevicesPerUserDesc = "Provides the administrator the flexibility to restrict how many devices the user can own or authenticate from."
+	maxDevicesPerUserDesc = "Integer wrapped as string. Provides the administrator the flexibility to restrict how many devices the user can own or authenticate from."
 	mfaRequiredDesc       = "Forces the user for second factor authentication when logging in to Proofpoint NaaS. Enabling this enforces the user to authenticate also by a second factor, as specified by `allowed_factors` parameter."
 	allowedFactorsDesc    = "When users are configured to authenticate locally with MFA, you can choose which second authentication factors will be visible to this user group." +
 		" The allowed values are: `SMS`, `SOFTWARE_TOTP`, `VOICECALL`, `EMAIL`.\n" +
@@ -31,6 +32,22 @@ const (
 		" If this option is enabled and the user attempts to login without SSO, the following message is displayed: *Login without SSO is not allowed by system administrator*."
 )
 
+func userSettingsToResource(d *schema.ResourceData, us *client.UserSettings) (diags diag.Diagnostics) {
+	d.SetId(us.ID)
+	err := client.MapResponseToResource(us, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	if us.MaxDevicesPerUser == nil {
+		err = d.Set("max_devices_per_user", nil)
+	} else {
+		err = d.Set("max_devices_per_user", strconv.Itoa(*us.MaxDevicesPerUser))
+	}
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return
+}
 func userSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
@@ -42,12 +59,7 @@ func userSettingsRead(ctx context.Context, d *schema.ResourceData, meta interfac
 		}
 		return diag.FromErr(err)
 	}
-	d.SetId(us.ID)
-	err = client.MapResponseToResource(us, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return
+	return userSettingsToResource(d, us)
 }
 func userSettingsCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
@@ -57,12 +69,7 @@ func userSettingsCreate(ctx context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.SetId(us.ID)
-	err = client.MapResponseToResource(us, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return
+	return userSettingsToResource(d, us)
 }
 
 func userSettingsUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
@@ -74,12 +81,7 @@ func userSettingsUpdate(ctx context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.SetId(us.ID)
-	err = client.MapResponseToResource(us, d, excludedKeys)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return
+	return userSettingsToResource(d, us)
 }
 
 func userSettingsDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
