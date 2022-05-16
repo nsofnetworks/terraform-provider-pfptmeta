@@ -18,7 +18,7 @@ const (
 type NetworkElementBody struct {
 	Name          string   `json:"name,omitempty"`
 	Description   string   `json:"description"`
-	Enabled       bool     `json:"enabled"`
+	Enabled       *bool    `json:"enabled,omitempty"`
 	MappedSubnets []string `json:"mapped_subnets,omitempty"`
 	MappedService string   `json:"mapped_service,omitempty"`
 	Platform      string   `json:"platform,omitempty"`
@@ -32,16 +32,20 @@ func NewNetworkElementBody(d *schema.ResourceData) *NetworkElementBody {
 	}
 
 	res.Description = d.Get("description").(string)
+	enabled, exists := d.GetOkExists("enabled")
+	if exists {
+		enabled := enabled.(bool)
+		res.Enabled = &enabled
+	}
 
-	res.Enabled = d.Get("enabled").(bool)
-
-	if d.HasChange("mapped_subnets") {
-		mappedSubnets := d.Get("mapped_subnets")
+	if mappedSubnets, exists := d.GetOk("mapped_subnets"); exists {
+		res.Enabled = nil
 		listMappedSubnets := ResourceTypeSetToStringSlice(mappedSubnets.(*schema.Set))
 		res.MappedSubnets = listMappedSubnets
 	}
-	if d.HasChange("mapped_service") {
-		res.MappedService = d.Get("mapped_service").(string)
+	if mappedService, exists := d.GetOk("mapped_service"); exists {
+		res.Enabled = nil
+		res.MappedService = mappedService.(string)
 	}
 	if d.HasChange("platform") {
 		res.Platform = d.Get("platform").(string)
