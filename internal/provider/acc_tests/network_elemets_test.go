@@ -42,6 +42,7 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 					),
 				),
 			},
+			{Config: testAccResourceMappedSubnetStep2},
 		},
 	})
 }
@@ -77,6 +78,9 @@ func TestAccResourceMappedService(t *testing.T) {
 						"pfptmeta_network_element.mapped-service", "tags.tag_name2", "tag_value2",
 					),
 				),
+			},
+			{
+				Config: testAccResourceMappedServiceStep2,
 			},
 		},
 	})
@@ -166,9 +170,33 @@ resource "pfptmeta_network_element" "mapped-subnet" {
 }
 `
 
+const testAccResourceMappedSubnetStep2 = `
+resource "pfptmeta_network_element" "mapped-subnet" {
+  name           = "mapped subnet name1"
+  description    = "some details about the mapped subnet"
+  mapped_subnets = ["0.0.0.0/0", "10.20.30.0/24"]
+  tags = {
+    tag_name1 = "tag_value1"
+    tag_name2 = "tag_value2"
+  }
+}
+`
+
 const testAccResourceMappedServiceStep1 = `
 resource "pfptmeta_network_element" "mapped-service" {
   name           = "mapped service name"
+  description    = "some details about the mapped service"
+  mapped_service = "mapped.service.com"
+  tags = {
+    tag_name1 = "tag_value1"
+    tag_name2 = "tag_value2"
+  }
+}
+`
+
+const testAccResourceMappedServiceStep2 = `
+resource "pfptmeta_network_element" "mapped-service" {
+  name           = "mapped service name1"
   description    = "some details about the mapped service"
   mapped_service = "mapped.service.com"
   tags = {
