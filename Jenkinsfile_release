@@ -1,11 +1,15 @@
-    pipeline {
+@Library(['jenkins-shared']) _
+pipeline {
     options {
         ansiColor('xterm')
       }
     agent {
         docker {
-            image '763356858129.dkr.ecr.eu-central-1.amazonaws.com/nsof/terraform-provider:master'
             args '-u root'
+            image '763356858129.dkr.ecr.eu-central-1.amazonaws.com/nsof/terraform-provider:master'
+            label 'pfptprod-ubuntu-bionic-py3'
+            registryUrl 'https://763356858129.dkr.ecr.eu-central-1.amazonaws.com/'
+            registryCredentialsId 'ecr:eu-central-1:Jenkins_Dev'
             }
     }
       environment {
