@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -37,8 +38,9 @@ func networkElementsAliasRead(ctx context.Context, d *schema.ResourceData, meta 
 		return diag.FromErr(err)
 	}
 	if !exists {
+		log.Printf("Removing alias %s of network element %s because it's gone", alias, neID)
 		d.SetId("")
-		return diag.Errorf("alias \"%s\" for network element \"%s\" was not found", alias, neID)
+		return
 	}
 	return aliasToResource(d, neID, alias)
 }

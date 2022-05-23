@@ -5,7 +5,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
+	"strings"
 )
 
 var excludedKeys = []string{"id"}
@@ -23,18 +25,27 @@ func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{})
 	c := meta.(*client.Client)
 	var err error
 	var m *client.Metaport
-	if id, exists := d.GetOk("id"); exists {
+	id, exists := d.GetOk("id")
+	if exists {
 		m, err = client.GetMetaport(ctx, c, id.(string))
 	}
-	if name, exists := d.GetOk("name"); exists {
+	name, exists := d.GetOk("name")
+	if exists {
 		m, err = client.GetMetaportByName(ctx, c, name.(string))
 	}
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing metaport %s because it's gone", id)
 			d.SetId("")
+			return diags
+		} else if strings.HasPrefix(err.Error(), "could not find metaport") {
+			log.Printf("[WARN] Removing metaport %s because it's gone", name)
+			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(m, d, excludedKeys)
 	if err != nil {

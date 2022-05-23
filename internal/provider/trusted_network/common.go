@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -85,9 +86,12 @@ func trustedNetworkRead(ctx context.Context, d *schema.ResourceData, meta interf
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing trusted network %s because it's gone", id)
 			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	d.SetId(tn.ID)
 	return trustedNetworkToResource(d, tn)

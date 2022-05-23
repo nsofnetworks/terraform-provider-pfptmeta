@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -46,9 +47,12 @@ func readResource(ctx context.Context, d *schema.ResourceData, meta interface{})
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing users attachments of group %s because it's gone", gID)
 			d.SetId("")
+			return
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	return groupToUsersAttachmentResource(d, g)
 }

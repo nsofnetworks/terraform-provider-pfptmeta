@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -49,7 +50,8 @@ func userRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (di
 
 	var u *client.User
 	var err error
-	if id, exists := d.GetOk("id"); exists {
+	id, exists := d.GetOk("id")
+	if exists {
 		u, err = client.GetUserByID(ctx, c, id.(string))
 	} else {
 		if email, exists := d.GetOk("email"); exists {
@@ -59,9 +61,12 @@ func userRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (di
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing user %s because it's gone", id)
 			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	if u == nil {
 		d.SetId("")

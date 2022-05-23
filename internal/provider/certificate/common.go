@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -27,9 +28,12 @@ func certificateRead(ctx context.Context, d *schema.ResourceData, meta interface
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing certificate %s because it's gone", id)
 			d.SetId("")
+			return
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(cert, d, excludedKeys)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -37,7 +38,8 @@ func protocolGroupRead(ctx context.Context, d *schema.ResourceData, meta interfa
 	c := meta.(*client.Client)
 	var pg *client.ProtocolGroup
 	var err error
-	if id, exists := d.GetOk("id"); exists {
+	id, exists := d.GetOk("id")
+	if exists {
 		pg, err = client.GetProtocolGroupById(ctx, c, id.(string))
 	}
 	if name, exists := d.GetOk("name"); exists {
@@ -46,9 +48,12 @@ func protocolGroupRead(ctx context.Context, d *schema.ResourceData, meta interfa
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing protocol group %s because it's gone", id)
 			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	if pg == nil {
 		d.SetId("")

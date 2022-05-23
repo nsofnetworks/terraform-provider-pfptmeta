@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -161,9 +162,12 @@ func abRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diag
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing log streaming access bridge %s because it's gone", id)
 			d.SetId("")
+			return
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	if ab.Type != "siem" {
 		return diag.Errorf("access bridge %s is not of type siem", id)

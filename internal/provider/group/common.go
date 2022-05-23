@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"log"
 	"net/http"
 )
 
@@ -49,22 +50,27 @@ func groupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) di
 	c := meta.(*client.Client)
 	var g *client.Group
 	var err error
-	if id, exists := d.GetOk("id"); exists {
+	id, exists := d.GetOk("id")
+	if exists {
 		g, err = client.GetGroupById(ctx, c, id.(string))
 	}
 	if name, exists := d.GetOk("name"); exists {
 		g, err = client.GetGroupByName(ctx, c, name.(string))
 		if g == nil {
+			log.Printf("[WARN] Removing group %s because it's gone", name)
 			d.SetId("")
-			return diag.Errorf("Could not find group with name \"%s\"", name)
+			return diags
 		}
 	}
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
+			log.Printf("[WARN] Removing group %s because it's gone", id)
 			d.SetId("")
+			return diags
+		} else {
+			return diag.FromErr(err)
 		}
-		return diag.FromErr(err)
 	}
 	err = client.MapResponseToResource(g, d, excludedKeys)
 	if err != nil {
