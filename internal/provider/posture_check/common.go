@@ -2,11 +2,12 @@ package posture_check
 
 import (
 	"context"
+	"log"
+	"net/http"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
-	"log"
-	"net/http"
 )
 
 const (
@@ -17,9 +18,10 @@ The posture checks can be based on SQL query strings. The queries use the osquer
 Posture checks can be viewed and filtered by failure via security logs see [here](https://help.metanetworks.com/knowledgebase/posture_checks) for more details.
 `
 	enabledDesc = "Defaults to true"
-	actionDesc  = "Action to take in case a posture check fails. ENUM: `DISCONNECT`, `NONE`:\n" +
+	actionDesc  = "Action to take in case a posture check fails. ENUM: `DISCONNECT`, `NONE`, `WARNING`:\n" +
 		"	- **Disconnect** - disconnect device from Proofpoint NaaS.\n" +
-		"	- **None** - do nothing, useful during the discovery phase."
+		"	- **None** - do nothing, useful during the discovery phase. \n" +
+		"   - **Warning** - pop up a warning message, useful during the discovery phase."
 	checkDesc           = "Predefined checks. cannot be set with `osquery`."
 	minVersionDesc      = "Minimum version required by the check. Required when `type` is `minimum_app_version` or `minimum_os_version`, format: major.minor.patch."
 	typeDesc            = "ENUM: `jailbroken_rooted`, `screen_lock_enabled`, `minimum_app_version`, `minimum_os_version`, `malicious_app_detection`, `developer_mode_enabled`."
