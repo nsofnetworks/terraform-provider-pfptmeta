@@ -1,9 +1,10 @@
 package acc_tests
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"regexp"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 const (
@@ -22,8 +23,8 @@ resource "pfptmeta_posture_check" "check" {
   osquery              = "select * from processes where name='falcon-sensor' and state='S';"
   platform             = "Linux"
   enabled              = true
-  action               = "NONE"
-  when                 = ["PERIODIC", "PRE_CONNECT"]
+  action               = "WARNING"
+  when                 = ["PERIODIC"]
   interval             = 60
   user_message_on_fail = "check failed"
 }
@@ -43,6 +44,7 @@ resource "pfptmeta_posture_check" "check" {
   user_message_on_fail = "check failed1"
 }
 `
+
 	dataSourcePostureCheck = `
 data "pfptmeta_posture_check" "check" {
   id = pfptmeta_posture_check.check.id
@@ -66,9 +68,8 @@ func TestAccResourcePostureCheck(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "osquery", "select * from processes where name='falcon-sensor' and state='S';"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "platform", "Linux"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "enabled", "true"),
-					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "action", "NONE"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "action", "WARNING"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "when.0", "PERIODIC"),
-					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "when.1", "PRE_CONNECT"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "interval", "60"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "user_message_on_fail", "check failed"),
 				),
@@ -107,9 +108,8 @@ func TestAccDataSourcePostureCheck(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "osquery", "select * from processes where name='falcon-sensor' and state='S';"),
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "platform", "Linux"),
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "enabled", "true"),
-					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "action", "NONE"),
+					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "action", "WARNING"),
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "when.0", "PERIODIC"),
-					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "when.1", "PRE_CONNECT"),
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "interval", "60"),
 					resource.TestCheckResourceAttr("data.pfptmeta_posture_check.check", "user_message_on_fail", "check failed"),
 				),
