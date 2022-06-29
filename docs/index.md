@@ -42,7 +42,7 @@ provider "pfptmeta" {
 
 ### Optional
 
-- **api_key** (String) Alternatively, use the `PFPTMETA_API_KEY` env variable
-- **api_secret** (String, Sensitive) Alternatively, use the `PFPTMETA_API_SECRET` env variable
-- **org_shortname** (String) Alternatively, use the `PFPTMETA_ORG_SHORTNAME` env variable
-- **realm** (String) GDPR data location, ENUM: `us`, `eu`. defaults to `us`
+- `api_key` (String) Alternatively, use the `PFPTMETA_API_KEY` env variable
+- `api_secret` (String, Sensitive) Alternatively, use the `PFPTMETA_API_SECRET` env variable
+- `org_shortname` (String) Alternatively, use the `PFPTMETA_ORG_SHORTNAME` env variable
+- `realm` (String) GDPR data location, ENUM: `us`, `eu`. defaults to `us`
