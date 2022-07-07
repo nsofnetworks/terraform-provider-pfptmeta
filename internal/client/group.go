@@ -77,7 +77,7 @@ func UpdateGroup(ctx context.Context, c *Client, gID string, g *Group) (*Group, 
 
 func GetGroupById(ctx context.Context, c *Client, gID string) (*Group, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, groupEndpoint, gID)
-	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func GetGroupById(ctx context.Context, c *Client, gID string) (*Group, error) {
 }
 func GetGroupByName(ctx context.Context, c *Client, name string) (*Group, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL, groupEndpoint)
-	resp, err := c.Get(ctx, url, u.Values{"name": {name}, "expand": {"true"}})
+	resp, err := c.Get(ctx, url, u.Values{"name": {name}})
 	if err != nil {
 		return nil, err
 	}

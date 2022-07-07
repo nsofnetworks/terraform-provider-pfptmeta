@@ -24,6 +24,7 @@ type User struct {
 	Name        string   `json:"name,omitempty"`
 	Tags        []Tag    `json:"tags,omitempty"`
 	Roles       []string `json:"roles,omitempty"`
+	Groups      []string `json:"groups,omitempty"`
 }
 
 func NewUser(d *schema.ResourceData) *User {
