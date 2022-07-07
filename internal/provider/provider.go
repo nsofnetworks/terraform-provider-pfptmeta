@@ -2,12 +2,14 @@ package provider
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/access_control"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
@@ -67,6 +69,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_mapped_domain":               mapped_domain.DataSource(),
 				"pfptmeta_mapped_host":                 mapped_host.DataSource(),
 				"pfptmeta_network_element":             network_element.DataSource(),
+				"pfptmeta_device":                      device.DataSource(),
 				"pfptmeta_metaport":                    metaport.DataSource(),
 				"pfptmeta_metaport_cluster":            metaport_cluster.DataSource(),
 				"pfptmeta_metaport_failover":           metaport_failover.DataSource(),
@@ -92,6 +95,7 @@ func New(version string) func() *schema.Provider {
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                          network_element.Resource(),
+				"pfptmeta_device":                                   device.Resource(),
 				"pfptmeta_network_element_alias":                    network_element_alias.Resource(),
 				"pfptmeta_mapped_domain":                            mapped_domain.Resource(),
 				"pfptmeta_mapped_host":                              mapped_host.Resource(),
