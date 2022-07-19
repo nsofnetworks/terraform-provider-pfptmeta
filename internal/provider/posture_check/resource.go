@@ -1,9 +1,10 @@
 package posture_check
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
-	"regexp"
 )
 
 func Resource() *schema.Resource {
@@ -42,7 +43,7 @@ func Resource() *schema.Resource {
 				Description:      actionDesc,
 				Type:             schema.TypeString,
 				Optional:         true,
-				ValidateDiagFunc: common.ValidateStringENUM("DISCONNECT", "NONE"),
+				ValidateDiagFunc: common.ValidateStringENUM("DISCONNECT", "NONE", "WARNING"),
 				Default:          "DISCONNECT",
 			},
 			"check": {

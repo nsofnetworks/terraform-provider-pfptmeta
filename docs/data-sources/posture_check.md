@@ -39,9 +39,10 @@ output "check" {
 
 ### Read-Only
 
-- **action** (String) Action to take in case a posture check fails. ENUM: `DISCONNECT`, `NONE`:
+- **action** (String) Action to take in case a posture check fails. ENUM: `DISCONNECT`, `NONE`, `WARNING`:
 	- **Disconnect** - disconnect device from Proofpoint NaaS.
-	- **None** - do nothing, useful during the discovery phase.
+	- **None** - do nothing, useful during the discovery phase. 
+   - **Warning** - pop up a warning message, useful during the discovery phase.
 - **apply_to_entities** (List of String) Entities (users, groups or network elements) to be applied in the posture check.
 - **apply_to_org** (Boolean) Whether to apply to all devices on the organization. Note: this attribute overrides `apply_to_entities`
 - **check** (List of Object) Predefined checks. cannot be set with `osquery`. (see [below for nested schema](#nestedatt--check))

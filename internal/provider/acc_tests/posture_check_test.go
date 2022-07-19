@@ -1,9 +1,10 @@
 package acc_tests
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"regexp"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 const (
@@ -41,6 +42,23 @@ resource "pfptmeta_posture_check" "check" {
   action               = "DISCONNECT"
   when                 = ["PRE_CONNECT"]
   user_message_on_fail = "check failed1"
+}
+`
+
+	postureCheckStep3 = `
+resource "pfptmeta_posture_check" "check" {
+  name                 = "check-name2"
+  apply_to_org         = true
+  exempt_entities      = [pfptmeta_user.user.id]
+  check {
+    type        = "minimum_app_version"
+    min_version = "4.0.0"
+  }
+  platform             = "iOS"
+  action               = "WARNING"
+  when                 = ["PERIODIC"]
+  interval             = 5
+  user_message_on_fail = "check failed2"
 }
 `
 	dataSourcePostureCheck = `
@@ -85,6 +103,20 @@ func TestAccResourcePostureCheck(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "action", "DISCONNECT"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "when.0", "PRE_CONNECT"),
 					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "user_message_on_fail", "check failed1"),
+				),
+			},
+			{
+				Config: userConf + postureCheckStep3,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr("pfptmeta_posture_check.check", "id", regexp.MustCompile("^pc-.+$")),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "name", "check-name2"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "apply_to_org", "true"),
+					resource.TestMatchResourceAttr("pfptmeta_posture_check.check", "exempt_entities.0", regexp.MustCompile("^usr-.+$")),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "platform", "iOS"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "enabled", "true"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "action", "WARNING"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "when.0", "PERIODIC"),
+					resource.TestCheckResourceAttr("pfptmeta_posture_check.check", "user_message_on_fail", "check failed2"),
 				),
 			},
 		},
