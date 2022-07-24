@@ -11,6 +11,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
@@ -74,6 +75,7 @@ func New(version string) func() *schema.Provider {
 			},
 			DataSourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element_alias":       network_element_alias.DataSource(),
+				"pfptmeta_device_alias":                device_alias.DataSource(),
 				"pfptmeta_mapped_domain":               mapped_domain.DataSource(),
 				"pfptmeta_mapped_host":                 mapped_host.DataSource(),
 				"pfptmeta_network_element":             network_element.DataSource(),
@@ -105,6 +107,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_network_element":                          network_element.Resource(),
 				"pfptmeta_device":                                   device.Resource(),
 				"pfptmeta_network_element_alias":                    network_element_alias.Resource(),
+				"pfptmeta_device_alias":                             device_alias.Resource(),
 				"pfptmeta_mapped_domain":                            mapped_domain.Resource(),
 				"pfptmeta_mapped_host":                              mapped_host.Resource(),
 				"pfptmeta_metaport":                                 metaport.Resource(),

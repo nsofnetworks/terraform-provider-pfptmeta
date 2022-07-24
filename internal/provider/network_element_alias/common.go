@@ -3,11 +3,12 @@ package network_element_alias
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
-	"log"
-	"net/http"
 )
 
 const (
