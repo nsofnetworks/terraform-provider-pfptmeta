@@ -8,6 +8,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/access_control"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
@@ -60,6 +61,13 @@ func New(version string) func() *schema.Provider {
 					Type:        schema.TypeString,
 					DefaultFunc: schema.EnvDefaultFunc("PFPTMETA_ORG_SHORTNAME", nil),
 					Optional:    true,
+				},
+				"realm": {
+					Description:      "GDPR data location, ENUM: `us`, `eu`. defaults to `us`",
+					Type:             schema.TypeString,
+					DefaultFunc:      schema.EnvDefaultFunc("PFPTMETA_REALM", nil),
+					Optional:         true,
+					ValidateDiagFunc: common.ValidateStringENUM("eu", "us"),
 				},
 			},
 			DataSourcesMap: map[string]*schema.Resource{

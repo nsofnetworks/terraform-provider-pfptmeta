@@ -10,15 +10,16 @@ The pfptmeta provider allows resources to interact with Proofpoint-metanetworks 
 The pfptmeta provider allows resources to interact with Proofpoint-metanetworks API.
 To use the provider, you must generate an API key in the **Proofpoint Admin Console** under **Administration** -> **API Keys**.
 There are three ways to configure the provider:
-- Using the `api_key`, `api_secret`, `org` keys, as illustrated in the example below.
-- Using `PFPTMETA_API_KEY`, `PFPTMETA_API_SECRET`, and `PFPTMETA_ORG_SHORTNAME` env variables.
+- Using the `api_key`, `api_secret`, `org`, `realm` keys, as illustrated in the example below.
+- Using `PFPTMETA_API_KEY`, `PFPTMETA_API_SECRET`, `PFPTMETA_ORG_SHORTNAME` and `PFPTMETA_REALM` env variables.
 - Using a json file placed under the current user's home directory named `~/.pfptmeta/credentials.json` in the following format:
 
 ```json
 {
   "api_key": "<api-key>",
   "api_secret": "<api-secret>",
-  "org_shortname": "<org>"
+  "org_shortname": "<org>",
+  "realm": "<realm>"
 }
 
 ```
@@ -32,6 +33,7 @@ provider "pfptmeta" {
   api_key       = "key-123456"
   api_secret    = "secret123456"
   org_shortname = "org-shortname"
+  realm         = "us"
 }
 ```
 
@@ -43,3 +45,4 @@ provider "pfptmeta" {
 - **api_key** (String) Alternatively, use the `PFPTMETA_API_KEY` env variable
 - **api_secret** (String, Sensitive) Alternatively, use the `PFPTMETA_API_SECRET` env variable
 - **org_shortname** (String) Alternatively, use the `PFPTMETA_ORG_SHORTNAME` env variable
+- **realm** (String) GDPR data location, ENUM: `us`, `eu`. defaults to `us`

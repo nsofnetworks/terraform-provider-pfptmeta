@@ -14,6 +14,7 @@ pipeline {
     }
       environment {
           PFPTMETA_ORG_SHORTNAME = 'tftests'
+          PFPTMETA_REALM = 'us'
           VERBOSE = 'true'
           WORKING_DIR = '/home/ubuntu/workspace/terraform-provider-pfptmeta'
         }
