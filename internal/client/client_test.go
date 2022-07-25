@@ -18,6 +18,31 @@ import (
 
 var retryCounter int = 0
 
+func TestGetBaseURL(t *testing.T) {
+	cases := map[string]struct {
+		C        *Credentials
+		Expected string
+	}{
+		"without-realm": {
+			C:        &Credentials{},
+			Expected: "https://api.access.proofpoint.com",
+		},
+		"with-us-realm": {
+			C:        &Credentials{Realm: "us"},
+			Expected: "https://api.us.access.proofpoint.com",
+		},
+		"with-eu-realm": {
+			C:        &Credentials{Realm: "eu"},
+			Expected: "https://api.eu.access.proofpoint.com",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			assert.Equal(t, tc.Expected, getBaseURL(tc.C))
+		})
+	}
+}
+
 func TestParseHttpError(t *testing.T) {
 	errorResponse := &ErrorResponse{
 		"",
