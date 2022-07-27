@@ -6,9 +6,9 @@ import (
 	"strings"
 )
 
-func AssignNetworkElementAlias(ctx context.Context, c *Client, neID, alias string) error {
-	path := networkElementPathByPrefix(neID)
-	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, path, neID, alias)
+func AssignAlias(ctx context.Context, c *Client, entityID, alias string) error {
+	path := networkElementPathByPrefix(entityID)
+	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, path, entityID, alias)
 	_, err := c.Put(ctx, url, nil)
 	if err != nil {
 		return err
@@ -16,9 +16,9 @@ func AssignNetworkElementAlias(ctx context.Context, c *Client, neID, alias strin
 	return nil
 }
 
-func DeleteNetworkElementAlias(ctx context.Context, c *Client, neID, alias string) error {
-	path := networkElementPathByPrefix(neID)
-	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, path, neID, alias)
+func DeleteAlias(ctx context.Context, c *Client, entityID, alias string) error {
+	path := networkElementPathByPrefix(entityID)
+	url := fmt.Sprintf("%s/%s/%s/aliases/%s", c.BaseURL, path, entityID, alias)
 	_, err := c.Delete(ctx, url, nil)
 	if err != nil {
 		return err

@@ -50,7 +50,7 @@ func networkElementAliasCreate(ctx context.Context, d *schema.ResourceData, meta
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.AssignNetworkElementAlias(ctx, c, neID, alias)
+	err := client.AssignAlias(ctx, c, neID, alias)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -63,7 +63,7 @@ func networkElementAliasDelete(ctx context.Context, d *schema.ResourceData, meta
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.DeleteNetworkElementAlias(ctx, c, neID, alias)
+	err := client.DeleteAlias(ctx, c, neID, alias)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

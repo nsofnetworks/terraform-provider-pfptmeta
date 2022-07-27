@@ -50,7 +50,7 @@ func deviceAliasCreate(ctx context.Context, d *schema.ResourceData, meta interfa
 
 	deviceID := d.Get("device_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.AssignNetworkElementAlias(ctx, c, deviceID, alias)
+	err := client.AssignAlias(ctx, c, deviceID, alias)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -63,7 +63,7 @@ func deviceAliasDelete(ctx context.Context, d *schema.ResourceData, meta interfa
 
 	deviceID := d.Get("device_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.DeleteNetworkElementAlias(ctx, c, deviceID, alias)
+	err := client.DeleteAlias(ctx, c, deviceID, alias)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
