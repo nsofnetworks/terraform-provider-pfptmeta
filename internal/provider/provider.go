@@ -47,10 +47,11 @@ func New(version string) func() *schema.Provider {
 		p := &schema.Provider{
 			Schema: map[string]*schema.Schema{
 				"api_key": {
-					Description: "Alternatively, use the `PFPTMETA_API_KEY` env variable",
-					Type:        schema.TypeString,
-					DefaultFunc: schema.EnvDefaultFunc("PFPTMETA_API_KEY", nil),
-					Optional:    true,
+					Description:      "Alternatively, use the `PFPTMETA_API_KEY` env variable",
+					Type:             schema.TypeString,
+					DefaultFunc:      schema.EnvDefaultFunc("PFPTMETA_API_KEY", nil),
+					Optional:         true,
+					ValidateDiagFunc: common.ValidateID(false, "key"),
 				},
 				"api_secret": {
 					Description: "Alternatively, use the `PFPTMETA_API_SECRET` env variable",
