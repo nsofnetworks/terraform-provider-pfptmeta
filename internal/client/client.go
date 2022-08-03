@@ -20,7 +20,8 @@ import (
 
 const (
 	baseUrlEnvVar             string = "PFPTMETA_BASE_URL"
-	baseURL                   string = "https://api.metanetworks.com"
+	baseURL                   string = "https://api.access.proofpoint.com"
+	realmBaseURL              string = "https://api.%s.access.proofpoint.com"
 	oauthURL                  string = "/v1/oauth/token"
 	maxIdleConnections        int    = 10
 	requestTimeout            int    = 15
@@ -33,6 +34,7 @@ type Config struct {
 	APIKey       string `json:"api_key"`
 	APISecret    string `json:"api_secret"`
 	OrgShortname string `json:"org_shortname"`
+	Realm        string `json:"realm"`
 }
 
 type Token struct {
@@ -46,6 +48,7 @@ type Credentials struct {
 	Scope        string `json:"scope"`
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
+	Realm        string `json:"-"`
 }
 
 type ErrorResponse struct {
@@ -67,6 +70,7 @@ func newCredentials(d *schema.ResourceData) (*Credentials, error) {
 	apiKey, haveAPIKey := d.GetOk("api_key")
 	apiSecret, haveAPISecret := d.GetOk("api_secret")
 	org, haveOrg := d.GetOk("org_shortname")
+	realm, haveRealm := d.GetOk("realm")
 	// If one is set
 	if haveAPIKey || haveAPISecret || haveOrg {
 		// but not all are set
@@ -76,6 +80,9 @@ func newCredentials(d *schema.ResourceData) (*Credentials, error) {
 		credentials.ClientID = apiKey.(string)
 		credentials.ClientSecret = apiSecret.(string)
 		credentials.Scope = fmt.Sprintf("org:%s", org)
+		if haveRealm {
+			credentials.Realm = realm.(string)
+		}
 		return credentials, nil
 	}
 	return parseCredentialsFile(credentials)
@@ -103,6 +110,7 @@ func parseCredentialsFile(credentials *Credentials) (*Credentials, error) {
 	credentials.ClientID = config.APIKey
 	credentials.ClientSecret = config.APISecret
 	credentials.Scope = fmt.Sprintf("org:%s", config.OrgShortname)
+	credentials.Realm = config.Realm
 	return credentials, nil
 }
 
@@ -163,22 +171,30 @@ func NewClient(ctx context.Context, d *schema.ResourceData, userAgent string) (*
 	}
 	client.HTTP.CheckRetry = RetryPolicy
 	client.HTTP.ErrorHandler = errorHandler
-	if url := os.Getenv(baseUrlEnvVar); url != "" {
-		client.BaseURL = url
-	} else {
-		client.BaseURL = baseURL
-	}
 
 	credentials, err := newCredentials(d)
 	if err != nil {
 		return nil, fmt.Errorf("could not find credentials: %v", err)
 	}
+	client.BaseURL = getBaseURL(credentials)
 	client.Credentials = credentials
 	err = client.tokenRequest(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return client, nil
+}
+
+func getBaseURL(credentials *Credentials) string {
+	if u := os.Getenv(baseUrlEnvVar); u != "" {
+		return u
+	} else {
+		if credentials.Realm != "" {
+			return fmt.Sprintf(realmBaseURL, credentials.Realm)
+		} else {
+			return baseURL
+		}
+	}
 }
 
 func (c *Client) tokenRequest(ctx context.Context) error {

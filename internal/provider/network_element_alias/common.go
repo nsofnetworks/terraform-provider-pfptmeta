@@ -3,11 +3,12 @@ package network_element_alias
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
-	"log"
-	"net/http"
 )
 
 const (
@@ -49,7 +50,7 @@ func networkElementAliasCreate(ctx context.Context, d *schema.ResourceData, meta
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.AssignNetworkElementAlias(ctx, c, neID, alias)
+	err := client.AssignAlias(ctx, c, neID, alias)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -62,7 +63,7 @@ func networkElementAliasDelete(ctx context.Context, d *schema.ResourceData, meta
 
 	neID := d.Get("network_element_id").(string)
 	alias := d.Get("alias").(string)
-	err := client.DeleteNetworkElementAlias(ctx, c, neID, alias)
+	err := client.DeleteAlias(ctx, c, neID, alias)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {

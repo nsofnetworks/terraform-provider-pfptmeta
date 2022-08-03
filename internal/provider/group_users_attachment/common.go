@@ -8,6 +8,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"log"
 	"net/http"
+	"sync"
 )
 
 func generateID(gID string, users []string) string {
@@ -18,31 +19,10 @@ func generateID(gID string, users []string) string {
 	return fmt.Sprintf("%s-%d", gID, hash)
 }
 
-func groupToUsersAttachmentResource(d *schema.ResourceData, g *client.Group) (diags diag.Diagnostics) {
-	err := d.Set("group_id", g.ID)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	gUsers := &schema.Set{F: schema.HashString}
-	for _, i := range g.Users {
-		gUsers.Add(i)
-	}
-	schemaUsers := d.Get("users").(*schema.Set)
-	u := schema.NewSet(schema.HashString, schemaUsers.List())
-	intersection := gUsers.Intersection(u)
-	users := client.ResourceTypeSetToStringSlice(intersection)
-	err = d.Set("users", users)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	d.SetId(generateID(g.ID, users))
-	return
-}
-
 func readResource(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
 	c := meta.(*client.Client)
-
 	gID := d.Get("group_id").(string)
+	uIDs := client.ResourceTypeSetToStringSlice(d.Get("users").(*schema.Set))
 	g, err := client.GetGroupById(ctx, c, gID)
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
@@ -54,8 +34,47 @@ func readResource(ctx context.Context, d *schema.ResourceData, meta interface{})
 			return diag.FromErr(err)
 		}
 	}
-	return groupToUsersAttachmentResource(d, g)
+	usersInGroup, diags := checkUsersInGroup(ctx, uIDs, c, gID)
+	err = d.Set("group_id", g.ID)
+	if err != nil {
+		diags = append(diags, diag.FromErr(err)...)
+	}
+	err = d.Set("users", usersInGroup)
+	if err != nil {
+		diags = append(diags, diag.FromErr(err)...)
+	}
+	d.SetId(generateID(g.ID, uIDs))
+	return diags
 }
+
+func checkUsersInGroup(ctx context.Context, uIDs []string, c *client.Client, gID string) ([]string, diag.Diagnostics) {
+	var diags diag.Diagnostics
+	var wg sync.WaitGroup
+	wg.Add(len(uIDs))
+	mu := &sync.Mutex{}
+	usersInGroup := make([]string, 0)
+	diagsChan := make(chan diag.Diagnostics, len(uIDs))
+	for _, user := range uIDs {
+		user := user
+		go func() {
+			defer wg.Done()
+			var diags diag.Diagnostics
+			u, err := client.GetUserByID(ctx, c, user)
+			if err != nil {
+				diags = append(diags, diag.FromErr(err)...)
+			} else if client.Contains(gID, u.Groups) {
+				mu.Lock()
+				usersInGroup = append(usersInGroup, user)
+				mu.Unlock()
+			}
+			diagsChan <- diags
+		}()
+	}
+	wg.Wait()
+	diags = append(diags, <-diagsChan...)
+	return usersInGroup, diags
+}
+
 func createResource(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Client)
 

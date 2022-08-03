@@ -5,6 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -105,4 +107,12 @@ func Contains(v string, a []string) bool {
 		}
 	}
 	return false
+}
+
+func networkElementPathByPrefix(neID string) string {
+	prefix := strings.Split(neID, "-")[0]
+	if prefix == "dev" {
+		return devicesEndpoint
+	}
+	return networkElementsEndpoint
 }
