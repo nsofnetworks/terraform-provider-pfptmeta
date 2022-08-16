@@ -13,4 +13,6 @@ RUN wget -nv https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terra
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && mv terraform /usr/local/bin
 
+RUN go install github.com/jstemmer/go-junit-report/v2@latest
+
 WORKDIR /root/terraform-provider-pfptmeta
