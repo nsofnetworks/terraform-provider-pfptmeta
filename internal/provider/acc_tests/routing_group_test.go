@@ -42,8 +42,6 @@ func TestAccResourceRoutingGroup(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_routing_group.routing_group", "description", "routing group description1",
 					),
-					resource.TestCheckNoResourceAttr("pfptmeta_routing_group.routing_group", "mapped_elements_ids"),
-					resource.TestCheckNoResourceAttr("pfptmeta_routing_group.routing_group", "sources"),
 				),
 			},
 		},
@@ -74,19 +72,6 @@ func TestAccDataSourceRoutingGroup(t *testing.T) {
 					resource.TestMatchResourceAttr(
 						"data.pfptmeta_routing_group.routing_group", "sources.0", regexp.MustCompile("^grp-.+$"),
 					),
-				),
-			},
-			{
-				Config: testAccRoutingGroupStep2,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(
-						"pfptmeta_routing_group.routing_group", "name", "routing group name1",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_routing_group.routing_group", "description", "routing group description1",
-					),
-					resource.TestCheckNoResourceAttr("pfptmeta_routing_group.routing_group", "mapped_elements_ids"),
-					resource.TestCheckNoResourceAttr("pfptmeta_routing_group.routing_group", "sources"),
 				),
 			},
 		},
@@ -124,6 +109,8 @@ resource "pfptmeta_network_element" "mapped-service" {
 resource "pfptmeta_routing_group" "routing_group" {
   name = "routing group name1"
   description = "routing group description1"
+  mapped_elements_ids = [pfptmeta_network_element.mapped-service.id]
+  sources = [pfptmeta_group.group.id]
 }
 `
 const routingGroupDataSource = `

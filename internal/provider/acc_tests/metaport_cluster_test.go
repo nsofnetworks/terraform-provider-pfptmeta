@@ -25,11 +25,11 @@ func TestAccResourceMetaportCluster(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_cluster.metaport_cluster", "metaports.0", regexp.MustCompile("^mp-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_cluster.metaport_cluster", "metaports.*", "pfptmeta_metaport.metaport", "id",
 					),
 				),
 			},
@@ -42,8 +42,8 @@ func TestAccResourceMetaportCluster(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description1",
 					),
-					resource.TestCheckNoResourceAttr("pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements"),
-					resource.TestCheckNoResourceAttr("pfptmeta_metaport_cluster.metaport_cluster", "metaports"),
+					resource.TestCheckResourceAttr("pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.#", "0"),
+					resource.TestCheckResourceAttr("pfptmeta_metaport_cluster.metaport_cluster", "metaports.#", "0"),
 				),
 			},
 		},
@@ -68,11 +68,11 @@ func TestAccDataMetaportCluster(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.0", regexp.MustCompile("^mp-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.*", "pfptmeta_metaport.metaport", "id",
 					),
 				),
 			},
@@ -88,11 +88,11 @@ func TestAccDataMetaportCluster(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport_cluster.metaport_cluster", "description", "metaport cluster description",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.0", regexp.MustCompile("^mp-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport_cluster.metaport_cluster", "metaports.*", "pfptmeta_metaport.metaport", "id",
 					),
 				),
 			},

@@ -25,14 +25,14 @@ func TestAccResourcePolicy(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_policy.policy", "description", "policy description",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_policy.policy", "sources.0", regexp.MustCompile("^grp-.+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_policy.policy", "sources.*", "pfptmeta_group.group", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_policy.policy", "destinations.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_policy.policy", "destinations.*", "pfptmeta_network_element.mapped-service", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_policy.policy", "protocol_groups.0", regexp.MustCompile("^pg-.+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_policy.policy", "protocol_groups.0", "data.pfptmeta_protocol_group.HTTPS", "id",
 					),
 				),
 			},
@@ -45,9 +45,9 @@ func TestAccResourcePolicy(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_policy.policy", "description", "policy description1",
 					),
-					resource.TestCheckNoResourceAttr("pfptmeta_policy.policy", "sources"),
-					resource.TestCheckNoResourceAttr("pfptmeta_policy.policy", "destinations"),
-					resource.TestCheckNoResourceAttr("pfptmeta_policy.policy", "protocol_groups"),
+					resource.TestCheckResourceAttr("pfptmeta_policy.policy", "sources.#", "0"),
+					resource.TestCheckResourceAttr("pfptmeta_policy.policy", "destinations.#", "0"),
+					resource.TestCheckResourceAttr("pfptmeta_policy.policy", "protocol_groups.#", "0"),
 				),
 			},
 		},

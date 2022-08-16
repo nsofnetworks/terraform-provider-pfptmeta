@@ -37,8 +37,8 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_failover.failover", "failover.0.trigger", "auto",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_failover.failover", "notification_channels.0", regexp.MustCompile("^nch-.+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_failover.failover", "notification_channels.*", "pfptmeta_notification_channel.mail", "id",
 					),
 				),
 			},
@@ -61,21 +61,21 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_failover.failover", "failover.0.trigger", "auto",
 					),
-					resource.TestCheckNoResourceAttr(
-						"pfptmeta_metaport_failover.failover", "notification_channels.0",
+					resource.TestCheckResourceAttr(
+						"pfptmeta_metaport_failover.failover", "notification_channels.#", "0",
 					),
 				),
 			},
 			{
 				Config: testAccMetaportFailoverStep3,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_failover.failover", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_failover.failover", "mapped_elements.0", "pfptmeta_network_element.mapped-subnet", "id",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_failover.failover", "cluster_1", regexp.MustCompile("^mpc-.+$")),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport_failover.failover", "cluster_2", regexp.MustCompile("^mpc-.+$")),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_failover.failover", "cluster_1", "pfptmeta_metaport_cluster.metaport_cluster1", "id"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport_failover.failover", "cluster_2", "pfptmeta_metaport_cluster.metaport_cluster2", "id"),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport_failover.failover", "failback.0.trigger", "manual",
 					),
@@ -93,7 +93,7 @@ func TestAccResourceMetaportFailover(t *testing.T) {
 			{
 				Config: testAccMetaportFailoverStep4,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckNoResourceAttr("pfptmeta_metaport_failover.failover", "mapped_elements"),
+					resource.TestCheckResourceAttr("pfptmeta_metaport_failover.failover", "mapped_elements.#", "0"),
 					resource.TestCheckNoResourceAttr("pfptmeta_metaport_failover.failover", "cluster_1.#"),
 					resource.TestCheckNoResourceAttr("pfptmeta_metaport_failover.failover", "cluster_2.#"),
 				),
@@ -111,8 +111,8 @@ func TestAccDataSourceMetaportFailover(t *testing.T) {
 			{
 				Config: testAccMetaportFailoverStep1 + testAccMetaportFailoverDatasource,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport_failover.failover", "id", regexp.MustCompile("^mpf-.+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport_failover.failover", "id", "pfptmeta_metaport_failover.failover", "id",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport_failover.failover", "name", "mf-name",

@@ -25,14 +25,14 @@ func TestAccResourceMetaport(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport.metaport", "description", "metaport description",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport.metaport", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport.metaport", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport.metaport", "allow_support", "true",
 					),
-					resource.TestMatchResourceAttr(
-						"pfptmeta_metaport.metaport", "notification_channels.0", regexp.MustCompile("^nch-.+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"pfptmeta_metaport.metaport", "notification_channels.*", "pfptmeta_notification_channel.mail", "id",
 					),
 				),
 			},
@@ -45,8 +45,8 @@ func TestAccResourceMetaport(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"pfptmeta_metaport.metaport", "description", "metaport description1",
 					),
-					resource.TestCheckNoResourceAttr("pfptmeta_metaport.metaport", "mapped_elements"),
-					resource.TestCheckNoResourceAttr("pfptmeta_metaport.metaport", "notification_channels.0"),
+					resource.TestCheckResourceAttr("pfptmeta_metaport.metaport", "mapped_elements.#", "0"),
+					resource.TestCheckResourceAttr("pfptmeta_metaport.metaport", "notification_channels.#", "0"),
 					resource.TestCheckResourceAttr("pfptmeta_metaport.metaport", "allow_support", "false"),
 				),
 			},
@@ -72,8 +72,8 @@ func TestAccDataSourceMetaport(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport.metaport", "description", "metaport description",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport.metaport", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport.metaport", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport.metaport", "allow_support", "true",
@@ -92,8 +92,8 @@ func TestAccDataSourceMetaport(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport.metaport", "description", "metaport description",
 					),
-					resource.TestMatchResourceAttr(
-						"data.pfptmeta_metaport.metaport", "mapped_elements.0", regexp.MustCompile("^ne-[\\d]+$"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"data.pfptmeta_metaport.metaport", "mapped_elements.*", "pfptmeta_network_element.mapped-subnet", "id",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_metaport.metaport", "allow_support", "true",
@@ -136,6 +136,7 @@ resource "pfptmeta_metaport" "metaport" {
   name                  = "metaport name1"
   description           = "metaport description1"
   allow_support         = false
+  mapped_elements       = []
 }
 `
 
