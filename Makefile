@@ -20,7 +20,8 @@ generate:
 	go generate -v -x
 
 
-tests: verify_clean acc_tests unittest
+tests:
+	TF_ACC=1 go test ./... $(if $(VERBOSE),"-v") -timeout 120m 2>&1 | go-junit-report -set-exit-code -iocopy -out report.xml
 
 # generate is necessary here because it generates the documentation from the code and formats the .go and .tf files
 # we verify git is clean after that to make sure the documentation, .tf and .go files were updated

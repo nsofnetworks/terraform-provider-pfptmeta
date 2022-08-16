@@ -36,6 +36,8 @@ pipeline {
     }
     post {
         always {
+            sh "cp ${env.WORKING_DIR}/report.xml ."
+            junit 'report.xml'
             sendNotifications currentBuild.result
             cleanWs(cleanWhenNotBuilt: false,
                                 deleteDirs: true,
