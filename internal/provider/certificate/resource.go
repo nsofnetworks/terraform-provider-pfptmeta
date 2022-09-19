@@ -13,6 +13,9 @@ func Resource() *schema.Resource {
 		ReadContext:   certificateRead,
 		UpdateContext: certificateUpdate,
 		DeleteContext: certificateDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

@@ -14,6 +14,9 @@ func Resource() *schema.Resource {
 		ReadContext:   metaportFailoverRead,
 		UpdateContext: metaportFailoverUpdate,
 		DeleteContext: metaportFailoverDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

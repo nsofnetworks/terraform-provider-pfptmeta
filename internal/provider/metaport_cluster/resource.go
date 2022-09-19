@@ -14,6 +14,9 @@ func Resource() *schema.Resource {
 		ReadContext:   metaportClusterRead,
 		UpdateContext: metaportClusterUpdate,
 		DeleteContext: metaportClusterDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
