@@ -125,3 +125,34 @@ func DeleteMetaportCluster(ctx context.Context, c *Client, mcID string) (*Metapo
 	}
 	return parseMetaportCluster(resp)
 }
+
+func AddMappedElementsToMetaportCluster(ctx context.Context, c *Client, mID string, meIDs []string) (*MetaportCluster, error) {
+	url := fmt.Sprintf("%s/%s/%s/add_mapped_elements", c.BaseURL, metaportClusterEndpoint, mID)
+	body := make(map[string][]string)
+	body["mapped_elements"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseMetaportCluster(resp)
+}
+
+func RemoveMappedElementsFromMetaportCluster(ctx context.Context,
+	c *Client, mID string, meIDs []string) (*MetaportCluster, error) {
+	url := fmt.Sprintf("%s/%s/%s/remove_mapped_elements", c.BaseURL, metaportClusterEndpoint, mID)
+	body := make(map[string][]string)
+	body["mapped_elements"] = meIDs
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
+	}
+	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	return parseMetaportCluster(resp)
+}

@@ -34,6 +34,7 @@ func Resource() *schema.Resource {
 				Description: mappedElementsDesc,
 				Type:        schema.TypeSet,
 				Optional:    true,
+				Computed:    true,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidateID(true, "ed", "ne"),

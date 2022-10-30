@@ -10,6 +10,11 @@ description: |-
 
 MetaPort cluster defines a group of highly-available MetaPorts that are deployed together in a single data center
 
+~> **NOTE:** When using the `mapped_elements` argument of this resource, the resource will take over the management of the MetaPort Cluster's mapped elements.
+This argument is incompatible with other methods of managing MetaPort Cluster's mapped elements, such as `metaport_cluster_mapped_elements_attachment`.
+Any attempt to manage MetaPort Cluster's mapped elements using different methods, will result in resource cycling and/or errors.
+
+
 ## Example Usage
 
 ```terraform
