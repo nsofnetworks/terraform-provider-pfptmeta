@@ -30,7 +30,7 @@ func metaportRead(ctx context.Context, d *schema.ResourceData, meta interface{})
 		m, err = client.GetMetaport(ctx, c, id.(string))
 	}
 	name, exists := d.GetOk("name")
-	if exists {
+	if exists && m == nil {
 		m, err = client.GetMetaportByName(ctx, c, name.(string))
 	}
 	if err != nil {
