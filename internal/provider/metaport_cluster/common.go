@@ -28,7 +28,7 @@ func metaportClusterRead(ctx context.Context, d *schema.ResourceData, meta inter
 		m, err = client.GetMetaportCluster(ctx, c, id.(string))
 	}
 	name, exists := d.GetOk("name")
-	if exists {
+	if exists && m == nil {
 		m, err = client.GetMetaportClustertByName(ctx, c, name.(string))
 	}
 	if err != nil {
