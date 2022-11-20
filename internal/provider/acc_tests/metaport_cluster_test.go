@@ -133,6 +133,7 @@ resource "pfptmeta_metaport" "metaport" {
 resource "pfptmeta_metaport_cluster" "metaport_cluster" {
   name = "metaport cluster name1"
   description = "metaport cluster description1"
+  mapped_elements = []
 }
 `
 
