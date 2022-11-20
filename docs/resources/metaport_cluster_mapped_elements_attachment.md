@@ -41,8 +41,8 @@ resource "pfptmeta_metaport_cluster" "metaport_cluster" {
 }
 
 resource "pfptmeta_metaport_cluster_mapped_elements_attachment" "attachment" {
-  metaport_id     = pfptmeta_metaport_cluster.metaport_cluster.id
-  mapped_elements = [pfptmeta_network_element.mapped-subnet.id]
+  metaport_cluster_id = pfptmeta_metaport_cluster.metaport_cluster.id
+  mapped_elements     = [pfptmeta_network_element.mapped-subnet.id]
 }
 ```
 
