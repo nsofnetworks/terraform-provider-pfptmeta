@@ -8,7 +8,7 @@ import (
 )
 
 func TestAccResourceRoutingGroup(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("routing_group", "v1/routing_groups"),

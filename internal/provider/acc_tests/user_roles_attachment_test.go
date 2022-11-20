@@ -7,7 +7,7 @@ import (
 )
 
 func TestAccResourceUserRolesAttachment(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("user", "v1/users"),

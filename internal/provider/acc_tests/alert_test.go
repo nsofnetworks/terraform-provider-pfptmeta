@@ -69,7 +69,7 @@ data "pfptmeta_alert" "alert" {
 )
 
 func TestAccResourceAlert(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("alert", "v1/alerts"),

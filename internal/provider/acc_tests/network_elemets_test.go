@@ -8,7 +8,7 @@ import (
 )
 
 func TestAccResourceMappedSubnet(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("network_element", "v1/network_elements"),
@@ -50,7 +50,7 @@ func TestAccResourceMappedSubnet(t *testing.T) {
 }
 
 func TestAccResourceMappedService(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("network_element", "v1/network_elements"),
@@ -89,7 +89,7 @@ func TestAccResourceMappedService(t *testing.T) {
 }
 
 func TestAccResourceDevice(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("network_element", "v1/network_elements"),

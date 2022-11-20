@@ -8,7 +8,7 @@ import (
 )
 
 func TestAccResourceMetaportCluster(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("metaport_cluster", "v1/metaport_clusters"),

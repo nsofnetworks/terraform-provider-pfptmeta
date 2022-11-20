@@ -51,7 +51,7 @@ data "pfptmeta_trusted_network" "network" {
 )
 
 func TestAccResourceTrustedNetwork(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("trusted_network", "v1/trusted_networks"),

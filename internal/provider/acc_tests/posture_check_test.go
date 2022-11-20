@@ -53,7 +53,7 @@ data "pfptmeta_posture_check" "check" {
 )
 
 func TestAccResourcePostureCheck(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("posture_check", "v1/posture_checks"),

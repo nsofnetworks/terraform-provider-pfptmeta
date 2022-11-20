@@ -8,7 +8,7 @@ import (
 )
 
 func TestAccResourceEnterpriseDNS(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		CheckDestroy:      validateResourceDestroyed("enterprise_dns", "v1/enterprise_dns"),
 		ProviderFactories: providerFactories,

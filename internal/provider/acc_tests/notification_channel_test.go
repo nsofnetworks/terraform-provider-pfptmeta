@@ -7,7 +7,7 @@ import (
 )
 
 func TestAccResourceNotificationChannelMail(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("notification_channel", "v1/notification_channels"),
@@ -57,7 +57,7 @@ func TestAccResourceNotificationChannelMail(t *testing.T) {
 }
 
 func TestAccResourceNotificationChannelPagerDuty(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("notification_channel", "v1/notification_channels"),
@@ -84,7 +84,7 @@ func TestAccResourceNotificationChannelPagerDuty(t *testing.T) {
 }
 
 func TestAccResourceNotificationChannelSlack(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("notification_channel", "v1/notification_channels"),
@@ -114,7 +114,7 @@ func TestAccResourceNotificationChannelSlack(t *testing.T) {
 }
 
 func TestAccResourceNotificationChannelWebHook(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("notification_channel", "v1/notification_channels"),

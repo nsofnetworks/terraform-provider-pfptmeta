@@ -137,7 +137,7 @@ data "pfptmeta_easylink" "easylink" {
 )
 
 func TestAccMetaEasylink(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("easylink", "v1/easylinks"),
@@ -173,7 +173,7 @@ func TestAccMetaEasylink(t *testing.T) {
 }
 
 func TestAccMetaRdpEasylink(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("easylink", "v1/easylinks"),
@@ -211,7 +211,7 @@ func TestAccMetaRdpEasylink(t *testing.T) {
 }
 
 func TestAccNativeAndRedirectEasylink(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccReleasePreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("easylink", "v1/easylinks"),
@@ -270,7 +270,7 @@ func TestAccNativeAndRedirectEasylink(t *testing.T) {
 }
 
 func TestAccMDataSourceEasylink(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("easylink", "v1/easylinks"),

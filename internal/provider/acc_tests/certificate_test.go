@@ -27,7 +27,7 @@ data "pfptmeta_certificate" "cert" {
 )
 
 func TestAccCertificate(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccReleasePreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("certificate", "v1/certificates"),

@@ -40,7 +40,7 @@ data "pfptmeta_access_control" "access" {
 )
 
 func TestAccResourceAccessControl(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("access_control", "v1/access_controls"),

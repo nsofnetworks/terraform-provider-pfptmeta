@@ -37,7 +37,7 @@ resource "pfptmeta_routing_group_mapped_elements_attachment" "attachment2" {
 )
 
 func TestAccRoutingGroupAttachment(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("routing_group", "v1/routing_groups"),

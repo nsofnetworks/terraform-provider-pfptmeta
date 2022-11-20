@@ -129,7 +129,7 @@ data "pfptmeta_log_streaming_access_bridge" "log_stream" {
 )
 
 func TestAccResourceLogStreamAccessBridge(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("pfptmeta_log_streaming_access_bridge", "v1/access_bridges"),

@@ -44,7 +44,7 @@ data "pfptmeta_user_settings" "settings" {
 )
 
 func TestAccResourceUserSettings(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("user_settings", "v1/settings/user"),

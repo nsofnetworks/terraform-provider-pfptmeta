@@ -46,7 +46,7 @@ data "pfptmeta_device_settings" "settings" {
 )
 
 func TestAccResourceDeviceSettings(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("device_settings", "v1/settings/device"),

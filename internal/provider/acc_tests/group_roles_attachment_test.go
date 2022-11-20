@@ -7,7 +7,7 @@ import (
 )
 
 func TestAccResourceGroupRolesAttachment(t *testing.T) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
 		CheckDestroy:      validateResourceDestroyed("group", "v1/groups"),
