@@ -186,6 +186,21 @@ func ValidateHostnameOrIPV4() func(interface{}, cty.Path) diag.Diagnostics {
 	}
 }
 
+func ValidateCustomUrlOrIPV4() func(interface{}, cty.Path) diag.Diagnostics {
+	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
+		inputString := input.(string)
+		if strings.HasPrefix(inputString, ".") {
+			return ValidateHostName()(inputString[1:], nil)
+		}
+		hostnameValidation := ValidateHostName()(inputString, nil)
+		ipv4Validation := net.ParseIP(inputString) != nil
+		if hostnameValidation.HasError() && !ipv4Validation {
+			return diag.Errorf("\"%s\" is not a valid hostname or ipv4", inputString)
+		}
+		return
+	}
+}
+
 func ValidateEmail() func(interface{}, cty.Path) diag.Diagnostics {
 	return func(input interface{}, _ cty.Path) (diags diag.Diagnostics) {
 		inputString := input.(string)
