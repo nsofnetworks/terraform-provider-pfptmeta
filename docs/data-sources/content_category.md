@@ -3,12 +3,12 @@
 page_title: "Data Source pfptmeta_content_category - terraform-provider-pfptmeta"
 subcategory: "Web Security Resources"
 description: |-
-  Web content categories allow for tracking and regulating access to websites according to their content type to ensure acceptable use. These categories include websites that are classified as pornography, gambling, entertainment etc. Once defined, the categories are added to access rules, enabling the administrators to manage users' access to websites within these categories.For administrator convenience, the solution provides three default content categories (permissive, moderate and strict) which include pre-defined sets of website types.In addition to creating a category-based object, the administrator can define specific URLs that may trigger a rule violation.
+  Web content categories allow for tracking and regulating access to websites according to their content type to ensure acceptable use. These categories include websites that are classified as pornography, gambling, entertainment etc. Once defined, the categories are added to access rules, enabling the administrators to manage users' access to websites within these categories. For administrator convenience, the solution provides three default content categories (permissive, moderate and strict) which include pre-defined sets of website types. In addition to creating a category-based object, the administrator can define specific URLs that may trigger a rule violation.
 ---
 
 # Data Source (pfptmeta_content_category)
 
-Web content categories allow for tracking and regulating access to websites according to their content type to ensure acceptable use. These categories include websites that are classified as pornography, gambling, entertainment etc. Once defined, the categories are added to access rules, enabling the administrators to manage users' access to websites within these categories.For administrator convenience, the solution provides three default content categories (permissive, moderate and strict) which include pre-defined sets of website types.In addition to creating a category-based object, the administrator can define specific URLs that may trigger a rule violation.
+Web content categories allow for tracking and regulating access to websites according to their content type to ensure acceptable use. These categories include websites that are classified as pornography, gambling, entertainment etc. Once defined, the categories are added to access rules, enabling the administrators to manage users' access to websites within these categories. For administrator convenience, the solution provides three default content categories (permissive, moderate and strict) which include pre-defined sets of website types. In addition to creating a category-based object, the administrator can define specific URLs that may trigger a rule violation.
 
 ## Example Usage
 
