@@ -2,10 +2,6 @@ package provider
 
 import (
 	"context"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ip_network"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster_mapped_elements_attachment"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
@@ -13,6 +9,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
@@ -22,12 +19,14 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_users_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ip_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/location"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/log_streaming_access_bridge"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_domain"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/mapped_host"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster_mapped_elements_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_failover"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_mapped_elements_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/network_element"
