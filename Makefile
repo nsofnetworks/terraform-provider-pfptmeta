@@ -13,7 +13,7 @@ unittest:
 
 
 acc_tests:
-	TF_ACC=1 go test ./... $(if $(VERBOSE),"-v") -run "TestAcc*" -timeout 120m $(if $(TEST_KW),-run $(TEST_KW))
+	TF_ACC=1 go1.18 test ./... $(if $(VERBOSE),"-v") -run "TestAcc*" -timeout 120m $(if $(TEST_KW),-run $(TEST_KW))
 
 
 generate:

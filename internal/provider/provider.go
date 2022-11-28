@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster_mapped_elements_attachment"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -104,6 +105,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_trusted_network":             trusted_network.DataSource(),
 				"pfptmeta_user_settings":               user_settings.DataSource(),
 				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
+				//	SWG
+				"pfptmeta_content_category": content_category.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -139,6 +142,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_user_roles_attachment":                       user_roles_attachment.Resource(),
 				"pfptmeta_user_settings":                               user_settings.Resource(),
 				"pfptmeta_log_streaming_access_bridge":                 log_streaming_access_bridge.Resource(),
+				//	SWG
+				"pfptmeta_content_category": content_category.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
