@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ip_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/metaport_cluster_mapped_elements_attachment"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -107,6 +108,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
 				//	SWG
 				"pfptmeta_content_category": content_category.DataSource(),
+				"pfptmeta_ip_network":       ip_network.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -144,6 +146,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_log_streaming_access_bridge":                 log_streaming_access_bridge.Resource(),
 				//	SWG
 				"pfptmeta_content_category": content_category.Resource(),
+				"pfptmeta_ip_network":       ip_network.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
