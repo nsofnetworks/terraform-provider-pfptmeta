@@ -49,7 +49,7 @@ func contentCategoryRead(ctx context.Context, d *schema.ResourceData, meta inter
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
-			log.Printf("[WARN] Removing device_settings %s because it's gone", id)
+			log.Printf("[WARN] Removing content category %s because it's gone", id)
 			d.SetId("")
 			return
 		} else {
