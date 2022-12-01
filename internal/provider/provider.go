@@ -39,6 +39,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group_mapped_elements_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/threat_category"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/time_frame"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
@@ -110,6 +111,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_content_category": content_category.DataSource(),
 				"pfptmeta_ip_network":       ip_network.DataSource(),
 				"pfptmeta_threat_category":  threat_category.DataSource(),
+				"pfptmeta_time_frame":       time_frame.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -149,6 +151,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_content_category": content_category.Resource(),
 				"pfptmeta_ip_network":       ip_network.Resource(),
 				"pfptmeta_threat_category":  threat_category.Resource(),
+				"pfptmeta_time_frame":       time_frame.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
