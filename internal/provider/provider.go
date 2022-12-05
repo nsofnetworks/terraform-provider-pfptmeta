@@ -38,6 +38,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group_mapped_elements_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/tenant_restriction"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/threat_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/time_frame"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
@@ -108,10 +109,11 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_user_settings":               user_settings.DataSource(),
 				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
 				//	SWG
-				"pfptmeta_content_category": content_category.DataSource(),
-				"pfptmeta_ip_network":       ip_network.DataSource(),
-				"pfptmeta_threat_category":  threat_category.DataSource(),
-				"pfptmeta_time_frame":       time_frame.DataSource(),
+				"pfptmeta_content_category":   content_category.DataSource(),
+				"pfptmeta_ip_network":         ip_network.DataSource(),
+				"pfptmeta_threat_category":    threat_category.DataSource(),
+				"pfptmeta_time_frame":         time_frame.DataSource(),
+				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -148,10 +150,11 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_user_settings":                               user_settings.Resource(),
 				"pfptmeta_log_streaming_access_bridge":                 log_streaming_access_bridge.Resource(),
 				//	SWG
-				"pfptmeta_content_category": content_category.Resource(),
-				"pfptmeta_ip_network":       ip_network.Resource(),
-				"pfptmeta_threat_category":  threat_category.Resource(),
-				"pfptmeta_time_frame":       time_frame.Resource(),
+				"pfptmeta_content_category":   content_category.Resource(),
+				"pfptmeta_ip_network":         ip_network.Resource(),
+				"pfptmeta_threat_category":    threat_category.Resource(),
+				"pfptmeta_time_frame":         time_frame.Resource(),
+				"pfptmeta_tenant_restriction": tenant_restriction.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
