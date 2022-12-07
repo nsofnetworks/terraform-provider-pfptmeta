@@ -7,6 +7,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/access_control"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/catalog_app"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
@@ -113,6 +114,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_ip_network":         ip_network.DataSource(),
 				"pfptmeta_threat_category":    threat_category.DataSource(),
 				"pfptmeta_time_frame":         time_frame.DataSource(),
+				"pfptmeta_catalog_app":        catalog_app.DataSource(),
 				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
