@@ -9,6 +9,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/catalog_app"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/certificate"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/cloud_app"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/content_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
@@ -116,6 +117,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_time_frame":         time_frame.DataSource(),
 				"pfptmeta_catalog_app":        catalog_app.DataSource(),
 				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
+				"pfptmeta_cloud_app":        cloud_app.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -157,6 +159,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_threat_category":    threat_category.Resource(),
 				"pfptmeta_time_frame":         time_frame.Resource(),
 				"pfptmeta_tenant_restriction": tenant_restriction.Resource(),
+				"pfptmeta_cloud_app":        cloud_app.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)

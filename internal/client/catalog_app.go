@@ -52,3 +52,21 @@ func GetCatalogAppByName(ctx context.Context, c *Client, name, category string) 
 	}
 	return nil, fmt.Errorf("could not find catalog app with the name %s", name)
 }
+func GetCatalogAppByID(ctx context.Context, c *Client, caId string) (*CatalogApp, error) {
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, catalogAppsEndpoint, caId)
+	resp, err := c.Get(ctx, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("could not read catalog app response: %v", err)
+	}
+	ca := &CatalogApp{}
+	err = json.Unmarshal(body, ca)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse catalog app response: %v", err)
+	}
+	return ca, nil
+}
