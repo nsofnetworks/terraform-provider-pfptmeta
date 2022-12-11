@@ -44,6 +44,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/threat_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/time_frame"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/url_filtering_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_settings"
@@ -117,7 +118,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_time_frame":         time_frame.DataSource(),
 				"pfptmeta_catalog_app":        catalog_app.DataSource(),
 				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
-				"pfptmeta_cloud_app":        cloud_app.DataSource(),
+				"pfptmeta_cloud_app":          cloud_app.DataSource(),
+				"pfptmeta_url_filtering_rule": url_filtering_rule.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -159,7 +161,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_threat_category":    threat_category.Resource(),
 				"pfptmeta_time_frame":         time_frame.Resource(),
 				"pfptmeta_tenant_restriction": tenant_restriction.Resource(),
-				"pfptmeta_cloud_app":        cloud_app.Resource(),
+				"pfptmeta_cloud_app":          cloud_app.Resource(),
+				"pfptmeta_url_filtering_rule": url_filtering_rule.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
