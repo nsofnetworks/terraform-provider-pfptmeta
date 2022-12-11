@@ -54,7 +54,8 @@ func Resource() *schema.Resource {
 						"Remote Access Service", "Scanner", "Self Signed SSL", "SPAM URLs", "Spyware and Adware",
 						"Tor", "Undesirable", "Utility", "VPN"),
 				},
-				Optional: true,
+				Optional:     true,
+				AtLeastOneOf: []string{"types", "countries"},
 			},
 			"countries": {
 				Description: countriesDesc,
@@ -79,7 +80,8 @@ func Resource() *schema.Resource {
 						"US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM",
 						"ZW"),
 				},
-				Optional: true,
+				Optional:     true,
+				AtLeastOneOf: []string{"types", "countries"},
 			},
 		},
 	}
