@@ -17,9 +17,9 @@ vast Proofpoint catalog or defined via a specific URL.
 	appDesc    = "The ID of the [catalog_app](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/data-sources/catalog_app) data-source."
 	urlsDesc   = "A list of URLs to associate with this cloud app."
 	tenantDesc = `Specific tenant ID of the app on which the cloud application rule should be applied. 
-Valid only for catalog apps that have [tenant_corp_id_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/catalog_app#tenant_corp_id_support) set to true`
+Valid only for catalog apps that have [tenant_corp_id_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/data-sources/catalog_app#tenant_corp_id_support) set to true`
 	tenantTypeDesc = "ENUM: `All`, `Personal`, `Corporate` (Defaults to All). " +
-		"Valid only for catalog apps that have [tenant_type_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/catalog_app#tenant_type_support) set to true"
+		"Valid only for catalog apps that have [tenant_type_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/data-sources/catalog_app#tenant_type_support) set to true"
 )
 
 var excludedKeys = []string{"id"}

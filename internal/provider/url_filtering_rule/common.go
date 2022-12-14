@@ -51,12 +51,12 @@ With these measures, you can enforce company security policies and filter malici
 	expressionDesc = `Defines filtering expressions to ensure granularity in URL filtering rule application.
 These expressions consist of the **{Key:Value}** tags according to the internal and external risk factors obtained from the following sources:
 
-- Proofpoint’s Nexus People Risk Explorer (NPRE).
-- Proofpoint’s Targeted Attack Protection (TAP).
-- CrowdStrike’s Falcon Zero Trust Assessment (ZTA).
-- Configured posture checks.
-- User-defined tags.
-- Auto-generated tags, such as platform type, device type, etc.
+	- Proofpoint’s Nexus People Risk Explorer (NPRE).
+	- Proofpoint’s Targeted Attack Protection (TAP).
+	- CrowdStrike’s Falcon Zero Trust Assessment (ZTA).
+	- Configured posture checks.
+	- User-defined tags.
+	- Auto-generated tags, such as platform type, device type, etc.
 `
 	contentCategoriesDesc = "List of [content category](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/content_category) IDs which the URL filtering rule should restrict."
 	networkDesc           = "List of source [IP network](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/ip_network) IDs the URL filtering rule applies on"

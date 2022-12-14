@@ -36,7 +36,7 @@ output "content_category" {
 - `id` (String) The ID of this resource.
 - `name` (String)
 - `tenant` (String) Specific tenant ID of the app on which the cloud application rule should be applied. 
-Valid only for catalog apps that have [tenant_corp_id_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/catalog_app#tenant_corp_id_support) set to true
-- `tenant_type` (String) ENUM: `All`, `Personal`, `Corporate` (Defaults to All). Valid only for catalog apps that have [tenant_type_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/catalog_app#tenant_type_support) set to true
+Valid only for catalog apps that have [tenant_corp_id_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/data-sources/catalog_app#tenant_corp_id_support) set to true
+- `tenant_type` (String) ENUM: `All`, `Personal`, `Corporate` (Defaults to All). Valid only for catalog apps that have [tenant_type_support](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/data-sources/catalog_app#tenant_type_support) set to true
 - `type` (String)
 - `urls` (List of String) A list of URLs to associate with this cloud app.
