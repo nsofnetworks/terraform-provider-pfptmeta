@@ -27,6 +27,11 @@ pipeline {
                     sh "cp -r ./ ${env.WORKING_DIR}"
                 }
             }
+            stage('Lint & Doc') {
+                    steps {
+                        sh "cd ${env.WORKING_DIR} && make verify_clean"
+                    }
+                }
         stage('Tests') {
                 steps {
                 withCredentials([
