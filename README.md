@@ -5,39 +5,13 @@ See the [Proofpoint - Meta Networks Provider documentation](docs/index.md) to ge
 ## Requirements
 
 - [Terraform](https://www.terraform.io/downloads.html) 0.12.x or higher
-- [Go](https://golang.org/doc/install) >= 1.13
-- [Goreleaser](https://goreleaser.com/install/)
-
-## Building The Provider
-
-1. Clone the repository
-2. Enter the repository directory
-3. Build the provider using the Go `install` command:
-```sh
-$ go install
-```
+- [Go](https://golang.org/doc/install) >= 1.18
 
 ## Developing the Provider
 
-### Adding Dependencies
-
-This provider uses [Go modules](https://github.com/golang/go/wiki/Modules).
-Please see the Go documentation for the most up-to-date information about using Go modules.
-
-To add a new dependency `github.com/author/dependency` to your Terraform provider:
-
-```sh
-$ go get github.com/author/dependency
-$ make mod-tidy
-```
-
-Then commit the changes to `go.mod` and `go.sum`.
-
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (see [Requirements](#requirements) above).
-
 To compile and run the provider locally run:
 ```sh
-$ make debug-mode
+$ make debug-build
 ```
 And then export the printed `TF_REATTACH_PROVIDERS` as env variable.
 
@@ -67,7 +41,7 @@ In order to run the full suite of Acceptance tests:
 $ make acc_tests
 ```
 
-In order to tun unit-tests only run
+In order to run unit-tests only run
 ```shell
 $ make unittest
 ```
