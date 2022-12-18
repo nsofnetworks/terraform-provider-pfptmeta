@@ -7,7 +7,7 @@ description: |-
   the user identity is bound to the device of the logging request, and a certificate is issued to this machine.
 ---
 
-# Resource (pfptmeta_device)
+# Resourc (pfptmeta_device)
 
 When a user is onboarded to the Proofpoint NaaS platform via Proofpoint Agent,
 the user identity is bound to the device of the logging request, and a certificate is issued to this machine.
