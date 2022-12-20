@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
@@ -37,6 +38,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/policy"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/posture_check"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/protocol_group"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/proxy_port_range"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/role"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/routing_group_mapped_elements_attachment"
@@ -120,6 +122,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
 				"pfptmeta_cloud_app":          cloud_app.DataSource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.DataSource(),
+				"pfptmeta_proxy_port_range":   proxy_port_range.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -163,6 +166,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_tenant_restriction": tenant_restriction.Resource(),
 				"pfptmeta_cloud_app":          cloud_app.Resource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.Resource(),
+				"pfptmeta_proxy_port_range":   proxy_port_range.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
