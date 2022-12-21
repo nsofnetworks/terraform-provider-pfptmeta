@@ -1,6 +1,7 @@
 # Terraform Provider for Proofpoint - Meta Networks
 
 See the [Proofpoint - Meta Networks Provider documentation](docs/index.md) to get started using the provider.
+Terraform proofpoint registry: https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs
 
 ## Requirements
 
