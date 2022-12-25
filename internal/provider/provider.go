@@ -15,6 +15,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/dlp_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
@@ -120,6 +121,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_tenant_restriction": tenant_restriction.DataSource(),
 				"pfptmeta_cloud_app":          cloud_app.DataSource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.DataSource(),
+				"pfptmeta_dlp_rule":           dlp_rule.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -163,6 +165,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_tenant_restriction": tenant_restriction.Resource(),
 				"pfptmeta_cloud_app":          cloud_app.Resource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.Resource(),
+				"pfptmeta_dlp_rule":           dlp_rule.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
