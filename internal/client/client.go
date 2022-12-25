@@ -317,7 +317,7 @@ func (c *Client) Post(ctx context.Context, url string, body io.Reader) (*http.Re
 func (c *Client) Patch(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
 	var resp *http.Response
 	var err error
-	req, err := http.NewRequest(http.MethodPatch, url, body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPatch, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -329,7 +329,7 @@ func (c *Client) Patch(ctx context.Context, url string, body io.Reader) (*http.R
 }
 
 func (c *Client) Put(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
-	req, err := http.NewRequest(http.MethodPut, url, body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, body)
 	if err != nil {
 		return nil, err
 	}
