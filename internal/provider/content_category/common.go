@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 	"log"
 	"net/http"
 )
@@ -25,21 +26,8 @@ const (
 		"The classification engines classify URLs under certain categories with some degree of confidence based on various factors. " +
 		"The higher this confidence value is, the more certain is the engine in stating that the URL is indeed classified under that content type."
 	forbidUncategorizedUrlDesc = "Whether to forbid access to uncategorized URLs."
-	typesDesc                  = "Enum:`Abortion`,`AbusedDrugs`,`AdultandPornography`,`AlcoholandTobacco`," +
-		"`Auctions`,`BusinessandEconomy`,`Cheating`,`ComputerandInternetInfo`,`ComputerandInternetSecurity`," +
-		"`ContentDeliveryNetworks`,`CultandOccult`,`Dating`,`DeadSites`,`DynamicallyGeneratedContent`," +
-		"`EducationalInstitutions`,`EntertainmentandArts`,`FashionandBeauty`,`FinancialServices`," +
-		"`Gambling`,`Games`,`Government`,`Gross`,`Hacking`,`HateandRacism`,`HealthandMedicine`," +
-		"`HomeandGarden`,`HuntingandFishing`,`Illegal`,`ImageandVideoSearch`," +
-		"`IndividualStockAdviceandTools`,`InternetPortals`,`InternetCommunications`,`JobSearch`,`Kids`," +
-		"`Legal`,`LocalInformation`,`Marijuana`,`Military`,`MotorVehicles`,`Music`,`NewsandMedia`,`Nudity`," +
-		"`OnlineGreetingCards`,`ParkedDomains`,`PaytoSurf`,`PersonalsitesandBlogs`,`PersonalStorage`," +
-		"`PhilosophyandPoliticalAdvocacy`,`Questionable`,`RealEstate`,`RecreationandHobbies`," +
-		"`ReferenceandResearch`,`Religion`,`SearchEngines`,`SexEducation`,`SharewareandFreeware`,`Shopping`," +
-		"`SocialNetworking`,`Society`,`Sports`,`StreamingMedia`,`SwimsuitsandIntimateApparel`," +
-		"`TrainingandTools`,`Translation`,`Travel`,`Violence`,`Weapons`,`WebAdvertisements`,`Web-basedEmail`," +
-		"`WebHosting`"
-	urlsDesc = "A list of URLs to put under this custom content category."
+	typesDesc                  = "Enum:" + common.ContentTypesDoc
+	urlsDesc                   = "A list of URLs to put under this custom content category."
 )
 
 func contentCategoryRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
