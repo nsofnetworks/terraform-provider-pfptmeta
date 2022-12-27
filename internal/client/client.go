@@ -246,9 +246,9 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	r.Header.Add("User-Agent", c.UserAgent)
 	switch r.Method {
 	case http.MethodPost, http.MethodPut:
-		r.Header.Set("Content-Type", "application/json")
+		r.Header.Add("Content-Type", "application/json")
 	case http.MethodPatch:
-		r.Header.Set("Content-Type", "application/merge-patch+json")
+		r.Header.Add("Content-Type", "application/merge-patch+json")
 	}
 	retryableRequest, err := retryablehttp.FromRequest(r)
 	if err != nil {
