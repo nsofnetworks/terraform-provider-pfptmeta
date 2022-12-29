@@ -47,7 +47,7 @@ const (
 		"`SG`,`SH`,`SI`,`SJ`,`SK`,`SL`,`SM`,`SN`,`SO`,`SR`,`SS`,`ST`,`SV`,`SX`,`SY`,`SZ`,`TC`,`TD`,`TF`,`TG`,`TH`,`TJ`," +
 		"`TK`,`TL`,`TM`,`TN`,`TO`,`TR`,`TT`,`TV`,`TW`,`TZ`,`UA`,`UG`,`UM`,`US`,`UY`,`UZ`,`VA`,`VC`,`VE`,`VG`,`VI`,`VN`," +
 		"`VU`,`WF`,`WS`,`YE`,`YT`,`ZA`,`ZM`,`ZW`"
-	ContentTypesDoc = "Abortion`, `Abused Drugs`, " +
+	ContentTypesDoc = "`Abortion`, `Abused Drugs`, " +
 		"`Adult and Pornography`, `Alcohol and Tobacco`, `Auctions`, `Business and Economy`, " +
 		"`Cheating`, `Computer and Internet Info`, `Computer and Internet Security`, " +
 		"`Content Delivery Networks`, `Cult and Occult`, `Dating`, `Dead Sites`, " +
