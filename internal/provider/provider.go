@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ssl_bypass_rule"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -127,6 +128,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_proxy_port_range":   proxy_port_range.DataSource(),
 				"pfptmeta_dlp_rule":           dlp_rule.DataSource(),
 				"pfptmeta_pac_file":           pac_file.DataSource(),
+				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -173,6 +175,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_proxy_port_range":   proxy_port_range.Resource(),
 				"pfptmeta_dlp_rule":           dlp_rule.Resource(),
 				"pfptmeta_pac_file":           pac_file.Resource(),
+				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
