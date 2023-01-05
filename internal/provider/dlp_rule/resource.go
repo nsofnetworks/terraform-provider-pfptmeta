@@ -5,8 +5,6 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 )
 
-const maxInt = int(^uint(0) >> 1)
-
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
