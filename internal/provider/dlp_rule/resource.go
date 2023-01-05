@@ -97,7 +97,7 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateID(false, "ca"),
 				},
 				Optional:      true,
-				ConflictsWith: []string{"resource_countries", "all_resources", "content_types", "threat_types"},
+				ConflictsWith: []string{"all_resources"},
 			},
 			"content_types": {
 				Description: contentTypesDesc,
@@ -108,7 +108,7 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateStringENUM(common.ContentTypes...),
 				},
 				Optional:      true,
-				ConflictsWith: []string{"resource_countries", "cloud_apps", "all_resources", "threat_types"},
+				ConflictsWith: []string{"all_resources"},
 			},
 			"detectors": {
 				Description: detectorsDesc,
@@ -166,7 +166,7 @@ func Resource() *schema.Resource {
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidateStringENUM(common.Countries...),
 				},
-				ConflictsWith: []string{"content_types", "all_resources", "all_resources", "threat_types"},
+				ConflictsWith: []string{"all_resources"},
 				Optional:      true,
 			},
 			"threat_types": {
@@ -183,7 +183,7 @@ func Resource() *schema.Resource {
 						"Remote Access Service", "Scanner", "Self Signed SSL", "SPAM URLs", "Spyware and Adware",
 						"Tor", "Undesirable", "Utility", "VPN"),
 				},
-				ConflictsWith: []string{"content_types", "all_resources", "all_resources", "resource_countries"},
+				ConflictsWith: []string{"all_resources"},
 				Optional:      true,
 			},
 			"user_actions": {
