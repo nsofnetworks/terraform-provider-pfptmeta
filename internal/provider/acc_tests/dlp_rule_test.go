@@ -73,7 +73,7 @@ func TestAccResourceDLPRule(t *testing.T) {
 	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
-		CheckDestroy:      validateResourceDestroyed("url_filtering_rule", "v1/url_filtering_rules"),
+		CheckDestroy:      validateResourceDestroyed("dlp_rule", "v1/dlp_rules"),
 		Steps: []resource.TestStep{
 			{
 				Config: dlpRuleDependencies + dlpResourceStep1,
@@ -122,7 +122,7 @@ func TestAccDataSourceDLPRule(t *testing.T) {
 	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
 		ProviderFactories: providerFactories,
-		CheckDestroy:      validateResourceDestroyed("url_filtering_rule", "v1/url_filtering_rules"),
+		CheckDestroy:      validateResourceDestroyed("dlp_rule", "v1/dlp_rules"),
 		Steps: []resource.TestStep{
 			{
 				Config: datasourceDLPDependencies + dlpForDataSource,
