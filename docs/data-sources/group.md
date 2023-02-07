@@ -42,4 +42,3 @@ output "group_by_name" {
 - `description` (String)
 - `expression` (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, parenthesis.
 - `id` (String) The ID of this resource.
-- `provisioned_by` (String)
