@@ -5,22 +5,22 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io/ioutil"
 	"net/http"
 	u "net/url"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 const groupEndpoint string = "v1/groups"
 
 type Group struct {
-	ID            string   `json:"id,omitempty"`
-	Name          string   `json:"name,omitempty"`
-	Description   string   `json:"description"`
-	Expression    *string  `json:"expression"`
-	ProvisionedBy string   `json:"provisioned_by,omitempty"`
-	Roles         []string `json:"roles,omitempty"`
-	Users         []string `json:"users,omitempty"`
+	ID          string   `json:"id,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	Description string   `json:"description"`
+	Expression  *string  `json:"expression"`
+	Roles       []string `json:"roles,omitempty"`
+	Users       []string `json:"users,omitempty"`
 }
 
 func NewGroup(d *schema.ResourceData) *Group {

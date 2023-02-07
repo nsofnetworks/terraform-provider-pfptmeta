@@ -32,10 +32,6 @@ func DataSource() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
-			"provisioned_by": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 		},
 	}
 }
