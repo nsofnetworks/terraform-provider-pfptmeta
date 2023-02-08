@@ -90,9 +90,9 @@ func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*Me
 		return nil, fmt.Errorf("could not parse metaport cluster response: %v", err)
 	}
 	tflog.Debug(ctx, "Fetched metaport clusters", map[string]interface{}{
-	   "name": name,
-       "clusters": len(respBody),
-    })
+		"name":     name,
+		"clusters": len(respBody),
+	})
 	var nameMatch []MetaportCluster
 	for _, m := range respBody {
 		if m.Name == name {
@@ -100,9 +100,9 @@ func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*Me
 		}
 	}
 	tflog.Debug(ctx, "Found metaport clusters", map[string]interface{}{
-	   "name": name,
-       "matched": len(nameMatch),
-    })
+		"name":    name,
+		"matched": len(nameMatch),
+	})
 	switch len(nameMatch) {
 	case 0:
 		return nil, fmt.Errorf("could not find metaport cluster with name \"%s\"", name)
