@@ -50,6 +50,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/threat_category"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/time_frame"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/trusted_network"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/tunnel"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/url_filtering_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/user_roles_attachment"
@@ -131,6 +132,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_pac_file":           pac_file.DataSource(),
 				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.DataSource(),
 				"pfptmeta_file_scanning_rule": file_scanning_rule.DataSource(),
+				"pfptmeta_tunnel":             tunnel.DataSource(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
 				"pfptmeta_network_element":                             network_element.Resource(),
@@ -179,6 +181,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_pac_file":           pac_file.Resource(),
 				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.Resource(),
 				"pfptmeta_file_scanning_rule": file_scanning_rule.Resource(),
+				"pfptmeta_tunnel":             tunnel.Resource(),
 			},
 		}
 		p.ConfigureContextFunc = configure(version, p)
