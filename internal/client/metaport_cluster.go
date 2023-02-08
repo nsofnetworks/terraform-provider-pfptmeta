@@ -91,7 +91,7 @@ func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*Me
 	}
 	tflog.Debug(ctx, "Fetched metaport clusters", map[string]interface{}{
 		"name":     name,
-		"clusters": len(respBody),
+		"clusters": respBody,
 	})
 	var nameMatch []MetaportCluster
 	for _, m := range respBody {
