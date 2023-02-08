@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"io/ioutil"
 	"net/http"
@@ -88,12 +89,20 @@ func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*Me
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport cluster response: %v", err)
 	}
+	tflog.Debug(ctx, "Fetched metaport clusters", map[string]interface{}{
+	   "name": name,
+       "clusters": len(respBody),
+    })
 	var nameMatch []MetaportCluster
 	for _, m := range respBody {
 		if m.Name == name {
 			nameMatch = append(nameMatch, m)
 		}
 	}
+	tflog.Debug(ctx, "Found metaport clusters", map[string]interface{}{
+	   "name": name,
+       "matched": len(nameMatch),
+    })
 	switch len(nameMatch) {
 	case 0:
 		return nil, fmt.Errorf("could not find metaport cluster with name \"%s\"", name)
