@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const TimeFramesEndpoint = "v1/time_frames"
@@ -50,14 +48,9 @@ func NewTimeFrame(d *schema.ResourceData) *TimeFrame {
 	return res
 }
 
-func parseTimeFrame(resp *http.Response) (*TimeFrame, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read time frame response: %v", err)
-	}
+func parseTimeFrame(resp []byte) (*TimeFrame, error) {
 	tf := &TimeFrame{}
-	err = json.Unmarshal(body, tf)
+	err := json.Unmarshal(resp, tf)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse time frame response: %v", err)
 	}

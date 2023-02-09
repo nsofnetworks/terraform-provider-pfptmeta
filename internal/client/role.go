@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const rolesEndpoint string = "/v1/roles"
@@ -50,14 +48,9 @@ func NewRole(d *schema.ResourceData) *Role {
 	return res
 }
 
-func parseRole(resp *http.Response) (*Role, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read role response body: %v", err)
-	}
+func parseRole(resp []byte) (*Role, error) {
 	pg := &Role{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse role response: %v", err)
 	}
@@ -104,10 +97,8 @@ func GetRoleByName(ctx context.Context, c *Client, name string) (*Role, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
 	roles := &[]Role{}
-	err = json.Unmarshal(body, roles)
+	err = json.Unmarshal(resp, roles)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse role response: %v", err)
 	}

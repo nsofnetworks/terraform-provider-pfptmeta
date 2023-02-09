@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	u "net/url"
 )
 
@@ -36,12 +35,7 @@ func GetCatalogAppByName(ctx context.Context, c *Client, name, category string) 
 	if err != nil {
 		return nil, fmt.Errorf("could not get catalog app %s: %v", name, err)
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read location response body")
-	}
-	err = json.Unmarshal(body, &res)
+	err = json.Unmarshal(resp, &res)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse catalog apps response: %v", err)
 	}
@@ -58,13 +52,8 @@ func GetCatalogAppByID(ctx context.Context, c *Client, caId string) (*CatalogApp
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read catalog app response: %v", err)
-	}
 	ca := &CatalogApp{}
-	err = json.Unmarshal(body, ca)
+	err = json.Unmarshal(resp, ca)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse catalog app response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -68,11 +66,9 @@ func NewFileScanningRule(d *schema.ResourceData) *FileScanningRule {
 	return res
 }
 
-func parseFileScanningRule(resp *http.Response) (*FileScanningRule, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseFileScanningRule(resp []byte) (*FileScanningRule, error) {
 	pg := &FileScanningRule{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse file scanning rule response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	"strconv"
 )
 
@@ -117,14 +115,9 @@ func NewDeviceSettings(d *schema.ResourceData) *DeviceSettings {
 	return res
 }
 
-func parseDeviceSettings(resp *http.Response) (*DeviceSettings, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read device settings response: %v", err)
-	}
+func parseDeviceSettings(resp []byte) (*DeviceSettings, error) {
 	ds := &DeviceSettings{}
-	err = json.Unmarshal(body, ds)
+	err := json.Unmarshal(resp, ds)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse device settings response: %v", err)
 	}

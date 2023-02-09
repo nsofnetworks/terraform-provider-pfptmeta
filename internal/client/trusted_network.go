@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const trustedNetworkEndpoint = "v1/trusted_networks"
@@ -100,11 +98,9 @@ func NewTrustedNetwork(d *schema.ResourceData) *TrustedNetwork {
 	return res
 }
 
-func parseTrustedNetwork(resp *http.Response) (*TrustedNetwork, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseTrustedNetwork(resp []byte) (*TrustedNetwork, error) {
 	e := &TrustedNetwork{}
-	err = json.Unmarshal(body, e)
+	err := json.Unmarshal(resp, e)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse trusted network response: %v", err)
 	}

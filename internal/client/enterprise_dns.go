@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -42,14 +40,9 @@ func newMappedDomains(d *schema.ResourceData) []MappedDomain {
 	return resp
 }
 
-func parseEnterpriseDNS(resp *http.Response) (*EnterpriseDNS, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read enterprise dns response body: %v", err)
-	}
+func parseEnterpriseDNS(resp []byte) (*EnterpriseDNS, error) {
 	ed := &EnterpriseDNS{}
-	err = json.Unmarshal(body, ed)
+	err := json.Unmarshal(resp, ed)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse enterprise dns response: %v", err)
 	}

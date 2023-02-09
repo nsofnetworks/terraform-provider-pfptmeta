@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -66,14 +64,9 @@ type NetworkElementResponse struct {
 	Aliases     []string `json:"aliases"`
 }
 
-func parseNetworkElement(resp *http.Response) (*NetworkElementResponse, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read network element response body: %v", err)
-	}
+func parseNetworkElement(resp []byte) (*NetworkElementResponse, error) {
 	networkElement := &NetworkElementResponse{}
-	err = json.Unmarshal(body, networkElement)
+	err := json.Unmarshal(resp, networkElement)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse network element response: %v", err)
 	}

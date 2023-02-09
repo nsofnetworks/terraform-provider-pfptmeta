@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	"strconv"
 )
 
@@ -77,14 +75,9 @@ func NewUserSettings(d *schema.ResourceData) *UserSettings {
 	return res
 }
 
-func parseUserSettings(resp *http.Response) (*UserSettings, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read user settings response: %v", err)
-	}
+func parseUserSettings(resp []byte) (*UserSettings, error) {
 	ds := &UserSettings{}
-	err = json.Unmarshal(body, ds)
+	err := json.Unmarshal(resp, ds)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse user settings response: %v", err)
 	}

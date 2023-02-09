@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -47,11 +45,9 @@ func NewMetaport(d *schema.ResourceData) *Metaport {
 	return res
 }
 
-func parseMetaport(resp *http.Response) (*Metaport, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseMetaport(resp []byte) (*Metaport, error) {
 	m := &Metaport{}
-	err = json.Unmarshal(body, m)
+	err := json.Unmarshal(resp, m)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport response: %v", err)
 	}
@@ -86,13 +82,8 @@ func GetMetaportByName(ctx context.Context, c *Client, name string) (*Metaport, 
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read metaport response")
-	}
 	var respBody []Metaport
-	err = json.Unmarshal(body, &respBody)
+	err = json.Unmarshal(resp, &respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport response: %v", err)
 	}

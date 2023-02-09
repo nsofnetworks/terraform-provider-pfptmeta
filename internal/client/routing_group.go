@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const routingGroupsEndpoint string = "v1/routing_groups"
@@ -39,11 +37,9 @@ func NewRoutingGroup(d *schema.ResourceData) *RoutingGroup {
 	return res
 }
 
-func parseRoutingGroup(resp *http.Response) (*RoutingGroup, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseRoutingGroup(resp []byte) (*RoutingGroup, error) {
 	pg := &RoutingGroup{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse routing group response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -39,11 +37,9 @@ func NewMetaportCluster(d *schema.ResourceData) *MetaportCluster {
 	return res
 }
 
-func parseMetaportCluster(resp *http.Response) (*MetaportCluster, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseMetaportCluster(resp []byte) (*MetaportCluster, error) {
 	mc := &MetaportCluster{}
-	err = json.Unmarshal(body, mc)
+	err := json.Unmarshal(resp, mc)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport cluster response: %v", err)
 	}
@@ -78,13 +74,8 @@ func GetMetaportClustertByName(ctx context.Context, c *Client, name string) (*Me
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read metaport cluster response")
-	}
 	var respBody []MetaportCluster
-	err = json.Unmarshal(body, &respBody)
+	err = json.Unmarshal(resp, &respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport cluster response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -146,11 +144,9 @@ func NewAccessBridge(d *schema.ResourceData) *AccessBridge {
 	return res
 }
 
-func parseAccessBridge(resp *http.Response) (*AccessBridge, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseAccessBridge(resp []byte) (*AccessBridge, error) {
 	e := &AccessBridge{}
-	err = json.Unmarshal(body, e)
+	err := json.Unmarshal(resp, e)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse access bridge response: %v", err)
 	}

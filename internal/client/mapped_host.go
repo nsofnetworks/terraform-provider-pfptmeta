@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 )
 
 type MappedHost struct {
@@ -20,11 +18,9 @@ func (mh *MappedHost) ReqBody() ([]byte, error) {
 	return json.Marshal(mh)
 }
 
-func parseMappedHost(resp *http.Response) (*MappedHost, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseMappedHost(resp []byte) (*MappedHost, error) {
 	mh := &MappedHost{}
-	err = json.Unmarshal(body, mh)
+	err := json.Unmarshal(resp, mh)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse network element response: %v", err)
 	}

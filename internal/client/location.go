@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 )
 
 const (
@@ -28,12 +27,7 @@ func GetLocation(ctx context.Context, c *Client, lName string) (*Location, error
 	if err != nil {
 		return nil, fmt.Errorf("could not get location %s: %v", lName, err)
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read location response body")
-	}
-	err = json.Unmarshal(body, location)
+	err = json.Unmarshal(resp, location)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse location response: %v", err)
 	}

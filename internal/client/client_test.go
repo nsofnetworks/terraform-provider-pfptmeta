@@ -127,7 +127,6 @@ func TestRetry(t *testing.T) {
 	}
 	req, _ := http.NewRequest(http.MethodGet, server.URL+"/v1/patch_200", nil)
 	resp, err := client.SendRequest(req)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Nil(t, err)
 	assert.Equal(t, 1, retryCounter)
 	req, _ = http.NewRequest(http.MethodGet, server.URL+"/v1/patch_400", nil)

@@ -235,7 +235,7 @@ func (c *Client) tokenRequest(ctx context.Context) error {
 	return nil
 }
 
-func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
+func (c *Client) SendRequest(r *http.Request) ([]byte, error) {
 	now := time.Now().Unix()
 	if c.Token == nil || c.TokenCreationTime+c.Token.Expiry-now < 30 {
 		err := c.tokenRequest(r.Context())
@@ -272,80 +272,55 @@ func (c *Client) SendRequest(r *http.Request) (*http.Response, error) {
 	case http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete:
 		time.Sleep(eventuallyConsistentSleep)
 	}
-	return resp, nil
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
 }
 
-func (c *Client) Get(ctx context.Context, url string, queryParams url.Values) (*http.Response, error) {
+func (c *Client) Get(ctx context.Context, url string, queryParams url.Values) ([]byte, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	req.URL.RawQuery = queryParams.Encode()
-	resp, err := c.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.SendRequest(req)
 }
 
-func (c *Client) Delete(ctx context.Context, url string, queryParams url.Values) (*http.Response, error) {
+func (c *Client) Delete(ctx context.Context, url string, queryParams url.Values) ([]byte, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, url, nil)
 	if err != nil {
 		return nil, err
 	}
 	req.URL.RawQuery = queryParams.Encode()
-	resp, err := c.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.SendRequest(req)
 }
 
-func (c *Client) Post(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
-	var resp *http.Response
+func (c *Client) Post(ctx context.Context, url string, body io.Reader) ([]byte, error) {
 	var err error
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
 	if err != nil {
 		return nil, err
 	}
-	resp, err = c.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.SendRequest(req)
 }
 
-func (c *Client) Patch(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
-	var resp *http.Response
+func (c *Client) Patch(ctx context.Context, url string, body io.Reader) ([]byte, error) {
 	var err error
 	req, err := http.NewRequestWithContext(ctx, http.MethodPatch, url, body)
 	if err != nil {
 		return nil, err
 	}
-	resp, err = c.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.SendRequest(req)
 }
 
-func (c *Client) Put(ctx context.Context, url string, body io.Reader) (*http.Response, error) {
+func (c *Client) Put(ctx context.Context, url string, body io.Reader) ([]byte, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, body)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.SendRequest(req)
 }
 
-func (c *Client) GetResource(ctx context.Context, resourceUrl, ID string) (*http.Response, error) {
+func (c *Client) GetResource(ctx context.Context, resourceUrl, ID string) ([]byte, error) {
 	u := fmt.Sprintf("%s/%s/%s", c.BaseURL, resourceUrl, ID)
-	resp, err := c.Get(ctx, u, nil)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return c.Get(ctx, u, nil)
 }

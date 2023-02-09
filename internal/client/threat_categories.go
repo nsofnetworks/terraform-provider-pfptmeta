@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -36,14 +34,9 @@ func NewThreatCategory(d *schema.ResourceData) *ThreatCategory {
 	return res
 }
 
-func parseThreatCategory(resp *http.Response) (*ThreatCategory, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read threat category response: %v", err)
-	}
+func parseThreatCategory(resp []byte) (*ThreatCategory, error) {
 	tc := &ThreatCategory{}
-	err = json.Unmarshal(body, tc)
+	err := json.Unmarshal(resp, tc)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse threat category response: %v", err)
 	}

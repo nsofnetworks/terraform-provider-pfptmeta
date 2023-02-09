@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 type Check struct {
@@ -80,11 +78,9 @@ func NewPostureCheck(d *schema.ResourceData) *PostureCheck {
 	return res
 }
 
-func parsePostureCheck(resp *http.Response) (*PostureCheck, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parsePostureCheck(resp []byte) (*PostureCheck, error) {
 	e := &PostureCheck{}
-	err = json.Unmarshal(body, e)
+	err := json.Unmarshal(resp, e)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse posture check response: %v", err)
 	}

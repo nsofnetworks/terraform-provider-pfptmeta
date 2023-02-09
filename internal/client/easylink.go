@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -119,14 +117,9 @@ func NewEasyLink(d *schema.ResourceData) *EasyLink {
 	return res
 }
 
-func parseEasyLink(resp *http.Response) (*EasyLink, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read easy link response: %v", err)
-	}
+func parseEasyLink(resp []byte) (*EasyLink, error) {
 	e := &EasyLink{}
-	err = json.Unmarshal(body, e)
+	err := json.Unmarshal(resp, e)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse easy link response: %v", err)
 	}

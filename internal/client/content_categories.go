@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -37,14 +35,9 @@ func NewContentCategory(d *schema.ResourceData) *ContentCategory {
 	return res
 }
 
-func parseContentCategory(resp *http.Response) (*ContentCategory, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read content category response: %v", err)
-	}
+func parseContentCategory(resp []byte) (*ContentCategory, error) {
 	ds := &ContentCategory{}
-	err = json.Unmarshal(body, ds)
+	err := json.Unmarshal(resp, ds)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse content category response: %v", err)
 	}

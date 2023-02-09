@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const egressRouteEndpoint = "v1/egress_routes"
@@ -40,11 +38,9 @@ func NewEgressRoute(d *schema.ResourceData) *EgressRoute {
 	return res
 }
 
-func parseEgressRoute(resp *http.Response) (*EgressRoute, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseEgressRoute(resp []byte) (*EgressRoute, error) {
 	e := &EgressRoute{}
-	err = json.Unmarshal(body, e)
+	err := json.Unmarshal(resp, e)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse egress route response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -86,11 +84,9 @@ func NewMetaportFailover(d *schema.ResourceData) *MetaportFailover {
 	return res
 }
 
-func parseMetaportFailover(resp *http.Response) (*MetaportFailover, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseMetaportFailover(resp []byte) (*MetaportFailover, error) {
 	mf := &MetaportFailover{}
-	err = json.Unmarshal(body, mf)
+	err := json.Unmarshal(resp, mf)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse metaport failover response: %v", err)
 	}

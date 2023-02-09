@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -46,14 +44,9 @@ func NewDevice(d *schema.ResourceData) *Device {
 	return res
 }
 
-func parseDevice(resp *http.Response) (*Device, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read device response body: %v", err)
-	}
+func parseDevice(resp []byte) (*Device, error) {
 	device := &Device{}
-	err = json.Unmarshal(body, device)
+	err := json.Unmarshal(resp, device)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse device response: %v", err)
 	}

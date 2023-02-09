@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 )
 
 type MappedDomain struct {
@@ -20,14 +18,9 @@ func (md *MappedDomain) ReqBody() ([]byte, error) {
 	return json.Marshal(md)
 }
 
-func parseMappedDomain(resp *http.Response) (*MappedDomain, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read mapped domain response body: %v", err)
-	}
+func parseMappedDomain(resp []byte) (*MappedDomain, error) {
 	md := &MappedDomain{}
-	err = json.Unmarshal(body, md)
+	err := json.Unmarshal(resp, md)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse network element response: %v", err)
 	}

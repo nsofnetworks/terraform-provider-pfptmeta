@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -67,11 +65,9 @@ func NewUrlFilteringRule(d *schema.ResourceData) *UrlFilteringRule {
 	return res
 }
 
-func parseUrlFilteringRule(resp *http.Response) (*UrlFilteringRule, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseUrlFilteringRule(resp []byte) (*UrlFilteringRule, error) {
 	pg := &UrlFilteringRule{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse url filtering rule response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -53,14 +51,9 @@ func NewUser(d *schema.ResourceData) *User {
 	return res
 }
 
-func parseUser(resp *http.Response) (*User, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read user response body: %v", err)
-	}
+func parseUser(resp []byte) (*User, error) {
 	user := &User{}
-	err = json.Unmarshal(body, user)
+	err := json.Unmarshal(resp, user)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse user response: %v", err)
 	}
@@ -108,15 +101,10 @@ func GetUserByEmail(ctx context.Context, c *Client, email string) (*User, error)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read user response body: %v", err)
-	}
 	respBody := &struct {
 		Users []User `json:"items"`
 	}{}
-	err = json.Unmarshal(body, respBody)
+	err = json.Unmarshal(resp, respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse user response: %v", err)
 	}

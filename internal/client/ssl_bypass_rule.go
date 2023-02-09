@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -45,11 +43,9 @@ func NewSSLBypassRule(d *schema.ResourceData) *SSLBypassRule {
 	return res
 }
 
-func parseSSLBypassRule(resp *http.Response) (*SSLBypassRule, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseSSLBypassRule(resp []byte) (*SSLBypassRule, error) {
 	pg := &SSLBypassRule{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse ssl bypass rule response: %v", err)
 	}

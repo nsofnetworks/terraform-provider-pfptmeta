@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -37,14 +35,9 @@ func NewCertificate(d *schema.ResourceData) *Certificate {
 	return res
 }
 
-func parseCertificate(resp *http.Response) (*Certificate, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read certificate response body: %v", err)
-	}
+func parseCertificate(resp []byte) (*Certificate, error) {
 	c := &Certificate{}
-	err = json.Unmarshal(body, c)
+	err := json.Unmarshal(resp, c)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse certificate response: %v", err)
 	}

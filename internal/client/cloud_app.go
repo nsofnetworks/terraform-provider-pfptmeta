@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -51,14 +49,9 @@ func validateCatalogApp(ctx context.Context, c *Client, ca *CloudApp) error {
 	return nil
 }
 
-func parseCloudApp(resp *http.Response) (*CloudApp, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read cloud app response body: %v", err)
-	}
+func parseCloudApp(resp []byte) (*CloudApp, error) {
 	c := &CloudApp{}
-	err = json.Unmarshal(body, c)
+	err := json.Unmarshal(resp, c)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse cloud app response: %v", err)
 	}

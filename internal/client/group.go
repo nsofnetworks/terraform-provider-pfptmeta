@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -38,11 +36,9 @@ func NewGroup(d *schema.ResourceData) *Group {
 	return res
 }
 
-func parseGroup(resp *http.Response) (*Group, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseGroup(resp []byte) (*Group, error) {
 	g := &Group{}
-	err = json.Unmarshal(body, g)
+	err := json.Unmarshal(resp, g)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse group response: %v", err)
 	}
@@ -89,12 +85,10 @@ func GetGroupByName(ctx context.Context, c *Client, name string) (*Group, error)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
 	respBody := &struct {
 		Groups []Group `json:"items"`
 	}{}
-	err = json.Unmarshal(body, respBody)
+	err = json.Unmarshal(resp, respBody)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse group response: %v", err)
 	}

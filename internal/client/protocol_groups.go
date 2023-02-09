@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const protocolGroupsEndpoint string = "/v1/protocol_groups"
@@ -41,11 +39,9 @@ func NewProtocolGroup(d *schema.ResourceData) *ProtocolGroup {
 	return res
 }
 
-func parseProtocolGroup(resp *http.Response) (*ProtocolGroup, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseProtocolGroup(resp []byte) (*ProtocolGroup, error) {
 	pg := &ProtocolGroup{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse protocol group response: %v", err)
 	}
@@ -92,10 +88,8 @@ func GetProtocolGroupByName(ctx context.Context, c *Client, name string) (*Proto
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
 	pgs := &[]ProtocolGroup{}
-	err = json.Unmarshal(body, pgs)
+	err = json.Unmarshal(resp, pgs)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse protocol group response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const (
@@ -135,11 +133,9 @@ func NewNotificationChannel(d *schema.ResourceData) *NotificationChannel {
 	return res
 }
 
-func parseNotificationChannel(resp *http.Response) (*NotificationChannel, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseNotificationChannel(resp []byte) (*NotificationChannel, error) {
 	nc := &NotificationChannel{}
-	err = json.Unmarshal(body, nc)
+	err := json.Unmarshal(resp, nc)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse notification channel response: %v", err)
 	}

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const (
@@ -80,11 +78,9 @@ func NewTenantRestriction(d *schema.ResourceData) *TenantRestriction {
 	return res
 }
 
-func parseTenantRestriction(resp *http.Response) (*TenantRestriction, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseTenantRestriction(resp []byte) (*TenantRestriction, error) {
 	nc := &TenantRestriction{}
-	err = json.Unmarshal(body, nc)
+	err := json.Unmarshal(resp, nc)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse tenant restriction response: %v", err)
 	}

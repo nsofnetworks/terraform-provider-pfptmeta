@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -38,11 +37,9 @@ func NewPacFile(d *schema.ResourceData) *PacFile {
 	return res
 }
 
-func parsePacFile(resp *http.Response) (*PacFile, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parsePacFile(resp []byte) (*PacFile, error) {
 	pg := &PacFile{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse pac file response: %v", err)
 	}
@@ -99,9 +96,7 @@ func GetPacFileContent(ctx context.Context, c *Client, pfID string) (*string, er
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	decodedResp, err := ioutil.ReadAll(resp.Body)
-	strResp := string(decodedResp)
+	strResp := string(resp)
 	return &strResp, nil
 }
 

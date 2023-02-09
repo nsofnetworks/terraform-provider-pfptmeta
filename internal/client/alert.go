@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const alertEndpoint string = "v1/alerts"
@@ -89,14 +87,9 @@ func NewAlert(d *schema.ResourceData) *Alert {
 	return res
 }
 
-func parseAlert(resp *http.Response) (*Alert, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read alert response: %v", err)
-	}
+func parseAlert(resp []byte) (*Alert, error) {
 	a := &Alert{}
-	err = json.Unmarshal(body, a)
+	err := json.Unmarshal(resp, a)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse alert response: %v", err)
 	}

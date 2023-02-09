@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 	u "net/url"
 )
 
@@ -70,11 +68,9 @@ func NewDLPRule(d *schema.ResourceData) *DLPRule {
 	return res
 }
 
-func parseDLPRule(resp *http.Response) (*DLPRule, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parseDLPRule(resp []byte) (*DLPRule, error) {
 	pg := &DLPRule{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse dlp rule response: %v", err)
 	}

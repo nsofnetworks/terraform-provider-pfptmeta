@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"io/ioutil"
-	"net/http"
 )
 
 const policyEndpoint string = "v1/policies"
@@ -43,11 +41,9 @@ func NewPolicy(d *schema.ResourceData) *Policy {
 	return res
 }
 
-func parsePolicy(resp *http.Response) (*Policy, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func parsePolicy(resp []byte) (*Policy, error) {
 	pg := &Policy{}
-	err = json.Unmarshal(body, pg)
+	err := json.Unmarshal(resp, pg)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse policy response: %v", err)
 	}

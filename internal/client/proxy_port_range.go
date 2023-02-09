@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -35,14 +33,9 @@ func NewProxyPortRange(d *schema.ResourceData) *ProxyPortRange {
 	return res
 }
 
-func parseProxyPortRange(resp *http.Response) (*ProxyPortRange, error) {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("could not read proxy port range response: %v", err)
-	}
+func parseProxyPortRange(resp []byte) (*ProxyPortRange, error) {
 	ppr := &ProxyPortRange{}
-	err = json.Unmarshal(body, ppr)
+	err := json.Unmarshal(resp, ppr)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse proxy port range response: %v", err)
 	}
