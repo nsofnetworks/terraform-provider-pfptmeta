@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -113,7 +112,7 @@ func CreateTrustedNetwork(ctx context.Context, c *Client, e *TrustedNetwork) (*T
 	if err != nil {
 		return nil, fmt.Errorf("could not convert trusted network to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +134,7 @@ func UpdateTrustedNetwork(ctx context.Context, c *Client, eID string, e *Trusted
 	if err != nil {
 		return nil, fmt.Errorf("could not convert trusted network to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

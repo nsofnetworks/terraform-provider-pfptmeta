@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -36,7 +35,7 @@ func AssignTagsToResource(ctx context.Context, c *Client, rID, rName string, tag
 		return fmt.Errorf("could not convert tags to json: %v", err)
 	}
 	url := fmt.Sprintf("%s/v1/%s/%s/tags", c.BaseURL, rName, rID)
-	_, err = c.Put(ctx, url, bytes.NewReader(body))
+	_, err = c.Put(ctx, url, body)
 	if err != nil {
 		return err
 	}

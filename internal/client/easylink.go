@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -132,7 +131,7 @@ func CreateEasyLink(ctx context.Context, c *Client, e *EasyLink) (*EasyLink, err
 	if err != nil {
 		return nil, fmt.Errorf("could not convert easy link to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +153,7 @@ func UpdateEasyLink(ctx context.Context, c *Client, eID string, e *EasyLink) (*E
 	if err != nil {
 		return nil, fmt.Errorf("could not convert easy link to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -176,7 +175,7 @@ func UpdateEasylinkProxy(ctx context.Context, c *Client, eID string, p *Proxy) e
 	if err != nil {
 		return fmt.Errorf("could not convert proxy to json: %v", err)
 	}
-	_, err = c.Patch(ctx, url, bytes.NewReader(body))
+	_, err = c.Patch(ctx, url, body)
 	if err != nil {
 		return err
 	}
@@ -189,7 +188,7 @@ func UpdateEasylinkRdp(ctx context.Context, c *Client, eID string, r *Rdp) error
 	if err != nil {
 		return fmt.Errorf("could not convert rdp to json: %v", err)
 	}
-	_, err = c.Patch(ctx, url, bytes.NewReader(body))
+	_, err = c.Patch(ctx, url, body)
 	if err != nil {
 		return err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -55,7 +54,7 @@ func CreateEnterpriseDNS(ctx context.Context, c *Client, ed *EnterpriseDNS) (*En
 	if err != nil {
 		return nil, fmt.Errorf("could not convert enterprise dns to json: %v", err)
 	}
-	resp, err := c.Post(ctx, edUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, edUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +67,7 @@ func UpdateEnterpriseDNS(ctx context.Context, c *Client, edID string, ed *Enterp
 	if err != nil {
 		return nil, fmt.Errorf("could not convert enterprise dns to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, edUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, edUrl, body)
 	if err != nil {
 		return nil, err
 	}

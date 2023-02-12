@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -130,7 +129,7 @@ func CreateDeviceSettings(ctx context.Context, c *Client, ds *DeviceSettings) (*
 	if err != nil {
 		return nil, fmt.Errorf("could not convert device settings to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -143,7 +142,7 @@ func UpdateDeviceSettings(ctx context.Context, c *Client, dsID string, ds *Devic
 	if err != nil {
 		return nil, fmt.Errorf("could not convert device settings to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

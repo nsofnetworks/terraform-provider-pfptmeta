@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -81,7 +80,7 @@ func CreateFileScanningRule(ctx context.Context, c *Client, rg *FileScanningRule
 	if err != nil {
 		return nil, fmt.Errorf("could not convert file scanning rule to json: %v", err)
 	}
-	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +93,7 @@ func UpdateFileScanningRule(ctx context.Context, c *Client, rgID string, rg *Fil
 	if err != nil {
 		return nil, fmt.Errorf("could not convert file scanning rule to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}

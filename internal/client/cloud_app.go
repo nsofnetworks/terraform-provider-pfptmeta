@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -67,7 +66,7 @@ func CreateCloudApp(ctx context.Context, c *Client, ca *CloudApp) (*CloudApp, er
 	if err != nil {
 		return nil, fmt.Errorf("could not convert cloud app to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +82,7 @@ func UpdateCloudApp(ctx context.Context, c *Client, cID string, ca *CloudApp) (*
 	if err != nil {
 		return nil, fmt.Errorf("could not convert cloud app to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

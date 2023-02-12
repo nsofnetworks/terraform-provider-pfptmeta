@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -63,7 +62,7 @@ func CreateRole(ctx context.Context, c *Client, r *Role) (*Role, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not convert role to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +75,7 @@ func UpdateRole(ctx context.Context, c *Client, rID string, r *Role) (*Role, err
 	if err != nil {
 		return nil, fmt.Errorf("could not convert role to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}

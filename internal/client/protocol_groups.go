@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -54,7 +53,7 @@ func CreateProtocolGroup(ctx context.Context, c *Client, pg *ProtocolGroup) (*Pr
 	if err != nil {
 		return nil, fmt.Errorf("could not convert protocol group to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +66,7 @@ func UpdateProtocolGroup(ctx context.Context, c *Client, pgID string, pg *Protoc
 	if err != nil {
 		return nil, fmt.Errorf("could not convert protocol group to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}

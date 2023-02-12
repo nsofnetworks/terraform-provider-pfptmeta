@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -56,7 +55,7 @@ func CreatePolicy(ctx context.Context, c *Client, rg *Policy) (*Policy, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not convert policy to json: %v", err)
 	}
-	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +68,7 @@ func UpdatePolicy(ctx context.Context, c *Client, rgID string, rg *Policy) (*Pol
 	if err != nil {
 		return nil, fmt.Errorf("could not convert policy to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}

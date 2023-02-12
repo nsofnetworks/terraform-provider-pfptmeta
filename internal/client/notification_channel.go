@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -148,7 +147,7 @@ func CreateNotificationChannel(ctx context.Context, c *Client, nc *NotificationC
 	if err != nil {
 		return nil, fmt.Errorf("could not convert notification channel to json: %v", err)
 	}
-	resp, err := c.Post(ctx, ncUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, ncUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +160,7 @@ func UpdateNotificationChannel(ctx context.Context, c *Client, ncID string, nc *
 	if err != nil {
 		return nil, fmt.Errorf("could not convert notification channel to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, ncUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, ncUrl, body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -93,7 +92,7 @@ func CreateTenantRestriction(ctx context.Context, c *Client, tr *TenantRestricti
 	if err != nil {
 		return nil, fmt.Errorf("could not convert tenant restriction to json: %v", err)
 	}
-	resp, err := c.Post(ctx, trUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, trUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +105,7 @@ func UpdateTenantRestriction(ctx context.Context, c *Client, trID string, tr *Te
 	if err != nil {
 		return nil, fmt.Errorf("could not convert tenant restriction to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, ncUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, ncUrl, body)
 	if err != nil {
 		return nil, err
 	}

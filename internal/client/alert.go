@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -102,7 +101,7 @@ func CreateAlert(ctx context.Context, c *Client, a *Alert) (*Alert, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not convert alert to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +114,7 @@ func UpdateAlert(ctx context.Context, c *Client, aID string, a *Alert) (*Alert, 
 	if err != nil {
 		return nil, fmt.Errorf("could not convert alert to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

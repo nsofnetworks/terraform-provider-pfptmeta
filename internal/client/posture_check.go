@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -93,7 +92,7 @@ func CreatePostureCheck(ctx context.Context, c *Client, e *PostureCheck) (*Postu
 	if err != nil {
 		return nil, fmt.Errorf("could not convert posture check to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +114,7 @@ func UpdatePostureCheck(ctx context.Context, c *Client, eID string, e *PostureCh
 	if err != nil {
 		return nil, fmt.Errorf("could not convert posture check to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

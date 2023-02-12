@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -52,7 +51,7 @@ func CreateRoutingGroup(ctx context.Context, c *Client, rg *RoutingGroup) (*Rout
 	if err != nil {
 		return nil, fmt.Errorf("could not convert routing group to json: %v", err)
 	}
-	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +64,7 @@ func UpdateRoutingGroup(ctx context.Context, c *Client, rgID string, rg *Routing
 	if err != nil {
 		return nil, fmt.Errorf("could not convert routing group to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +97,7 @@ func AddMappedElementsToRoutingGroups(ctx context.Context, c *Client, rgID strin
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +112,7 @@ func RemoveMappedElementsFromRoutingGroups(ctx context.Context, c *Client, pgID 
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}

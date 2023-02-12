@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -44,7 +43,7 @@ func CreateIPNetwork(ctx context.Context, c *Client, in *IPNetwork) (*IPNetwork,
 	if err != nil {
 		return nil, fmt.Errorf("could not convert ip network to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +56,7 @@ func UpdateIPNetwork(ctx context.Context, c *Client, inId string, in *IPNetwork)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert ip network to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

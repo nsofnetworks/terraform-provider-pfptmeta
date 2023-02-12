@@ -52,7 +52,7 @@ func CreatePacFile(ctx context.Context, c *Client, pf *PacFile) (*PacFile, error
 	if err != nil {
 		return nil, fmt.Errorf("could not convert pac file to json: %v", err)
 	}
-	resp, err := c.Post(ctx, pfUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, pfUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func UpdatePacFile(ctx context.Context, c *Client, pfID string, pf *PacFile) (*P
 	if err != nil {
 		return nil, fmt.Errorf("could not convert pac file to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, pfUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, pfUrl, body)
 	if err != nil {
 		return nil, err
 	}

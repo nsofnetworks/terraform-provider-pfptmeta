@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -66,7 +65,7 @@ func CreateUser(ctx context.Context, c *Client, ed *User) (*User, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not convert user to json: %v", err)
 	}
-	resp, err := c.Post(ctx, uUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, uUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +78,7 @@ func UpdateUser(ctx context.Context, c *Client, edID string, ed *User) (*User, e
 	if err != nil {
 		return nil, fmt.Errorf("could not convert user to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, uUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, uUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +130,7 @@ func AssignRolesToUser(ctx context.Context, c *Client, uID string, roles []strin
 	if err != nil {
 		return nil, fmt.Errorf("could not convert roles to json: %v", err)
 	}
-	resp, err := c.Put(ctx, url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

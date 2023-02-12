@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -294,26 +293,29 @@ func (c *Client) Delete(ctx context.Context, url string, queryParams url.Values)
 	return c.SendRequest(req)
 }
 
-func (c *Client) Post(ctx context.Context, url string, body io.Reader) ([]byte, error) {
+func (c *Client) Post(ctx context.Context, url string, body []byte) ([]byte, error) {
 	var err error
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
+	b := bytes.NewReader(body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, b)
 	if err != nil {
 		return nil, err
 	}
 	return c.SendRequest(req)
 }
 
-func (c *Client) Patch(ctx context.Context, url string, body io.Reader) ([]byte, error) {
+func (c *Client) Patch(ctx context.Context, url string, body []byte) ([]byte, error) {
 	var err error
-	req, err := http.NewRequestWithContext(ctx, http.MethodPatch, url, body)
+	b := bytes.NewReader(body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPatch, url, b)
 	if err != nil {
 		return nil, err
 	}
 	return c.SendRequest(req)
 }
 
-func (c *Client) Put(ctx context.Context, url string, body io.Reader) ([]byte, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, body)
+func (c *Client) Put(ctx context.Context, url string, body []byte) ([]byte, error) {
+	b := bytes.NewReader(body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, b)
 	if err != nil {
 		return nil, err
 	}

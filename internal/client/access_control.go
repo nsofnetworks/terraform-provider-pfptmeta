@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -51,7 +50,7 @@ func CreateAccessControl(ctx context.Context, c *Client, e *AccessControl) (*Acc
 	if err != nil {
 		return nil, fmt.Errorf("could not convert access control to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +72,7 @@ func UpdateAccessControl(ctx context.Context, c *Client, eID string, e *AccessCo
 	if err != nil {
 		return nil, fmt.Errorf("could not convert access control to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

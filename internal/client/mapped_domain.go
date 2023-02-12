@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -42,7 +41,7 @@ func SetMappedDomain(ctx context.Context, c *Client, neID string, mappedDomain *
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedDomain to json")
 	}
-	resp, err := c.Put(ctx, url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

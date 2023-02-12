@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -33,7 +32,7 @@ func SetMappedHost(ctx context.Context, c *Client, neID string, mappedHost *Mapp
 	if err != nil {
 		return nil, fmt.Errorf("could not convert MappedHost to json")
 	}
-	resp, err := c.Put(ctx, url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

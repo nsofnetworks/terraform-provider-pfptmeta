@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -58,7 +57,7 @@ func CreateSSLBypassRule(ctx context.Context, c *Client, rg *SSLBypassRule) (*SS
 	if err != nil {
 		return nil, fmt.Errorf("could not convert ssl bypass rule to json: %v", err)
 	}
-	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +70,7 @@ func UpdateSSLBypassRule(ctx context.Context, c *Client, rgID string, rg *SSLByp
 	if err != nil {
 		return nil, fmt.Errorf("could not convert ssl bypass rule to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}

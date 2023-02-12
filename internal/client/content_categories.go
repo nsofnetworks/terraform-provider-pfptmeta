@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -50,7 +49,7 @@ func CreateContentCategory(ctx context.Context, c *Client, cc *ContentCategory) 
 	if err != nil {
 		return nil, fmt.Errorf("could not convert content category to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +62,7 @@ func UpdateContentCategory(ctx context.Context, c *Client, ccId string, cc *Cont
 	if err != nil {
 		return nil, fmt.Errorf("could not convert content category to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

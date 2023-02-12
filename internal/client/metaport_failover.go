@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -99,7 +98,7 @@ func CreateMetaportFailover(ctx context.Context, c *Client, m *MetaportFailover)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport failover to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +120,7 @@ func UpdateMetaportFailover(ctx context.Context, c *Client, mId string, m *Metap
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport failover to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}

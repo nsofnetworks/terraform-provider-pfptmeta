@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -52,7 +51,7 @@ func CreateMetaportCluster(ctx context.Context, c *Client, m *MetaportCluster) (
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport cluster to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +100,7 @@ func UpdateMetaportCluster(ctx context.Context, c *Client, mId string, m *Metapo
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport cluster to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +124,7 @@ func AddMappedElementsToMetaportCluster(ctx context.Context, c *Client, mID stri
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +140,7 @@ func RemoveMappedElementsFromMetaportCluster(ctx context.Context,
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}

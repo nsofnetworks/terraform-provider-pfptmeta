@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -59,7 +58,7 @@ func CreateDevice(ctx context.Context, c *Client, dev *Device) (*Device, error) 
 	if err != nil {
 		return nil, fmt.Errorf("could not convert device to json: %v", err)
 	}
-	resp, err := c.Post(ctx, devUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, devUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +71,7 @@ func UpdateDevice(ctx context.Context, c *Client, deviceId string, device *Devic
 	if err != nil {
 		return nil, fmt.Errorf("could not convert device to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, deviceUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, deviceUrl, body)
 	if err != nil {
 		return nil, err
 	}

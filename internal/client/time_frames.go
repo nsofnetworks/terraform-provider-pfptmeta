@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -63,7 +62,7 @@ func CreateTimeFrame(ctx context.Context, c *Client, tf *TimeFrame) (*TimeFrame,
 	if err != nil {
 		return nil, fmt.Errorf("could not convert time frame to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +75,7 @@ func UpdateTimeFrame(ctx context.Context, c *Client, tfId string, in *TimeFrame)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert time frame to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

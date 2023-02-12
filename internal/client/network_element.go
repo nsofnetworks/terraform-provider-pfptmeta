@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -79,7 +78,7 @@ func CreateNetworkElement(ctx context.Context, c *Client, ne *NetworkElementBody
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +91,7 @@ func UpdateNetworkElement(ctx context.Context, c *Client, neId string, ne *Netwo
 	if err != nil {
 		return nil, fmt.Errorf("could not convert network element to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -51,7 +50,7 @@ func CreateGroup(ctx context.Context, c *Client, g *Group) (*Group, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not convert group to json: %v", err)
 	}
-	resp, err := c.Post(ctx, gUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, gUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +63,7 @@ func UpdateGroup(ctx context.Context, c *Client, gID string, g *Group) (*Group, 
 	if err != nil {
 		return nil, fmt.Errorf("could not convert group to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +114,7 @@ func AssignRolesToGroup(ctx context.Context, c *Client, gID string, roles []stri
 	if err != nil {
 		return nil, fmt.Errorf("could not convert roles to json: %v", err)
 	}
-	resp, err := c.Put(ctx, url, bytes.NewReader(body))
+	resp, err := c.Put(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +131,7 @@ func AddUsersToGroup(ctx context.Context, c *Client, gID string, users []string)
 	if err != nil {
 		return fmt.Errorf("could not convert users to json: %v", err)
 	}
-	_, err = c.Post(ctx, url, bytes.NewReader(body))
+	_, err = c.Post(ctx, url, body)
 	if err != nil {
 		return err
 	}
@@ -145,7 +144,7 @@ func RemoveUsersFromGroup(ctx context.Context, c *Client, gID string, users []st
 	if err != nil {
 		return fmt.Errorf("could not convert users to json: %v", err)
 	}
-	_, err = c.Post(ctx, url, bytes.NewReader(body))
+	_, err = c.Post(ctx, url, body)
 	if err != nil {
 		return err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -83,7 +82,7 @@ func CreateDLPRule(ctx context.Context, c *Client, rg *DLPRule) (*DLPRule, error
 	if err != nil {
 		return nil, fmt.Errorf("could not convert dlp rule to json: %v", err)
 	}
-	resp, err := c.Post(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +95,7 @@ func UpdateDLPRule(ctx context.Context, c *Client, rgID string, rg *DLPRule) (*D
 	if err != nil {
 		return nil, fmt.Errorf("could not convert dlp rule to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, rgUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, rgUrl, body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -159,7 +158,7 @@ func CreateAccessBridge(ctx context.Context, c *Client, e *AccessBridge) (*Acces
 	if err != nil {
 		return nil, fmt.Errorf("could not convert access bridge to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(body))
+	resp, err := c.Post(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +180,7 @@ func UpdateAccessBridge(ctx context.Context, c *Client, eID string, e *AccessBri
 	if err != nil {
 		return nil, fmt.Errorf("could not convert access bridge to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, url, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, url, body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -60,7 +59,7 @@ func CreateMetaport(ctx context.Context, c *Client, m *Metaport) (*Metaport, err
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport to json: %v", err)
 	}
-	resp, err := c.Post(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Post(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +108,7 @@ func UpdateMetaport(ctx context.Context, c *Client, mId string, m *Metaport) (*M
 	if err != nil {
 		return nil, fmt.Errorf("could not convert metaport to json: %v", err)
 	}
-	resp, err := c.Patch(ctx, neUrl, bytes.NewReader(body))
+	resp, err := c.Patch(ctx, neUrl, body)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +132,7 @@ func AddMappedElementsToMetaport(ctx context.Context, c *Client, mID string, meI
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +147,7 @@ func RemoveMappedElementsFromMetaport(ctx context.Context, c *Client, mID string
 	if err != nil {
 		return nil, fmt.Errorf("could not convert mapped elements to json: %v", err)
 	}
-	resp, err := c.Post(ctx, url, bytes.NewReader(jsonBody))
+	resp, err := c.Post(ctx, url, jsonBody)
 	if err != nil {
 		return nil, err
 	}
