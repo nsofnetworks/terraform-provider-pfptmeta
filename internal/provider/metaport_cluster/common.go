@@ -19,7 +19,7 @@ const (
 
 var excludedKeys = []string{"id"}
 
-func metaportClusterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func metaportClusterResourceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := meta.(*client.Client)
 	var err error
@@ -43,6 +43,33 @@ func metaportClusterRead(ctx context.Context, d *schema.ResourceData, meta inter
 			d.SetId("")
 			return diags
 		} else {
+			return diag.FromErr(err)
+		}
+	}
+	err = client.MapResponseToResource(m, d, excludedKeys)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	d.SetId(m.ID)
+	return diags
+}
+
+func metaportClusterDataSourceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	var diags diag.Diagnostics
+	c := meta.(*client.Client)
+	var err error
+	var m *client.MetaportCluster
+	id, exists := d.GetOk("id")
+	if exists {
+		m, err = client.GetMetaportCluster(ctx, c, id.(string))
+		if err != nil {
+			return diag.FromErr(err)
+		}
+	}
+	name, exists := d.GetOk("name")
+	if exists && m == nil {
+		m, err = client.GetMetaportClustertByName(ctx, c, name.(string))
+		if err != nil {
 			return diag.FromErr(err)
 		}
 	}

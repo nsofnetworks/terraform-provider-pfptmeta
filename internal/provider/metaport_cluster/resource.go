@@ -11,7 +11,7 @@ func Resource() *schema.Resource {
 		Description: description,
 
 		CreateContext: metaportClusterCreate,
-		ReadContext:   metaportClusterRead,
+		ReadContext:   metaportClusterResourceRead,
 		UpdateContext: metaportClusterUpdate,
 		DeleteContext: metaportClusterDelete,
 		Importer: &schema.ResourceImporter{

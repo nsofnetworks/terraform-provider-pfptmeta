@@ -10,7 +10,7 @@ func DataSource() *schema.Resource {
 		// This description is used by the documentation generator and the language server.
 		Description: description,
 
-		ReadContext: metaportClusterRead,
+		ReadContext: metaportClusterDataSourceRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:             schema.TypeString,

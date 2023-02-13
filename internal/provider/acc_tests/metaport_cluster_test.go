@@ -100,6 +100,23 @@ func TestAccDataMetaportCluster(t *testing.T) {
 	})
 }
 
+func TestAccDataMetaportClusterBadInout(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:      testAccDataSourceInvalidName,
+				ExpectError: regexp.MustCompile(`Error: could not find metaport cluster with name "not-found-name"`),
+			},
+			{
+				Config:      testAccDataSourceInvalidID,
+				ExpectError: regexp.MustCompile(`404: Not Found - MetaportCluster mpc-abcabc not found`),
+			},
+		},
+	})
+}
+
 const testAccMetaportClusterStep1 = `
 resource "pfptmeta_network_element" "mapped-subnet" {
   name           = "ms"
@@ -147,4 +164,16 @@ const testAccDataSourceMetaportClusterByName = `
 
 data "pfptmeta_metaport_cluster" "metaport_cluster" {
   name = "metaport cluster name"
+}`
+
+const testAccDataSourceInvalidName = `
+
+data "pfptmeta_metaport_cluster" "metaport_cluster" {
+	name = "not-found-name"
+}`
+
+const testAccDataSourceInvalidID = `
+
+data "pfptmeta_metaport_cluster" "metaport_cluster" {
+	id = "mpc-abcabc"
 }`
