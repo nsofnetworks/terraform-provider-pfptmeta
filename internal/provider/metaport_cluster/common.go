@@ -2,12 +2,13 @@ package metaport_cluster
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
 )
 
 const (
