@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	u "net/url"
 )
 
 const IPNetworksEndpoint = "v1/ip_networks"
@@ -65,7 +64,7 @@ func UpdateIPNetwork(ctx context.Context, c *Client, inId string, in *IPNetwork)
 
 func GetIPNetwork(ctx context.Context, c *Client, inId string) (*IPNetwork, error) {
 	url := fmt.Sprintf("%s/%s/%s", c.BaseURL, IPNetworksEndpoint, inId)
-	resp, err := c.Get(ctx, url, u.Values{"expand": {"true"}})
+	resp, err := c.Get(ctx, url, nil)
 	if err != nil {
 		return nil, err
 	}
