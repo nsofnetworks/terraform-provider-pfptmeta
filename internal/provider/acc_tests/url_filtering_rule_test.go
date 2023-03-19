@@ -27,7 +27,7 @@ resource "pfptmeta_content_category" "cc" {
     "Sex Education", "Nudity", "Abused Drugs", "Marijuana", "Swimsuits and Intimate Apparel", "Violence",
     "Gross", "Adult and Pornography", "Weapons", "Hate and Racism", "Gambling"
   ]
-  urls = [".espn.com"]
+  urls = ["espn.com"]
 }
 
 resource "pfptmeta_time_frame" "work_hours" {
@@ -51,7 +51,7 @@ data "pfptmeta_catalog_app" "salesforce" {
 resource "pfptmeta_cloud_app" "salesforce" {
   name = "salesforce"
   app  = data.pfptmeta_catalog_app.salesforce.id
-  urls = [".my.salesforce.com"]
+  urls = ["my.salesforce.com"]
 }
 
 resource "pfptmeta_user" "user" {

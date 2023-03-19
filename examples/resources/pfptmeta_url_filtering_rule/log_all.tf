@@ -29,7 +29,7 @@ resource "pfptmeta_content_category" "log_all" {
     "Web Hosting", "Internet Communications", "Hunting and Fishing", "Sports", "Streaming Media",
     "Entertainment and Arts", "Translation", "Travel", "Motor Vehicles", "Violence", "Gross", "Weapons"
   ]
-  urls = [".clarivate.io"]
+  urls = ["clarivate.io"]
 }
 
 resource "pfptmeta_url_filtering_rule" "log_all" {

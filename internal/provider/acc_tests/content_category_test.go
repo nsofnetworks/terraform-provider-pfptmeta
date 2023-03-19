@@ -14,7 +14,7 @@ resource "pfptmeta_content_category" "cc" {
   confidence_level          = "HIGH"
   forbid_uncategorized_urls = true
   types                     = ["News and Media"]
-  urls                      = [".ynet.co.il"]
+  urls                      = ["ynet.co.il"]
 }
 `
 	contentCategoryStep2 = `
@@ -24,7 +24,7 @@ resource "pfptmeta_content_category" "cc" {
   confidence_level          = "MEDIUM"
   forbid_uncategorized_urls = false
   types                     = ["News and Media", "Sports"]
-  urls                      = ["192.6.6.5", ".ynet.co.il"]
+  urls                      = ["192.6.6.5", "ynet.co.il"]
 }
 `
 	contentCategoryDataSource = `
@@ -49,7 +49,7 @@ func TestAccResourceContentCategory(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "confidence_level", "HIGH"),
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "forbid_uncategorized_urls", "true"),
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "types.0", "News and Media"),
-					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "urls.0", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "urls.0", "ynet.co.il"),
 				),
 			},
 			{
@@ -63,7 +63,7 @@ func TestAccResourceContentCategory(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "types.0", "News and Media"),
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "types.1", "Sports"),
 					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "urls.0", "192.6.6.5"),
-					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "urls.1", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("pfptmeta_content_category.cc", "urls.1", "ynet.co.il"),
 				),
 			},
 		},
@@ -84,7 +84,7 @@ func TestAccDataSourceContentCategory(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_content_category.cc", "confidence_level", "HIGH"),
 					resource.TestCheckResourceAttr("data.pfptmeta_content_category.cc", "forbid_uncategorized_urls", "true"),
 					resource.TestCheckResourceAttr("data.pfptmeta_content_category.cc", "types.0", "News and Media"),
-					resource.TestCheckResourceAttr("data.pfptmeta_content_category.cc", "urls.0", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("data.pfptmeta_content_category.cc", "urls.0", "ynet.co.il"),
 				),
 			},
 		},

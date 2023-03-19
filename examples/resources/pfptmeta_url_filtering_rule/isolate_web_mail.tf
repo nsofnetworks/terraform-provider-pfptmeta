@@ -2,7 +2,7 @@ resource "pfptmeta_content_category" "web_mail_category" {
   name             = "Webmail Category"
   confidence_level = "LOW"
   types            = ["Web-based Email"]
-  urls             = [".live.com", ".outlook.com"]
+  urls             = ["live.com", "outlook.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "isolate_web_mails" {

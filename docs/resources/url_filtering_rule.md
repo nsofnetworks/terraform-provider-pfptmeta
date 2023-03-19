@@ -38,7 +38,7 @@ resource "pfptmeta_content_category" "strict" {
     "Sex Education", "Nudity", "Abused Drugs", "Marijuana", "Swimsuits and Intimate Apparel", "Violence",
     "Gross", "Adult and Pornography", "Weapons", "Hate and Racism", "Gambling"
   ]
-  urls = [".espn.com"]
+  urls = ["espn.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "default_rule" {
@@ -65,7 +65,7 @@ data "pfptmeta_catalog_app" "salesforce" {
 resource "pfptmeta_cloud_app" "salesforce" {
   name = "salesforce"
   app  = data.pfptmeta_catalog_app.salesforce.id
-  urls = [".my.salesforce.com"]
+  urls = ["my.salesforce.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "high_risk" {
@@ -113,7 +113,7 @@ resource "pfptmeta_content_category" "log_all" {
     "Web Hosting", "Internet Communications", "Hunting and Fishing", "Sports", "Streaming Media",
     "Entertainment and Arts", "Translation", "Travel", "Motor Vehicles", "Violence", "Gross", "Weapons"
   ]
-  urls = [".clarivate.io"]
+  urls = ["clarivate.io"]
 }
 
 resource "pfptmeta_url_filtering_rule" "log_all" {
@@ -135,7 +135,7 @@ resource "pfptmeta_content_category" "web_mail_category" {
   name             = "Webmail Category"
   confidence_level = "LOW"
   types            = ["Web-based Email"]
-  urls             = [".live.com", ".outlook.com"]
+  urls             = ["live.com", "outlook.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "isolate_web_mails" {

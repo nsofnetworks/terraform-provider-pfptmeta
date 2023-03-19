@@ -17,7 +17,7 @@ resource "pfptmeta_content_category" "strict" {
     "Sex Education", "Nudity", "Abused Drugs", "Marijuana", "Swimsuits and Intimate Apparel", "Violence",
     "Gross", "Adult and Pornography", "Weapons", "Hate and Racism", "Gambling"
   ]
-  urls = [".espn.com"]
+  urls = ["espn.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "default_rule" {

@@ -15,7 +15,7 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   apply_to_org              = true
   bypass_uncategorized_urls = false
   content_types             = ["Abortion"]
-  domains                   = [".twitter.com"]
+  domains                   = ["twitter.com"]
   priority                  = 15
 }
 
@@ -27,7 +27,7 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   apply_to_org              = false
   bypass_uncategorized_urls = true
   content_types             = ["Abused Drugs"]
-  domains                   = [".twitter1.com"]
+  domains                   = ["twitter1.com"]
   priority                  = 25
 }
 
@@ -39,7 +39,7 @@ resource "pfptmeta_ssl_bypass_rule" "data_source_rule" {
   apply_to_org              = true
   bypass_uncategorized_urls = false
   content_types             = ["Abortion"]
-  domains                   = [".twitter.com"]
+  domains                   = ["twitter.com"]
   priority                  = 35
 }
 
@@ -64,7 +64,7 @@ func TestAccResourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "apply_to_org", "true"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "bypass_uncategorized_urls", "false"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abortion"),
-					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", ".twitter.com"),
+					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter.com"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "priority", "15"),
 				),
 			},
@@ -77,7 +77,7 @@ func TestAccResourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "apply_to_org", "false"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "bypass_uncategorized_urls", "true"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abused Drugs"),
-					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", ".twitter1.com"),
+					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter1.com"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "priority", "25"),
 				),
 			},
@@ -99,7 +99,7 @@ func TestAccDataSourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "apply_to_org", "true"),
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "bypass_uncategorized_urls", "false"),
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abortion"),
-					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "domains.0", ".twitter.com"),
+					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter.com"),
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "priority", "35"),
 				),
 			},

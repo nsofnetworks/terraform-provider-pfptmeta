@@ -35,11 +35,8 @@ resource "pfptmeta_cloud_app" "g_suite" {
   app  = data.pfptmeta_catalog_app.g_suite.id
   urls = [
     "gmail.com",
-    ".gmail.com",
     "googleusercontent.com",
-    ".googleusercontent.com",
     "clients6.google.com",
-    ".clients6.google.com"
   ]
 }
 

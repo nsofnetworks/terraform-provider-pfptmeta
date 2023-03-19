@@ -4,6 +4,6 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   apply_to_org              = true
   bypass_uncategorized_urls = false
   content_types             = ["Abortion"]
-  domains                   = [".twitter.com"]
+  domains                   = ["twitter.com"]
   priority                  = 15
 }

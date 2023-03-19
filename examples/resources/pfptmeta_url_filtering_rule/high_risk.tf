@@ -6,7 +6,7 @@ data "pfptmeta_catalog_app" "salesforce" {
 resource "pfptmeta_cloud_app" "salesforce" {
   name = "salesforce"
   app  = data.pfptmeta_catalog_app.salesforce.id
-  urls = [".my.salesforce.com"]
+  urls = ["my.salesforce.com"]
 }
 
 resource "pfptmeta_url_filtering_rule" "high_risk" {

@@ -12,7 +12,7 @@ resource "pfptmeta_cloud_app" "ca" {
   name        = "cloud app"
   description = "cloud app description"
   app         = "sia-xVb7vgt6rKoQnY4Rj"
-  urls        = [".ynet.co.il"]
+  urls        = ["ynet.co.il"]
 }
 `
 	cloudAppStep2 = `
@@ -20,7 +20,7 @@ resource "pfptmeta_cloud_app" "ca" {
   name        = "cloud app 1"
   description = "cloud app description 1"
   app         = "sia-K8jJPltjdMv39A4wx"
-  urls        = ["192.6.6.5", ".ynet.co.il"]
+  urls        = ["192.6.6.5", "ynet.co.il"]
 }
 `
 	cloudAppDataSource = `
@@ -43,7 +43,7 @@ func TestAccResourceCloudApp(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "name", "cloud app"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "description", "cloud app description"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-xVb7vgt6rKoQnY4Rj"),
-					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", "ynet.co.il"),
 				),
 			},
 			{
@@ -54,7 +54,7 @@ func TestAccResourceCloudApp(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "description", "cloud app description 1"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-K8jJPltjdMv39A4wx"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", "192.6.6.5"),
-					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.1", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.1", "ynet.co.il"),
 				),
 			},
 		},
@@ -73,7 +73,7 @@ func TestAccDataSourceCloudApp(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "name", "cloud app"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "description", "cloud app description"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-xVb7vgt6rKoQnY4Rj"),
-					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", ".ynet.co.il"),
+					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", "ynet.co.il"),
 				),
 			},
 		},
