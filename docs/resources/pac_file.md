@@ -13,11 +13,25 @@ Web traffic inspection is further enhanced by means of traffic steering rules (I
 ## Example Usage
 
 ```terraform
-resource "pfptmeta_pac_file" "pac" {
+resource "pfptmeta_pac_file" "managed_pac" {
   name         = "pac file"
   description  = "pac file description"
   apply_to_org = true
   priority     = 15
+  type         = "managed"
+  managed_content = {
+    domains     = ["apple.co"]
+    cloud_apps  = ["ca-zcR3wRh1mQLyD", "ca-YbU9LeY4bCAuV"]
+    ip_networks = ["ipn-wRvGyyK1mPEop"]
+  }
+}
+
+resource "pfptmeta_pac_file" "byo_pac" {
+  name         = "pac file"
+  description  = "pac file description"
+  apply_to_org = true
+  priority     = 15
+  type         = "bring_your_own"
   content      = <<EOF
 function FindProxyForURL(url, host) {
 // Don't proxy specific hostnames
@@ -30,11 +44,12 @@ return "PROXY 127.0.0.1:43443";
 EOF
 }
 
-resource "pfptmeta_pac_file" "pac_with_file_path" {
+resource "pfptmeta_pac_file" "byo_pac_with_file_path" {
   name         = "pac file"
   description  = "pac file description"
   apply_to_org = true
   priority     = 15
+  type         = "bring_your_own"
   content      = file("path/to/file")
 }
 ```
@@ -44,19 +59,30 @@ resource "pfptmeta_pac_file" "pac_with_file_path" {
 
 ### Required
 
-- `content` (String) The content of the PAC file
 - `name` (String)
 - `priority` (Number) Determines the order in which the PAC files are being matched. Lower priority value means the PAC file will be matched earlier.
+- `type` (String) Indicates whether this PAC file has 'managed' or 'bring_your_own' content type
 
 ### Optional
 
 - `apply_to_org` (Boolean) Indicates whether this PAC file applies to the org.
+- `content` (String) The content of the PAC file
 - `description` (String)
 - `enabled` (Boolean)
 - `exempt_sources` (List of String) Subgroup of `sources` on which the PAC file should not be applied.
+- `managed_content` (Block List, Max: 1) (see [below for nested schema](#nestedblock--managed_content))
 - `sources` (List of String) Users and groups on which the PAC file should be applied.
 
 ### Read-Only
 
 - `has_content` (Boolean) Whether the PAC file object has content associated with it.
 - `id` (String) The ID of this resource.
+
+<a id="nestedblock--managed_content"></a>
+### Nested Schema for `managed_content`
+
+Optional:
+
+- `cloud_apps` (List of String) Ids of Cloud Apps to monitor for changes. The domains from these will be added (and updated) to the raw content of the PAC file
+- `domains` (List of String) domains to be used as is
+- `ip_networks` (List of String) Ids of Cloud Apps to monitor for changes. The domains from these will be added (and updated) to the raw content of the PAC file
