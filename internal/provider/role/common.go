@@ -13,7 +13,7 @@ const (
 	description           = "Roles define operations on the enterprise network, such as adding and removing users, defining security policies, etc."
 	applyToOrgsDesc       = "indicates which orgs this role applies to."
 	privilegesDesc        = "Privileges to be assigned to the new role. It has the following structure - `resource:read/write` For example, metaports:read etc."
-	subOrgsExpressionDesc = "Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, XOR, parenthesis."
+	subOrgsExpressionDesc = "Allows grouping of entities according to their tags. Filtering by tag value is also supported, if provided. Supported operations: AND, OR, NOT, parenthesis."
 )
 
 var excludedKeys = []string{"id", "privileges"}
