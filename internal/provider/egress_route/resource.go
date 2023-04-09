@@ -1,9 +1,10 @@
 package egress_route
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
-	"regexp"
 )
 
 func Resource() *schema.Resource {

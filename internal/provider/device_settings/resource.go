@@ -1,9 +1,10 @@
 package device_settings
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
-	"regexp"
 )
 
 const maxInt = int(^uint(0) >> 1)
