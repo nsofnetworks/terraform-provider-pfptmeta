@@ -30,7 +30,7 @@ resource "pfptmeta_group" "new_group" {
 ### Optional
 
 - `description` (String)
-- `expression` (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, parenthesis.
+- `expression` (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, NOT, parenthesis.
 
 ### Read-Only
 

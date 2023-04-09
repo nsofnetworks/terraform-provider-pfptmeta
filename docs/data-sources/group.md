@@ -40,5 +40,5 @@ output "group_by_name" {
 ### Read-Only
 
 - `description` (String)
-- `expression` (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, parenthesis.
+- `expression` (String) Allows grouping entities by their tags. Filtering by tag value is also supported if provided. Supported operations: AND, OR, NOT, parenthesis.
 - `id` (String) The ID of this resource.
