@@ -46,7 +46,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "ne", "usr", "grp"),
+					ValidateDiagFunc: common.ValidateID(false, "ne", "dev", "usr", "grp"),
 				},
 				Optional: true,
 				MinItems: 1,
@@ -56,7 +56,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "ne", "usr", "grp"),
+					ValidateDiagFunc: common.ValidateID(false, "ne", "dev", "usr", "grp"),
 				},
 				Optional: true,
 			},

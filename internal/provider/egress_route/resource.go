@@ -52,7 +52,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "mc"),
+					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "dev", "mc"),
 				},
 				Optional: true,
 			},
@@ -61,7 +61,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "mc"),
+					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "dev", "mc"),
 				},
 				Optional: true,
 			},

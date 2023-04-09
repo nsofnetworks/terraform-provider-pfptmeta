@@ -34,7 +34,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne"),
+					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "dev"),
 				},
 				Optional: true,
 			},
@@ -43,7 +43,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne"),
+					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "dev"),
 				},
 				Optional: true,
 			},
@@ -52,7 +52,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeSet,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne"),
+					ValidateDiagFunc: common.ValidateID(false, "usr", "grp", "ne", "dev"),
 				},
 				Optional: true,
 			},

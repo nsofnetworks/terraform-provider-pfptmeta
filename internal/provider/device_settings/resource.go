@@ -48,7 +48,7 @@ func Resource() *schema.Resource {
 				Type:        schema.TypeList,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
-					ValidateDiagFunc: common.ComposeOrValidations(common.ValidateID(true, "ne"), common.ValidateID(false, "usr", "grp")),
+					ValidateDiagFunc: common.ComposeOrValidations(common.ValidateID(true, "ne", "dev"), common.ValidateID(false, "usr", "grp")),
 				},
 				Optional: true,
 			},
