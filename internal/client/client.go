@@ -20,12 +20,12 @@ import (
 
 const (
 	baseUrlEnvVar             string = "PFPTMETA_BASE_URL"
-	baseURL                   string = "https://api.access.proofpoint.com"
-	realmBaseURL              string = "https://api.%s.access.proofpoint.com"
+	baseURL                   string = "https://dev-api.metanetworks.me"
+	realmBaseURL              string = "https://dev-api.%s.metanetworks.me"
 	oauthURL                  string = "/v1/oauth/token"
 	maxIdleConnections        int    = 10
 	requestTimeout            int    = 60
-	configPath                string = ".pfptmeta/credentials.json"
+	configPath                string = ".pfptmeta/credentialsDev.json"
 	grantType                 string = "client_credentials"
 	eventuallyConsistentSleep        = time.Millisecond * 300
 )
