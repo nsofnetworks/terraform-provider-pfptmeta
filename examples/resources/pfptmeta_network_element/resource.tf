@@ -18,9 +18,8 @@ resource "pfptmeta_network_element" "mapped-service" {
   }
 }
 
-resource "pfptmeta_network_element" "device" {
-  name        = "my device"
-  description = "some details about the device"
-  owner_id    = "usr-12345"
+resource "pfptmeta_network_element" "service" {
+  name        = "my native service"
+  description = "some details about the service"
   platform    = "Linux"
 }

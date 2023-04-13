@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	description = "Policies bind network elements (devices, services and subnets) to users, " +
+	description = "Policies bind network elements (services and subnets) and devices to users, " +
 		"groups and to other network elements and define access direction and connections."
-	destinationsDesc   = "Entities (users, groups or network elements) to which the access is granted to."
-	sourcesDesc        = "Entities (users, groups or network elements) to be authorized to access the application defined in this policy."
-	exemptSourcesDesc  = "Entities (users, groups or network elements) to be excluded from accessing the application defined in this policy."
+	destinationsDesc   = "Entities (users, groups, devices or network elements) to which the access is granted to."
+	sourcesDesc        = "Entities (users, groups, devices or network elements) to be authorized to access the application defined in this policy."
+	exemptSourcesDesc  = "Entities (users, groups, devices or network elements) to be excluded from accessing the application defined in this policy."
 	protocolGroupsDesc = "Protocol groups that restrict the protocols or TCP/UDP ports for this policy"
 )
 

@@ -38,12 +38,12 @@ output "network" {
 
 ### Read-Only
 
-- `apply_to_entities` (List of String) Entities (users, groups or network elements) to be allowed to use trusted networks.
+- `apply_to_entities` (List of String) Entities (users, groups or devices) to be allowed to use trusted networks.
 - `apply_to_org` (Boolean) Indicates whether this trusted network setting applies to the entire org. Note: This attribute overrides `apply_to_entities`.
 - `criteria` (List of Object) (see [below for nested schema](#nestedatt--criteria))
 - `description` (String)
 - `enabled` (Boolean)
-- `exempt_entities` (List of String) Entities (users, groups or network elements) which are not allowed to use trusted networks.
+- `exempt_entities` (List of String) Entities (users, groups or devices) which are not allowed to use trusted networks.
 - `id` (String) The ID of this resource.
 - `name` (String)
 

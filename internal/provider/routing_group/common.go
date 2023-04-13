@@ -13,8 +13,8 @@ const (
 	description = "User routing groups is a logical group of subnets which co-exist at the same time. " +
 		"These are independent subnets, which can be the same or contain overlapping IP addresses that can be used without conflicting with each other."
 	mappedElementIdsDesc = "Mapped subnets and services that belong to this routing group."
-	sourcesDesc          = "Users, groups or devices whose traffic will be routed."
-	exemptSourcesDesc    = "Users, groups or devices whose traffic will not be routed."
+	sourcesDesc          = "Users, groups, devices or services whose traffic will be routed."
+	exemptSourcesDesc    = "Users, groups, devices or services whose traffic will not be routed."
 )
 
 var excludedKeys = []string{"id"}

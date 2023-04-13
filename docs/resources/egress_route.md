@@ -71,8 +71,8 @@ resource "pfptmeta_egress_route" "DIRECT" {
 - `description` (String)
 - `destinations` (List of String) Target hostnames or domains.
 - `enabled` (Boolean)
-- `exempt_sources` (List of String) Entities (users, groups or network elements) to be excluded from the egress route.
-- `sources` (List of String) Entities (users, groups or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet).
+- `exempt_sources` (List of String) Entities (users, groups, devices or network elements) to be excluded from the egress route.
+- `sources` (List of String) Entities (users, groups, devices or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet).
 
 ### Read-Only
 

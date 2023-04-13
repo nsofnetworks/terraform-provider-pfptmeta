@@ -18,8 +18,8 @@ const (
   - DNS resolution of a hostname: When a specific hostname is resolved to an IP address that is within the defined IP range.
   - External IP address of the device: When the device external IP address is within the specified IP address range.`
 	applyToOrgDesc        = "Indicates whether this trusted network setting applies to the entire org. Note: This attribute overrides `apply_to_entities`."
-	applyToEntitiesDesc   = "Entities (users, groups or network elements) to be allowed to use trusted networks."
-	exemptEntitiesDesc    = "Entities (users, groups or network elements) which are not allowed to use trusted networks."
+	applyToEntitiesDesc   = "Entities (users, groups or devices) to be allowed to use trusted networks."
+	exemptEntitiesDesc    = "Entities (users, groups or devices) which are not allowed to use trusted networks."
 	externalIPConfigDesc  = "Specified IP address range to compare with the device's external IP for the network to be trusted."
 	resolvedAddressConfig = "A hostname and specified IP address range in which the hostname must be resolved for the network to be trusted."
 )

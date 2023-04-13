@@ -42,10 +42,10 @@ output "access" {
 ### Read-Only
 
 - `allowed_routes` (List of String) List of allowed IPv4 route CIDRs.
-- `apply_to_entities` (List of String) Entities (users, groups or network elements) to be subjected to the Access Control.
+- `apply_to_entities` (List of String) Entities (users, groups or devices) to be subjected to the Access Control.
 - `apply_to_org` (Boolean) Indicates whether this Access Control setting applies to the whole org. Note: This attribute overrides `apply_to_entities`.
 - `description` (String)
 - `enabled` (Boolean)
-- `exempt_entities` (List of String) Entities (users, groups or network elements) which are exempt from the Access Control.
+- `exempt_entities` (List of String) Entities (users, groups or devices) which are exempt from the Access Control.
 - `id` (String) The ID of this resource.
 - `name` (String)

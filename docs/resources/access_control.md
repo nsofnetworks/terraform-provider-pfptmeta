@@ -45,11 +45,11 @@ resource "pfptmeta_access_control" "access" {
 
 ### Optional
 
-- `apply_to_entities` (List of String) Entities (users, groups or network elements) to be subjected to the Access Control.
+- `apply_to_entities` (List of String) Entities (users, groups or devices) to be subjected to the Access Control.
 - `apply_to_org` (Boolean) Indicates whether this Access Control setting applies to the whole org. Note: This attribute overrides `apply_to_entities`.
 - `description` (String)
 - `enabled` (Boolean)
-- `exempt_entities` (List of String) Entities (users, groups or network elements) which are exempt from the Access Control.
+- `exempt_entities` (List of String) Entities (users, groups or devices) which are exempt from the Access Control.
 
 ### Read-Only
 

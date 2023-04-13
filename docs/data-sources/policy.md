@@ -3,12 +3,12 @@
 page_title: "Data Source pfptmeta_policy - terraform-provider-pfptmeta"
 subcategory: "Network"
 description: |-
-  Policies bind network elements (devices, services and subnets) to users, groups and to other network elements and define access direction and connections.
+  Policies bind network elements (services and subnets) and devices to users, groups and to other network elements and define access direction and connections.
 ---
 
 # Data Source (pfptmeta_policy)
 
-Policies bind network elements (devices, services and subnets) to users, groups and to other network elements and define access direction and connections.
+Policies bind network elements (services and subnets) and devices to users, groups and to other network elements and define access direction and connections.
 
 ## Example Usage
 
@@ -28,10 +28,10 @@ output "policy" {
 ### Read-Only
 
 - `description` (String)
-- `destinations` (Set of String) Entities (users, groups or network elements) to which the access is granted to.
+- `destinations` (Set of String) Entities (users, groups, devices or network elements) to which the access is granted to.
 - `enabled` (Boolean)
-- `exempt_sources` (Set of String) Entities (users, groups or network elements) to be excluded from accessing the application defined in this policy.
+- `exempt_sources` (Set of String) Entities (users, groups, devices or network elements) to be excluded from accessing the application defined in this policy.
 - `id` (String) The ID of this resource.
 - `name` (String)
 - `protocol_groups` (Set of String) Protocol groups that restrict the protocols or TCP/UDP ports for this policy
-- `sources` (Set of String) Entities (users, groups or network elements) to be authorized to access the application defined in this policy.
+- `sources` (Set of String) Entities (users, groups, devices or network elements) to be authorized to access the application defined in this policy.

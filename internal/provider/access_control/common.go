@@ -21,8 +21,8 @@ Any other outgoing traffic is dropped.
 ~> **NOTE:** Proofpoint recommends the Device Access Control to be enabled only when a Web Security solution exists, and its IP ranges are allowed. Otherwise, users will fail to access the Internet when connected to Proofpoint ZTNA.
 `
 	applyToOrgDesc      = "Indicates whether this Access Control setting applies to the whole org. Note: This attribute overrides `apply_to_entities`."
-	applyToEntitiesDesc = "Entities (users, groups or network elements) to be subjected to the Access Control."
-	exemptEntitiesDesc  = "Entities (users, groups or network elements) which are exempt from the Access Control."
+	applyToEntitiesDesc = "Entities (users, groups or devices) to be subjected to the Access Control."
+	exemptEntitiesDesc  = "Entities (users, groups or devices) which are exempt from the Access Control."
 	allowedRoutesDesc   = "List of allowed IPv4 route CIDRs."
 )
 

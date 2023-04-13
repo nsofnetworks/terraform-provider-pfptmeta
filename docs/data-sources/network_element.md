@@ -6,7 +6,6 @@ description: |-
   Network elements comprise devices, mapped subnets and mapped services.
   - Creating this resource with mapped_subnets generates a Mapped Subnet-type network element..
   - Creating this resource with mapped_service generates a Mapped Service-type network element.
-  - Creating this resource with owner_id and platform generates a Device-type network element.
 ---
 
 # Data Source (pfptmeta_network_element)
@@ -14,7 +13,6 @@ description: |-
 Network elements comprise devices, mapped subnets and mapped services. 
 - Creating this resource with `mapped_subnets` generates a Mapped Subnet-type network element..
 - Creating this resource with `mapped_service` generates a Mapped Service-type network element.
-- Creating this resource with `owner_id` and `platform` generates a Device-type network element.
 
 ## Example Usage
 

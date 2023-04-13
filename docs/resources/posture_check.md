@@ -75,12 +75,12 @@ resource "pfptmeta_posture_check" "min_client_version" {
 	- **Disconnect** - disconnect device from Proofpoint NaaS.
 	- **None** - do nothing, useful during the discovery phase. 
    - **Warning** - pop up a warning message, useful during the discovery phase.
-- `apply_to_entities` (List of String) Entities (users, groups or network elements) to be applied in the posture check.
+- `apply_to_entities` (List of String) Entities (users, groups or devices) to be applied in the posture check.
 - `apply_to_org` (Boolean) Whether to apply to all devices on the organization. Note: this attribute overrides `apply_to_entities`
 - `check` (Block List, Max: 1) Predefined checks. cannot be set with `osquery`. (see [below for nested schema](#nestedblock--check))
 - `description` (String)
 - `enabled` (Boolean) Defaults to true
-- `exempt_entities` (List of String) Entities (users, groups or network elements) which are exempt from the posture check.
+- `exempt_entities` (List of String) Entities (users, groups or devices) which are exempt from the posture check.
 - `interval` (Number) Interval in minutes between checks, mandatory when `when` is set to `PERIODIC`. ENUM: 5, 60.
 - `osquery` (String) osquery to use in the posture check, see [here](https://osquery.io/) for more details.
 - `platform` (String) Device platforms that should be applied in the posture check. ENUM: `Android`, `macOS`, `iOS`, `Linux`, `Windows`, `ChromeOS`.

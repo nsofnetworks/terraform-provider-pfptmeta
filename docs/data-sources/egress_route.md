@@ -36,10 +36,10 @@ output "egress_route" {
 - `description` (String)
 - `destinations` (List of String) Target hostnames or domains.
 - `enabled` (Boolean)
-- `exempt_sources` (List of String) Entities (users, groups or network elements) to be excluded from the egress route.
+- `exempt_sources` (List of String) Entities (users, groups, devices or network elements) to be excluded from the egress route.
 - `id` (String) The ID of this resource.
 - `name` (String)
-- `sources` (List of String) Entities (users, groups or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet).
+- `sources` (List of String) Entities (users, groups, devices or network elements) to be affected by the egress route (cannot be a Mapped Subnet if `via` is also a Mapped Subnet).
 - `via` (String) Defines how the traffic will be routed:
 	- **DIRECT**: Directs the traffic to egress from the same PoP it has entered. Use it to override other, less specific egress rules.
 	- **Mapped Subnet ID**: Directs the traffic to egress via specified mapped subnet.

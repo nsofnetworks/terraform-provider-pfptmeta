@@ -44,9 +44,9 @@ resource "pfptmeta_routing_group" "routing_group" {
 ### Optional
 
 - `description` (String)
-- `exempt_sources` (Set of String) Users, groups or devices whose traffic will not be routed.
+- `exempt_sources` (Set of String) Users, groups, devices or services whose traffic will not be routed.
 - `mapped_elements_ids` (Set of String) Mapped subnets and services that belong to this routing group.
-- `sources` (Set of String) Users, groups or devices whose traffic will be routed.
+- `sources` (Set of String) Users, groups, devices or services whose traffic will be routed.
 
 ### Read-Only
 
