@@ -7,8 +7,8 @@ import (
 
 const catalogAppDataSource = `
 data "pfptmeta_catalog_app" "catalog_app" {
-  name     = "Google"
-  category = "Property Management"
+  name     = "Google Earth"
+  category = "Entertainment and Lifestyle"
 }
 `
 
@@ -20,10 +20,10 @@ func TestAccDataSourceCatalogApp(t *testing.T) {
 			{
 				Config: catalogAppDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "id", "sia-8QB18xfy75jknrPk4"),
-					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "name", "Google"),
-					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "risk", "6"),
-					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "urls.0", "sites.google.com"),
+					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "id", "sia-GG8JA7fDq4PYxYQ4q"),
+					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "name", "Google Earth"),
+					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "risk", "5"),
+					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "urls.0", "earth.google.com"),
 					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "vendor", "Google, LLC"),
 					resource.TestCheckResourceAttr("data.pfptmeta_catalog_app.catalog_app", "verified", "false"),
 				),

@@ -45,7 +45,7 @@ resource "pfptmeta_time_frame" "work_hours" {
 
 data "pfptmeta_catalog_app" "salesforce" {
   name     = "Salesforce"
-  category = "Content Management"
+  category = "Business and Finance"
 }
 
 resource "pfptmeta_cloud_app" "salesforce" {

@@ -59,7 +59,7 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
 ```terraform
 data "pfptmeta_catalog_app" "salesforce" {
   name     = "Salesforce"
-  category = "Content Management"
+  category = "Business and Finance"
 }
 
 resource "pfptmeta_cloud_app" "salesforce" {

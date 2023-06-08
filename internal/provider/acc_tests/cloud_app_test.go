@@ -11,7 +11,7 @@ const (
 resource "pfptmeta_cloud_app" "ca" {
   name        = "cloud app"
   description = "cloud app description"
-  app         = "sia-xVb7vgt6rKoQnY4Rj"
+  app         = "sia-DEdJxqi79ogb1VM69"
   urls        = ["ynet.co.il"]
 }
 `
@@ -42,7 +42,7 @@ func TestAccResourceCloudApp(t *testing.T) {
 					resource.TestMatchResourceAttr("pfptmeta_cloud_app.ca", "id", regexp.MustCompile("^ca-.+$")),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "name", "cloud app"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "description", "cloud app description"),
-					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-xVb7vgt6rKoQnY4Rj"),
+					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-DEdJxqi79ogb1VM69"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", "ynet.co.il"),
 				),
 			},
@@ -72,7 +72,7 @@ func TestAccDataSourceCloudApp(t *testing.T) {
 					resource.TestMatchResourceAttr("pfptmeta_cloud_app.ca", "id", regexp.MustCompile("^ca-.+$")),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "name", "cloud app"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "description", "cloud app description"),
-					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-xVb7vgt6rKoQnY4Rj"),
+					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "app", "sia-DEdJxqi79ogb1VM69"),
 					resource.TestCheckResourceAttr("pfptmeta_cloud_app.ca", "urls.0", "ynet.co.il"),
 				),
 			},
