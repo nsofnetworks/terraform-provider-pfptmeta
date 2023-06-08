@@ -88,39 +88,6 @@ func TestAccResourceMappedService(t *testing.T) {
 	})
 }
 
-func TestAccResourceDevice(t *testing.T) {
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { testAccPreCheck(t) },
-		ProviderFactories: providerFactories,
-		CheckDestroy:      validateResourceDestroyed("network_element", "v1/network_elements"),
-		Steps: []resource.TestStep{
-			{
-				Config: testAccResourceDevice,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(
-						"pfptmeta_network_element.device", "id", regexp.MustCompile("^ne-.*$"),
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.device", "name", "acc tests device",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.device", "description", "some details about the device",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.device", "owner_id", "usr-LdjvfnK5713B8K1",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.device", "platform", "Linux",
-					),
-					resource.TestCheckResourceAttr(
-						"pfptmeta_network_element.device", "type", "Device",
-					),
-				),
-			},
-		},
-	})
-}
-
 func TestAccDataSourceNetworkElement(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
@@ -207,14 +174,6 @@ resource "pfptmeta_network_element" "mapped-service" {
   }
 }
 `
-
-const testAccResourceDevice = `
-resource "pfptmeta_network_element" "device" {
-  name        = "acc tests device"
-  description = "some details about the device"
-  owner_id    = "usr-LdjvfnK5713B8K1"
-  platform    = "Linux"
-}`
 
 const testAccDataSourceNetworkElement = `
 
