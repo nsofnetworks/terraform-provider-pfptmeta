@@ -76,7 +76,7 @@ func TestAccDataSourceUser(t *testing.T) {
 				Config: testAccDataSourceUser,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"data.pfptmeta_user.user_by_id", "id", "usr-LdjvfnK5713B8K1",
+						"data.pfptmeta_user.user_by_id", "id", "usr-xN6MCvzmWyvJYdk",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_user.user_by_id", "name", "tf-user tf-user",
@@ -91,7 +91,7 @@ func TestAccDataSourceUser(t *testing.T) {
 						"data.pfptmeta_user.user_by_id", "family_name", "tf-user",
 					),
 					resource.TestCheckResourceAttr(
-						"data.pfptmeta_user.user_by_email", "id", "usr-LdjvfnK5713B8K1",
+						"data.pfptmeta_user.user_by_email", "id", "usr-xN6MCvzmWyvJYdk",
 					),
 					resource.TestCheckResourceAttr(
 						"data.pfptmeta_user.user_by_email", "name", "tf-user tf-user",
@@ -113,7 +113,7 @@ func TestAccDataSourceUser(t *testing.T) {
 
 const testAccDataSourceUser = `
 data "pfptmeta_user" "user_by_id" {
-  id = "usr-LdjvfnK5713B8K1"
+  id = "usr-xN6MCvzmWyvJYdk"
 }
 
 data "pfptmeta_user" "user_by_email" {
