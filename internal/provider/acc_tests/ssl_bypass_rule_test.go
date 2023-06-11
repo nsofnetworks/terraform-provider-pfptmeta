@@ -17,6 +17,7 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   content_types             = ["Abortion"]
   domains                   = ["twitter.com"]
   priority                  = 15
+  action                    = "BYPASS"
 }
 
 `
@@ -29,6 +30,7 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   content_types             = ["Abused Drugs"]
   domains                   = ["twitter1.com"]
   priority                  = 25
+  action                    = "INTERCEPT"
 }
 
 `
@@ -41,6 +43,7 @@ resource "pfptmeta_ssl_bypass_rule" "data_source_rule" {
   content_types             = ["Abortion"]
   domains                   = ["twitter.com"]
   priority                  = 35
+  action                    = "BYPASS"
 }
 
 data "pfptmeta_ssl_bypass_rule" "rule" {
@@ -66,6 +69,7 @@ func TestAccResourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abortion"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter.com"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "priority", "15"),
+					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "action", "BYPASS"),
 				),
 			},
 			{
@@ -79,6 +83,7 @@ func TestAccResourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abused Drugs"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter1.com"),
 					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "priority", "25"),
+					resource.TestCheckResourceAttr("pfptmeta_ssl_bypass_rule.rule", "action", "INTERCEPT"),
 				),
 			},
 		},
@@ -101,6 +106,7 @@ func TestAccDataSourceSslBypassRule(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "content_types.0", "Abortion"),
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "domains.0", "twitter.com"),
 					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "priority", "35"),
+					resource.TestCheckResourceAttr("data.pfptmeta_ssl_bypass_rule.rule", "action", "BYPASS"),
 				),
 			},
 		},

@@ -6,4 +6,5 @@ resource "pfptmeta_ssl_bypass_rule" "rule" {
   content_types             = ["Abortion"]
   domains                   = ["twitter.com"]
   priority                  = 15
+  action                    = "BYPASS"
 }

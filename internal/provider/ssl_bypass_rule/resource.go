@@ -93,6 +93,12 @@ func Resource() *schema.Resource {
 				ValidateDiagFunc: common.ValidateIntRange(1, 5000),
 				Required:         true,
 			},
+			"action": {
+				Description:      actionDesc,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ValidateDiagFunc: common.ValidateStringENUM("BYPASS", "INTERCEPT"),
+			},
 		},
 	}
 }

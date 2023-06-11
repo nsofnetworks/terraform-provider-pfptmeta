@@ -22,6 +22,7 @@ type SSLBypassRule struct {
 	ContentTypes            []string `json:"content_types"`
 	Domains                 []string `json:"domains"`
 	Priority                int      `json:"priority"`
+	Action                  string   `json:"action"`
 }
 
 func NewSSLBypassRule(d *schema.ResourceData) *SSLBypassRule {
@@ -38,6 +39,7 @@ func NewSSLBypassRule(d *schema.ResourceData) *SSLBypassRule {
 	res.Domains = ConfigToStringSlice("domains", d)
 	res.ContentTypes = ConfigToStringSlice("content_types", d)
 	res.BypassUncategorizedUrls = d.Get("bypass_uncategorized_urls").(bool)
+	res.Action = d.Get("action").(string)
 
 	return res
 }
