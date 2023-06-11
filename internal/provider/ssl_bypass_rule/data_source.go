@@ -65,6 +65,11 @@ func DataSource() *schema.Resource {
 				Type:        schema.TypeInt,
 				Computed:    true,
 			},
+			"action": {
+				Description: actionDesc,
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 		},
 	}
 }

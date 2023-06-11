@@ -25,6 +25,8 @@ const (
 	uncategorizedUelDesc = "Whether to SSL bypass uncategorized URLs."
 	contentTypesDesc     = "A List of content types. If a domain is found to be categorized under at least of one of them, it will be bypassed. " + common.ContentTypesDoc
 	domainsDesc          = "A list of domains to SSL bypass."
+	actionDesc           = "Enum: `BYPASS`, `INTERCEPT`.\n" +
+		"The action to take in case of a match"
 )
 
 func parseSslBypassRule(d *schema.ResourceData, pf *client.SSLBypassRule) diag.Diagnostics {
