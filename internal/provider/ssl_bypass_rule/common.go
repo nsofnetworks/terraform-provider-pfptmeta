@@ -26,7 +26,9 @@ const (
 	contentTypesDesc     = "A List of content types. If a domain is found to be categorized under at least of one of them, it will be bypassed. " + common.ContentTypesDoc
 	domainsDesc          = "A list of domains to SSL bypass."
 	actionDesc           = "Enum: `BYPASS`, `INTERCEPT`.\n" +
-		"The action to take in case of a match"
+		"The action to perform in case of a match.\n" +
+		"`BYPASS` (default) - The traffic is sent directly to the internet omitting SSL inspection.\n" +
+		"`INTERCEPT` - The traffic is intercepted for SSL inspection and sent for further security examination."
 )
 
 func parseSslBypassRule(d *schema.ResourceData, pf *client.SSLBypassRule) diag.Diagnostics {
