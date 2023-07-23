@@ -2,6 +2,7 @@ package pac_file
 
 import (
 	"context"
+	"fmt" // NADAV REMOVE
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
@@ -40,27 +41,39 @@ const (
 
 func pacFileToResource(ctx context.Context, d *schema.ResourceData, c *client.Client, pf *client.PacFile) diag.Diagnostics {
 	d.SetId(pf.ID)
+	fmt.Println("[NADAV] pacFileToResource [0]")
 	err := client.MapResponseToResource(pf, d, excludedKeys)
 	if err != nil {
+		fmt.Println("[NADAV] pacFileToResource [0.err]")
 		return diag.FromErr(err)
 	}
+	fmt.Println("[NADAV] pacFileToResource [1]")
 	if pf.HasContent {
 		content, err := client.GetPacFileContent(ctx, c, pf.ID)
+		fmt.Println("[NADAV] pacFileToResource [1.1]")
 		if err != nil {
+			fmt.Println("[NADAV] pacFileToResource [1.1.err]")
 			return diag.FromErr(err)
 		}
 		err = d.Set("content", content)
+		fmt.Println("[NADAV] pacFileToResource [1.2]")
 		if err != nil {
+			fmt.Println("[NADAV] pacFileToResource [1.2.err]")
 			return diag.FromErr(err)
 		}
 	}
+	fmt.Printf("[NADAV] pacFileToResource [2]: pf: %+v\n", *pf)
 	if pf.Type == pacTypeManaged {
 		managed_content_ptr, err := client.GetPacFileManagedContent(ctx, c, pf.ID)
+		fmt.Printf("[NADAV] pacFileToResource [2.1]: managed_content_ptr: %+v\n", *managed_content_ptr)
 		if err != nil {
+			fmt.Println("[NADAV] pacFileToResource [2.1.err]")
 			return diag.FromErr(err)
 		}
 		managed_content_lst := []map[string]interface{}{}
+		fmt.Println("[NADAV] pacFileToResource [2.2]")
 		if managed_content_ptr != nil {
+			fmt.Println("[NADAV] pacFileToResource [2.3]")
 			content_map := make(map[string]interface{})
 			if len(managed_content_ptr.Domains) > 0 {
 				content_map["domains"] = managed_content_ptr.Domains
@@ -79,10 +92,13 @@ func pacFileToResource(ctx context.Context, d *schema.ResourceData, c *client.Cl
 			}
 			managed_content_lst = append(managed_content_lst, content_map)
 		}
+		fmt.Printf("[NADAV] pacFileToResource [2.4]: managed_content_lst: %+v\n", managed_content_lst)
 		err = d.Set("managed_content", managed_content_lst)
 		if err != nil {
+			fmt.Println("[NADAV] pacFileToResource [2.4.err]")
 			return diag.FromErr(err)
 		}
+		fmt.Printf("[NADAV] pacFileToResource [2.5]: d: %+v", *d)
 	}
 	return diag.Diagnostics{}
 }
@@ -91,6 +107,7 @@ func pacFileRead(ctx context.Context, d *schema.ResourceData, meta interface{}) 
 	id := d.Get("id").(string)
 	c := meta.(*client.Client)
 	pf, err := client.GetPacFile(ctx, c, id)
+	fmt.Println("[NADAV] pacFileRead")
 	if err != nil {
 		errResponse, ok := err.(*client.ErrorResponse)
 		if ok && errResponse.Status == http.StatusNotFound {
@@ -108,6 +125,7 @@ func pacFileCreate(ctx context.Context, d *schema.ResourceData, meta interface{}
 	c := meta.(*client.Client)
 	body := client.NewPacFile(d)
 	pf, err := client.CreatePacFile(ctx, c, body)
+	fmt.Println("[NADAV] pacFileCreate")
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -142,6 +160,7 @@ func pacFileUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}
 	}
 	body := client.ModifiedPacFile(d)
 	pf, err := client.UpdatePacFile(ctx, c, id, body)
+	fmt.Println("[NADAV] pacFileUpdate [0]")
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -155,11 +174,14 @@ func pacFileUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}
 			return diag.FromErr(err)
 		}
 	}
+	fmt.Println("[NADAV] pacFileUpdate [1]")
 	if d.HasChange("managed_content") {
+		fmt.Println("[NADAV] pacFileUpdate [1.1]")
 		if d.Get("type") != pacTypeManaged {
 			return diag.Errorf("Managed Content can only be update for managed PAC type")
 		}
 		new_content := client.NewManagedContent(d)
+		fmt.Printf("[NADAV] pacFileUpdate [1.2]: new_content: %+v\n", *new_content)
 		err = client.PatchPacFileManagedContent(ctx, c, pf.ID, new_content)
 		if err != nil {
 			return diag.FromErr(err)

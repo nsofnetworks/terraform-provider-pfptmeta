@@ -35,33 +35,41 @@ type PacFile struct {
 
 func NewManagedContent(d *schema.ResourceData) *ManagedContent {
 	mc := d.Get("managed_content").([]interface{})
+	fmt.Printf("[NADAV] NewManagedContent [0]: mc: %+v\n", mc)
 	if len(mc) == 0 {
 		return nil
 	}
-
+	fmt.Printf("[NADAV] NewManagedContent [1]\n")
 	conf := mc[0].(map[string]interface{})
+	fmt.Printf("[NADAV] NewManagedContent [2] conf: %+v\n", conf)
 	res := &ManagedContent{}
 	rng := conf["domains"].([]interface{})
 	if len(rng) > 0 {
+		fmt.Printf("[NADAV] NewManagedContent [2.1]\n")
 		res.Domains = make([]string, len(rng))
 		for i, val := range rng {
 			res.Domains[i] = val.(string)
 		}
 	}
+	fmt.Printf("[NADAV] NewManagedContent [3]\n")
 	rng = conf["cloud_apps"].([]interface{})
 	if len(rng) > 0 {
+		fmt.Printf("[NADAV] NewManagedContent [3.1]\n")
 		res.CloudApps = make([]string, len(rng))
 		for i, val := range rng {
 			res.CloudApps[i] = val.(string)
 		}
 	}
+	fmt.Printf("[NADAV] NewManagedContent [4]\n")
 	rng = conf["ip_networks"].([]interface{})
 	if len(rng) > 0 {
+		fmt.Printf("[NADAV] NewManagedContent [4.1]\n")
 		res.IpNetworks = make([]string, len(rng))
 		for i, val := range rng {
 			res.IpNetworks[i] = val.(string)
 		}
 	}
+	fmt.Printf("[NADAV] NewManagedContent [5] res: %+v\n\n", res)
 	return res
 }
 
@@ -198,6 +206,7 @@ func GetPacFileManagedContent(ctx context.Context, c *Client, pfID string) (*Man
 func PatchPacFileManagedContent(ctx context.Context, c *Client, pfID string, mc *ManagedContent) error {
 	pfUrl := fmt.Sprintf("%s/%s/%s/content/managed", c.BaseURL, pacFilesEndpoint, pfID)
 	body, err := json.Marshal(mc)
+	fmt.Printf("[NADAV] PatchPacFileManagedContent [0]: body: %s\n", body)
 	if err != nil {
 		fmt.Println("could not convert PAC file managed content to json")
 		return err
