@@ -72,6 +72,7 @@ resource "pfptmeta_pac_file" "pac" {
 
   managed_content {
 	domains = ["battle.net"]
+	cloud_apps = []
   }
 }
 `
