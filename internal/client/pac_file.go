@@ -41,7 +41,7 @@ func parsePacFile(resp []byte) (*PacFile, error) {
 	pg := &PacFile{}
 	err := json.Unmarshal(resp, pg)
 	if err != nil {
-		return nil, fmt.Errorf("could not parse pac file response: %v", err)
+		return nil, fmt.Errorf("could not parse PAC file response: %v", err)
 	}
 	return pg, nil
 }
@@ -50,7 +50,7 @@ func CreatePacFile(ctx context.Context, c *Client, pf *PacFile) (*PacFile, error
 	pfUrl := fmt.Sprintf("%s/%s", c.BaseURL, pacFilesEndpoint)
 	body, err := json.Marshal(pf)
 	if err != nil {
-		return nil, fmt.Errorf("could not convert pac file to json: %v", err)
+		return nil, fmt.Errorf("could not convert PAC file to json: %v", err)
 	}
 	resp, err := c.Post(ctx, pfUrl, body)
 	if err != nil {
@@ -63,7 +63,7 @@ func UpdatePacFile(ctx context.Context, c *Client, pfID string, pf *PacFile) (*P
 	pfUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, pacFilesEndpoint, pfID)
 	body, err := json.Marshal(pf)
 	if err != nil {
-		return nil, fmt.Errorf("could not convert pac file to json: %v", err)
+		return nil, fmt.Errorf("could not convert PAC file to json: %v", err)
 	}
 	resp, err := c.Patch(ctx, pfUrl, body)
 	if err != nil {
