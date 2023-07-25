@@ -26,7 +26,7 @@ const (
 	contentDesc    = "The content of the PAC file"
 )
 
-func parsePacFile(ctx context.Context, d *schema.ResourceData, c *client.Client, pf *client.PacFile) diag.Diagnostics {
+func pacFileToResource(ctx context.Context, d *schema.ResourceData, c *client.Client, pf *client.PacFile) diag.Diagnostics {
 	d.SetId(pf.ID)
 	err := client.MapResponseToResource(pf, d, excludedKeys)
 	if err != nil {
@@ -59,7 +59,7 @@ func pacFileRead(ctx context.Context, d *schema.ResourceData, meta interface{}) 
 			return diag.FromErr(err)
 		}
 	}
-	return parsePacFile(ctx, d, c, pf)
+	return pacFileToResource(ctx, d, c, pf)
 }
 
 func pacFileCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
@@ -80,7 +80,7 @@ func pacFileCreate(ctx context.Context, d *schema.ResourceData, meta interface{}
 			return diag.FromErr(err)
 		}
 	}
-	return parsePacFile(ctx, d, c, pf)
+	return pacFileToResource(ctx, d, c, pf)
 }
 
 func pacFileUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
@@ -102,7 +102,7 @@ func pacFileUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}
 			return diag.FromErr(err)
 		}
 	}
-	return parsePacFile(ctx, d, c, pf)
+	return pacFileToResource(ctx, d, c, pf)
 }
 
 func pacFileDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {
