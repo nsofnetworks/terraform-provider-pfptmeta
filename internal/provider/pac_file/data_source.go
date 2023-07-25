@@ -58,6 +58,44 @@ func DataSource() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
+			"type": {
+				Description: contentDesc,
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
+			"managed_content": {
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domains": {
+							Description: managedContentDomainsDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Computed:    true,
+							Elem:        &schema.Schema{Type: schema.TypeString},
+						},
+						"cloud_apps": {
+							Description: managedContentCloudAppsDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Computed:    true,
+							Elem:        &schema.Schema{Type: schema.TypeString},
+						},
+						"ip_networks": {
+							Description: managedContentIPNetworksDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Computed:    true,
+							Elem:        &schema.Schema{Type: schema.TypeString},
+						},
+					},
+				},
+			},
 		},
 	}
 }

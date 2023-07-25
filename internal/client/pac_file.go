@@ -10,30 +10,93 @@ import (
 )
 
 const pacFilesEndpoint string = "v1/pac_files"
+const pacTypeManaged string = "managed"
+const pacTypeBringYourOwn string = "bring_your_own"
 
-type PacFile struct {
-	ID            string   `json:"id,omitempty"`
-	Name          string   `json:"name,omitempty"`
-	Description   string   `json:"description"`
-	Enabled       bool     `json:"enabled"`
-	ApplyToOrg    bool     `json:"apply_to_org"`
-	Sources       []string `json:"sources"`
-	ExemptSources []string `json:"exempt_sources"`
-	HasContent    bool     `json:"has_content,omitempty"`
-	Priority      int      `json:"priority"`
+type ManagedContent struct {
+	Domains    *[]string `json:"domains,omitempty"`
+	CloudApps  *[]string `json:"cloud_apps,omitempty"`
+	IpNetworks *[]string `json:"ip_networks,omitempty"`
 }
 
-func NewPacFile(d *schema.ResourceData) *PacFile {
-	res := &PacFile{}
-	if d.HasChange("name") {
-		res.Name = d.Get("name").(string)
+type PacFile struct {
+	ID             string          `json:"id,omitempty"`
+	Name           string          `json:"name,omitempty"`
+	Description    string          `json:"description"`
+	Enabled        bool            `json:"enabled"`
+	ApplyToOrg     bool            `json:"apply_to_org"`
+	Sources        []string        `json:"sources"`
+	ExemptSources  []string        `json:"exempt_sources"`
+	HasContent     bool            `json:"has_content,omitempty"`
+	Priority       int             `json:"priority"`
+	Type           string          `json:"type,omitempty"`
+	ManagedContent *ManagedContent `json:"managed_content,omitempty"`
+}
+
+func NewManagedContent(d *schema.ResourceData) *ManagedContent {
+	mc := d.Get("managed_content").([]interface{})
+	if len(mc) == 0 {
+		return nil
 	}
+	res := &ManagedContent{
+		Domains:    &[]string{},
+		CloudApps:  &[]string{},
+		IpNetworks: &[]string{},
+	}
+	if mc[0] == nil {
+		return res
+	}
+	conf := mc[0].(map[string]interface{})
+	rng := conf["domains"].([]interface{})
+	if len(rng) > 0 {
+		tmpDomains := make([]string, len(rng))
+		for i, val := range rng {
+			tmpDomains[i] = val.(string)
+		}
+		res.Domains = &tmpDomains
+	}
+	rng = conf["cloud_apps"].([]interface{})
+	if len(rng) > 0 {
+		tmpCloudApps := make([]string, len(rng))
+		for i, val := range rng {
+			tmpCloudApps[i] = val.(string)
+		}
+		res.CloudApps = &tmpCloudApps
+	}
+	rng = conf["ip_networks"].([]interface{})
+	if len(rng) > 0 {
+		tmpIpNetworks := make([]string, len(rng))
+		for i, val := range rng {
+			tmpIpNetworks[i] = val.(string)
+		}
+		res.IpNetworks = &tmpIpNetworks
+	}
+	return res
+}
+
+func PacFileBase(d *schema.ResourceData) *PacFile {
+	res := &PacFile{}
 	res.Description = d.Get("description").(string)
 	res.ApplyToOrg = d.Get("apply_to_org").(bool)
 	res.Enabled = d.Get("enabled").(bool)
 	res.Sources = ConfigToStringSlice("sources", d)
 	res.ExemptSources = ConfigToStringSlice("exempt_sources", d)
 	res.Priority = d.Get("priority").(int)
+	return res
+}
+
+func NewPacFile(d *schema.ResourceData) *PacFile {
+	res := PacFileBase(d)
+	res.Name = d.Get("name").(string)
+	res.Type = d.Get("type").(string)
+	return res
+}
+
+func ModifiedPacFile(d *schema.ResourceData) *PacFile {
+	res := PacFileBase(d)
+	if d.HasChange("name") {
+		res.Name = d.Get("name").(string)
+	}
 	return res
 }
 
@@ -44,6 +107,15 @@ func parsePacFile(resp []byte) (*PacFile, error) {
 		return nil, fmt.Errorf("could not parse PAC file response: %v", err)
 	}
 	return pg, nil
+}
+
+func parseManagedContent(resp []byte) (*ManagedContent, error) {
+	mc := &ManagedContent{}
+	err := json.Unmarshal(resp, mc)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse managed content response: %v", err)
+	}
+	return mc, nil
 }
 
 func CreatePacFile(ctx context.Context, c *Client, pf *PacFile) (*PacFile, error) {
@@ -117,6 +189,29 @@ func PutPacFileContent(ctx context.Context, c *Client, pfID, pfContent string) e
 		return err
 	}
 	_, err = c.SendRequest(req)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetPacFileManagedContent(ctx context.Context, c *Client, pfID string) (*ManagedContent, error) {
+	pfUrl := fmt.Sprintf("%s/%s/%s/content/managed", c.BaseURL, pacFilesEndpoint, pfID)
+	resp, err := c.Get(ctx, pfUrl, nil)
+	if err != nil {
+		return nil, err
+	}
+	return parseManagedContent(resp)
+}
+
+func PatchPacFileManagedContent(ctx context.Context, c *Client, pfID string, mc *ManagedContent) error {
+	pfUrl := fmt.Sprintf("%s/%s/%s/content/managed", c.BaseURL, pacFilesEndpoint, pfID)
+	body, err := json.Marshal(mc)
+	if err != nil {
+		fmt.Println("could not convert PAC file managed content to json")
+		return err
+	}
+	_, err = c.Patch(ctx, pfUrl, body)
 	if err != nil {
 		return err
 	}

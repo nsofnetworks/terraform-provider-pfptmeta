@@ -48,6 +48,6 @@ output "pac_file" {
 
 Optional:
 
-- `cloud_apps` (List of String) Ids of Cloud Apps to monitor for changes. The domains from these will be added (and updated) to the raw content of the PAC file. If not provided defaults to empty list.
-- `domains` (List of String) domains to be used as is. If not provided defaults to empty list.
-- `ip_networks` (List of String) Ids of Cloud Apps to monitor for changes. The domains from these will be added (and updated) to the raw content of the PAC file. If not provided defaults to empty list.
+- `cloud_apps` (List of String) IDs of cloud apps to be monitored for changes. Their domains will be added (and updated) to the raw content of the PAC file. If not provided defaults to empty list.
+- `domains` (List of String) Domains to be used as is. If not provided defaults to empty list.
+- `ip_networks` (List of String) IDs of IP networks to be monitored for changes. Their network ranges will be added (and updated) to the raw content of the PAC file. If not provided defaults to empty list.

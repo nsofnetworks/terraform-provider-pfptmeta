@@ -76,7 +76,53 @@ func Resource() *schema.Resource {
 			"content": {
 				Description: contentDesc,
 				Type:        schema.TypeString,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
+			},
+			"type": {
+				Description:      typeDesc,
+				Type:             schema.TypeString,
+				Required:         true,
+				ValidateDiagFunc: common.ValidateStringENUM(pacTypeManaged, pacTypeBringYourOwn),
+			},
+			"managed_content": {
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domains": {
+							Description: managedContentDomainsDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Elem: &schema.Schema{
+								Type:             schema.TypeString,
+								ValidateDiagFunc: common.ValidatePattern(common.DomainPattern),
+							},
+						},
+						"cloud_apps": {
+							Description: managedContentCloudAppsDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Elem: &schema.Schema{
+								Type:             schema.TypeString,
+								ValidateDiagFunc: common.ValidateID(false, "ca"),
+							},
+						},
+						"ip_networks": {
+							Description: managedContentIPNetworksDesc,
+							Type:        schema.TypeList,
+							Optional:    true,
+							MaxItems:    1000,
+							Elem: &schema.Schema{
+								Type:             schema.TypeString,
+								ValidateDiagFunc: common.ValidateID(false, "ipn"),
+							},
+						},
+					},
+				},
 			},
 		},
 	}
