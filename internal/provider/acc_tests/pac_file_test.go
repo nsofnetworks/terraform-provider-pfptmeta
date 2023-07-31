@@ -58,7 +58,7 @@ resource "pfptmeta_pac_file" "pac" {
   name            = "test managed pac file"
   description     = "test managed pac file description"
   apply_to_org    = true
-  priority        = 15
+  priority        = 16
   type            = "managed"
 
   managed_content {
@@ -72,7 +72,7 @@ resource "pfptmeta_pac_file" "pac" {
   name            = "test managed pac file 1"
   description     = "test managed pac file description 1"
   apply_to_org    = false
-  priority        = 20
+  priority        = 21
   type            = "managed"
 
   managed_content {
@@ -86,7 +86,7 @@ resource "pfptmeta_pac_file" "pac" {
   name            = "test managed pac file 2"
   description     = "test managed pac file description 2"
   apply_to_org    = false
-  priority        = 20
+  priority        = 21
   type            = "managed"
 
   managed_content {
@@ -99,7 +99,7 @@ resource "pfptmeta_pac_file" "pac" {
   name            = "test managed pac file cleared"
   description     = "test managed pac file cleared description"
   apply_to_org    = true
-  priority        = 15
+  priority        = 16
   type            = "managed"
 
   managed_content {
@@ -112,7 +112,7 @@ resource "pfptmeta_pac_file" "pac_data_source" {
   name            = "test managed pac file data source"
   description     = "test managed pac file data source description"
   apply_to_org    = true
-  priority        = 25
+  priority        = 26
   type            = "managed"
 
   managed_content {
@@ -197,7 +197,7 @@ func TestAccResourceManagedPacFile(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "name", "test managed pac file"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "description", "test managed pac file description"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "apply_to_org", "true"),
-					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "15"),
+					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "16"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "type", "managed"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.#", "0"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.cloud_apps.#", "0"),
@@ -212,7 +212,7 @@ func TestAccResourceManagedPacFile(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "name", "test managed pac file 1"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "description", "test managed pac file description 1"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "apply_to_org", "false"),
-					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "20"),
+					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "21"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "type", "managed"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.#", "1"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.0", "battle.net"),
@@ -228,7 +228,7 @@ func TestAccResourceManagedPacFile(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "name", "test managed pac file 2"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "description", "test managed pac file description 2"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "apply_to_org", "false"),
-					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "20"),
+					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "21"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "type", "managed"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.#", "2"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.0", "battle.net"),
@@ -246,7 +246,7 @@ func TestAccResourceManagedPacFile(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "name", "test managed pac file cleared"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "description", "test managed pac file cleared description"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "apply_to_org", "true"),
-					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "15"),
+					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "priority", "16"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "type", "managed"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.domains.#", "0"),
 					resource.TestCheckResourceAttr("pfptmeta_pac_file.pac", "managed_content.0.cloud_apps.#", "0"),
@@ -270,7 +270,7 @@ func TestAccDataSourceManagedPacFile(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "name", "test managed pac file data source"),
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "description", "test managed pac file data source description"),
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "apply_to_org", "true"),
-					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "priority", "25"),
+					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "priority", "26"),
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "type", "managed"),
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "managed_content.0.domains.#", "1"),
 					resource.TestCheckResourceAttr("data.pfptmeta_pac_file.pac_data_source", "managed_content.0.domains.0", "proof.point.com"),
