@@ -27,6 +27,7 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_roles_attachment"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/group_users_attachment"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/idp"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ip_network"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/location"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/log_streaming_access_bridge"
@@ -122,6 +123,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
 				"pfptmeta_aac_rule":                    aac_rule.DataSource(),
 				"pfptmeta_app":                         app.DataSource(),
+				"pfptmeta_idp":                         idp.DataSource(),
 				//	SWG
 				"pfptmeta_content_category":   content_category.DataSource(),
 				"pfptmeta_ip_network":         ip_network.DataSource(),
@@ -174,6 +176,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_log_streaming_access_bridge":                 log_streaming_access_bridge.Resource(),
 				"pfptmeta_aac_rule":                                    aac_rule.Resource(),
 				"pfptmeta_app":                                         app.Resource(),
+				"pfptmeta_idp":                                         idp.Resource(),
 				//	SWG
 				"pfptmeta_content_category":   content_category.Resource(),
 				"pfptmeta_ip_network":         ip_network.Resource(),
