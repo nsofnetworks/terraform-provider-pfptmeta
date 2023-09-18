@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/client"
+	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/aac_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/access_control"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/alert"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/catalog_app"
@@ -118,6 +119,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_trusted_network":             trusted_network.DataSource(),
 				"pfptmeta_user_settings":               user_settings.DataSource(),
 				"pfptmeta_log_streaming_access_bridge": log_streaming_access_bridge.DataSource(),
+				"pfptmeta_aac_rule":                    aac_rule.DataSource(),
 				//	SWG
 				"pfptmeta_content_category":   content_category.DataSource(),
 				"pfptmeta_ip_network":         ip_network.DataSource(),
@@ -168,6 +170,7 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_user_roles_attachment":                       user_roles_attachment.Resource(),
 				"pfptmeta_user_settings":                               user_settings.Resource(),
 				"pfptmeta_log_streaming_access_bridge":                 log_streaming_access_bridge.Resource(),
+				"pfptmeta_aac_rule":                                    aac_rule.Resource(),
 				//	SWG
 				"pfptmeta_content_category":   content_category.Resource(),
 				"pfptmeta_ip_network":         ip_network.Resource(),
