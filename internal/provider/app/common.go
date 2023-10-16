@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-var excludedKeys = []string{"id", "saml", "oidc", "mapped_attributes"}
+var excludedKeys = []string{"id", "saml", "oidc", "mapped_attributes", "domain_federation"}
 
 const (
 	description         = "Application for configuring SSO by SPs based on SAML or OIDC protocols"
@@ -33,7 +33,8 @@ const (
 	samlSsoUrleDesc             = "SAML url to be configured at SP side"
 	samlAuthnCtxClassDesc       = "SAML authentication context class to be configured at the SP side"
 	samlDefRelayStateDesc       = "SAML default relay state URL to use after successful assertion"
-	wsFedDesc                   = "SSO configuration for Office365 SP"
+	domainFedDesc               = "SSO configuration for Office-365 SP"
+	domainFedDomainDesc         = "Office-365 domain to be federated"
 	oidcDesc                    = "OIDC-based app properties"
 	oidcSigninRedUrlsDesc       = "Redirect URLs which are allowed after successful authorization"
 	oidcGrantTypesDesc          = "OIDC-supported access/ID token grant types"
@@ -75,13 +76,19 @@ func appCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) di
 	app_body := client.NewApp(d)
 	var saml_body *client.AppSaml
 	var oidc_body *client.AppOidc
+	var domain_fed_body *client.AppDomainFederation
 	if app_body.Protocol == "SAML" {
 		saml_body = client.NewAppSaml(d)
 	} else if app_body.Protocol == "OIDC" {
 		oidc_body = client.NewAppOidc(d)
 	}
+	domain_fed_body, err := client.NewAppDomainFederation(app_body.Protocol, d)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	mapped_attrs_body := client.NewAppMappedAttr(d)
-	a, err := client.CreateApp(ctx, c, app_body, saml_body, oidc_body, mapped_attrs_body)
+	a, err := client.CreateApp(ctx, c, app_body, saml_body, oidc_body,
+		mapped_attrs_body, domain_fed_body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -95,13 +102,19 @@ func appUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) di
 	app_body := client.NewApp(d)
 	var saml_body *client.AppSaml
 	var oidc_body *client.AppOidc
+	var domain_fed_body *client.AppDomainFederation
 	if app_body.Protocol == "SAML" {
 		saml_body = client.NewAppSaml(d)
 	} else if app_body.Protocol == "OIDC" {
 		oidc_body = client.NewAppOidc(d)
 	}
+	domain_fed_body, err := client.NewAppDomainFederation(app_body.Protocol, d)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	mapped_attrs_body := client.NewAppMappedAttr(d)
-	a, err := client.UpdateApp(ctx, c, id, app_body, saml_body, oidc_body, mapped_attrs_body)
+	a, err := client.UpdateApp(ctx, c, id, app_body, saml_body, oidc_body,
+		mapped_attrs_body, domain_fed_body)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -166,6 +179,15 @@ func appToResource(d *schema.ResourceData, a *client.App) diag.Diagnostics {
 	err = d.Set("mapped_attributes", mappedAttrsToResource)
 	if err != nil {
 		return diag.FromErr(err)
+	}
+	if a.DomainFederation != nil {
+		domainFedToResource := []map[string]interface{}{
+			{"domain": a.DomainFederation.Domain},
+		}
+		err = d.Set("domain_federation", domainFedToResource)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
 	return diags
 }

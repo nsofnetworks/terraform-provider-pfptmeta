@@ -33,6 +33,10 @@ resource "pfptmeta_app" "app_saml" {
     signature_algorithm       = "RSA-SHA256"
     digest_algorithm          = "SHA256"
   }
+
+  domain_federation {
+    domain = "my-domain.com"
+  }
 }
 
 data "pfptmeta_app" "app_saml" {
@@ -170,6 +174,7 @@ func TestAccDataSourceAppSaml(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_app.app_saml", "saml.0.subject_name_id_format", "emailAddress"),
 					resource.TestCheckResourceAttr("pfptmeta_app.app_saml", "saml.0.signature_algorithm", "RSA-SHA256"),
 					resource.TestCheckResourceAttr("pfptmeta_app.app_saml", "saml.0.digest_algorithm", "SHA256"),
+					resource.TestCheckResourceAttr("pfptmeta_app.app_saml", "domain_federation.0.domain", "my-domain.com"),
 				),
 			},
 			{
@@ -190,6 +195,7 @@ func TestAccDataSourceAppSaml(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_app.app_saml", "saml.0.subject_name_id_format", "emailAddress"),
 					resource.TestCheckResourceAttr("data.pfptmeta_app.app_saml", "saml.0.signature_algorithm", "RSA-SHA256"),
 					resource.TestCheckResourceAttr("data.pfptmeta_app.app_saml", "saml.0.digest_algorithm", "SHA256"),
+					resource.TestCheckResourceAttr("data.pfptmeta_app.app_saml", "domain_federation.0.domain", "my-domain.com"),
 				),
 			},
 		},

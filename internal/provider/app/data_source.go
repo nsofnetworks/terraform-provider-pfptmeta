@@ -130,6 +130,20 @@ func DataSource() *schema.Resource {
 					},
 				},
 			},
+			"domain_federation": {
+				Description: domainFedDesc,
+				Type:        schema.TypeList,
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain": {
+							Description: domainFedDomainDesc,
+							Type:        schema.TypeString,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"oidc": {
 				Description: oidcDesc,
 				Type:        schema.TypeList,

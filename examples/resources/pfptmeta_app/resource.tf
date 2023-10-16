@@ -74,3 +74,27 @@ resource "pfptmeta_app" "app_oidc" {
     initiate_login_url    = "https://intial-login.myApp.example.com"
   }
 }
+
+resource "pfptmeta_app" "app_office365" {
+  name             = "office-365 app name"
+  description      = "office-365 app description"
+  enabled          = true
+  assigned_members = ["usr-abcd1234"]
+  protocol         = "SAML"
+
+  saml {
+    audience_uri              = "https://audience.myApp.com"
+    sso_acs_url               = "https://login.myApp.example.com"
+    destination               = "https://login.myApp.example.com"
+    recipient                 = "https://login.myApp.example.com"
+    default_relay_state       = "https://relay.myApp.com"
+    subject_name_id_attribute = "email"
+    subject_name_id_format    = "emailAddress"
+    signature_algorithm       = "RSA-SHA256"
+    digest_algorithm          = "SHA256"
+  }
+
+  domain_federation {
+    domain = "my-office365-domain.com"
+  }
+}

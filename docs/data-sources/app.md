@@ -35,6 +35,7 @@ output "app" {
 - `assigned_members` (List of String) Users and groups which the application is applied to
 - `description` (String)
 - `direct_sso_login` (String) IDP to use when logging into Proofpoint NaaS directly, while performing SSO login to SP
+- `domain_federation` (List of Object) SSO configuration for Office-365 SP (see [below for nested schema](#nestedatt--domain_federation))
 - `enabled` (Boolean)
 - `id` (String) The ID of this resource.
 - `ip_whitelist` (List of String) Users and groups which the application is applied to
@@ -43,6 +44,14 @@ output "app" {
 - `oidc` (List of Object) OIDC-based app properties (see [below for nested schema](#nestedatt--oidc))
 - `saml` (List of Object) SAML-based app properties (see [below for nested schema](#nestedatt--saml))
 - `visible` (Boolean) Application visibility, defining whether to display application to user or not
+
+<a id="nestedatt--domain_federation"></a>
+### Nested Schema for `domain_federation`
+
+Read-Only:
+
+- `domain` (String)
+
 
 <a id="nestedatt--mapped_attributes"></a>
 ### Nested Schema for `mapped_attributes`

@@ -43,6 +43,10 @@ type AppMappedAttributes struct {
 	FilterValue        *string `json:"filter_value"`
 }
 
+type AppDomainFederation struct {
+	Domain string `json:"domain"`
+}
+
 type App struct {
 	ID               string                `json:"id,omitempty"`
 	Name             string                `json:"name,omitempty"`
@@ -56,6 +60,7 @@ type App struct {
 	Saml             *AppSaml              `json:"saml,omitempty"`
 	Oidc             *AppOidc              `json:"oidc,omitempty"`
 	MappedAttributes []AppMappedAttributes `json:"mapped_attributes,omitempty"`
+	DomainFederation *AppDomainFederation  `json:"domain_federation,omitempty"`
 }
 
 func NewApp(d *schema.ResourceData) *App {
@@ -188,6 +193,24 @@ func NewAppMappedAttr(d *schema.ResourceData) *[]AppMappedAttributes {
 	return &res
 }
 
+func NewAppDomainFederation(protocol string, d *schema.ResourceData) (*AppDomainFederation, error) {
+	res := &AppDomainFederation{}
+	df, exists := d.GetOk("domain_federation")
+	if !exists {
+		return nil, nil
+	}
+	if protocol != "SAML" {
+		return nil, fmt.Errorf("Domain federation with sso protocol %s is not supported", protocol)
+	}
+	domain_fed := df.([]interface{})
+	if len(domain_fed) != 1 {
+		return nil, nil
+	}
+	domain_federation_conf := domain_fed[0].(map[string]interface{})
+	res.Domain = domain_federation_conf["domain"].(string)
+	return res, nil
+}
+
 func parseApp(resp []byte) (*App, error) {
 	app := &App{}
 	err := json.Unmarshal(resp, app)
@@ -222,6 +245,15 @@ func parseAppMappedAttributes(resp []byte) ([]AppMappedAttributes, error) {
 		return nil, fmt.Errorf("could not parse app mapped attrs response: %v", err)
 	}
 	return *app_mapped_attrs, nil
+}
+
+func parseAppDomainFederation(resp []byte) (*AppDomainFederation, error) {
+	app_domain_federation := &AppDomainFederation{}
+	err := json.Unmarshal(resp, app_domain_federation)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse app domain federation response: %v", err)
+	}
+	return app_domain_federation, nil
 }
 
 func UpdateAppProto(ctx context.Context, c *Client, app *App, saml []byte, oidc []byte,
@@ -264,6 +296,20 @@ func UpdateAppProto(ctx context.Context, c *Client, app *App, saml []byte, oidc 
 	return app, nil
 }
 
+func UpdateAppDomainFederation(ctx context.Context, c *Client, app_id string,
+	domainFed []byte) (*AppDomainFederation, error) {
+	DomainFedUrl := fmt.Sprintf("%s/%s/%s/domain_federation", c.BaseURL, appEndpoint, app_id)
+	resp, err := c.Patch(ctx, DomainFedUrl, domainFed)
+	if err != nil {
+		return nil, err
+	}
+	domain_federation_resp, err := parseAppDomainFederation(resp)
+	if err != nil {
+		return nil, err
+	}
+	return domain_federation_resp, nil
+}
+
 func UpdateAppMappedAttrs(ctx context.Context, c *Client, app_id string,
 	mappedAttrs []byte) ([]AppMappedAttributes, error) {
 	MappedAttrsUrl := fmt.Sprintf("%s/%s/%s/attribute_mapping", c.BaseURL, appEndpoint, app_id)
@@ -297,7 +343,7 @@ func MarshalAppProtocol(protocol string, saml *AppSaml, oidc *AppOidc) ([]byte, 
 }
 
 func CreateApp(ctx context.Context, c *Client, app *App, saml *AppSaml, oidc *AppOidc,
-	mappedAttrs *[]AppMappedAttributes) (*App, error) {
+	mappedAttrs *[]AppMappedAttributes, domainFed *AppDomainFederation) (*App, error) {
 	body, err := json.Marshal(app)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert app to json: %v", err)
@@ -330,11 +376,26 @@ func CreateApp(ctx context.Context, c *Client, app *App, saml *AppSaml, oidc *Ap
 			app_resp.MappedAttributes = mappedAttrs
 		}
 	}
+	if domainFed != nil {
+		domain_federation_body, err := json.Marshal(domainFed)
+		if err != nil {
+			DeleteApp(ctx, c, app_resp.ID)
+			return nil, fmt.Errorf("could not convert app domain federation to json: %v", err)
+		}
+		if domain_federation_body != nil {
+			domainFed, err := UpdateAppDomainFederation(ctx, c, app_resp.ID, domain_federation_body)
+			if err != nil {
+				DeleteApp(ctx, c, app_resp.ID)
+				return nil, err
+			}
+			app_resp.DomainFederation = domainFed
+		}
+	}
 	return UpdateAppProto(ctx, c, app_resp, saml_body, oidc_body, true)
 }
 
 func UpdateApp(ctx context.Context, c *Client, appID string, app *App, saml *AppSaml, oidc *AppOidc,
-	mappedAttrs *[]AppMappedAttributes) (*App, error) {
+	mappedAttrs *[]AppMappedAttributes, domainFed *AppDomainFederation) (*App, error) {
 	var empty_proto string
 	proto := app.Protocol
 	app.Protocol = empty_proto
@@ -369,6 +430,19 @@ func UpdateApp(ctx context.Context, c *Client, appID string, app *App, saml *App
 			app_resp.MappedAttributes = mappedAttrs
 		}
 	}
+	if domainFed != nil {
+		domain_federation_body, err := json.Marshal(domainFed)
+		if err != nil {
+			return nil, fmt.Errorf("could not convert app domain federation to json: %v", err)
+		}
+		if domain_federation_body != nil {
+			domainFed, err := UpdateAppDomainFederation(ctx, c, app_resp.ID, domain_federation_body)
+			if err != nil {
+				return nil, err
+			}
+			app_resp.DomainFederation = domainFed
+		}
+	}
 	app.Protocol = proto
 	return UpdateAppProto(ctx, c, app_resp, saml_body, oidc_body, false)
 }
@@ -394,6 +468,16 @@ func GetApp(ctx context.Context, c *Client, appID string, protocol string) (*App
 			return nil, err
 		}
 		app_resp.Saml = saml_resp
+		DomainFedUrl := fmt.Sprintf("%s/%s/%s/domain_federation", c.BaseURL, appEndpoint, app_resp.ID)
+		resp, err = c.Get(ctx, DomainFedUrl, nil)
+		if err != nil {
+			return nil, err
+		}
+		domain_federation_resp, err := parseAppDomainFederation(resp)
+		if err != nil {
+			return nil, err
+		}
+		app_resp.DomainFederation = domain_federation_resp
 	} else if protocol == "OIDC" {
 		oidcUrl := fmt.Sprintf("%s/%s/%s/oidc", c.BaseURL, appEndpoint, app_resp.ID)
 		resp, err = c.Get(ctx, oidcUrl, nil)

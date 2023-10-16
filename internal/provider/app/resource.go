@@ -152,6 +152,23 @@ func Resource() *schema.Resource {
 				},
 				ConflictsWith: []string{"oidc"},
 			},
+			"domain_federation": {
+				Description: domainFedDesc,
+				Type:        schema.TypeList,
+				Optional:    true,
+				MaxItems:    1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain": {
+							Description:      domainFedDomainDesc,
+							Type:             schema.TypeString,
+							Required:         true,
+							ValidateDiagFunc: common.ValidatePattern(common.DomainPattern),
+						},
+					},
+				},
+				ConflictsWith: []string{"oidc"},
+			},
 			"oidc": {
 				Description: oidcDesc,
 				Type:        schema.TypeList,
@@ -203,7 +220,7 @@ func Resource() *schema.Resource {
 						},
 					},
 				},
-				ConflictsWith: []string{"saml"},
+				ConflictsWith: []string{"saml", "domain_federation"},
 			},
 			"mapped_attributes": {
 				Description: MappedAttributesDesc,
