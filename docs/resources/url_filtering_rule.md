@@ -141,7 +141,7 @@ resource "pfptmeta_content_category" "web_mail_category" {
 resource "pfptmeta_url_filtering_rule" "isolate_web_mails" {
   name                         = "Isolate Web Mails"
   apply_to_org                 = true
-  action                       = "ISOLATION"
+  action                       = "ISOLATE"
   advanced_threat_protection   = false
   forbidden_content_categories = [pfptmeta_content_category.web_mail_category.id]
   priority                     = 92
@@ -219,7 +219,7 @@ resource "pfptmeta_url_filtering_rule" "work_time" {
 
 ### Required
 
-- `action` (String) Enum: `ISOLATION`, `BLOCK`, `LOG`, `RESTRICT`, `WARN`.
+- `action` (String) Enum: `ISOLATE`, `BLOCK`, `LOG`, `RESTRICT`, `WARN`.
 This action determines what must be done according to this URL filtering rule if a user tries to reach a restricted URL.
 - `name` (String)
 

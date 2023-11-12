@@ -8,7 +8,7 @@ resource "pfptmeta_content_category" "web_mail_category" {
 resource "pfptmeta_url_filtering_rule" "isolate_web_mails" {
   name                         = "Isolate Web Mails"
   apply_to_org                 = true
-  action                       = "ISOLATION"
+  action                       = "ISOLATE"
   advanced_threat_protection   = false
   forbidden_content_categories = [pfptmeta_content_category.web_mail_category.id]
   priority                     = 92

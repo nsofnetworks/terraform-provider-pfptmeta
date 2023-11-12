@@ -89,7 +89,7 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
   name                         = "ufr 1"
   description                  = "ufr desc 1"
   sources                      = [pfptmeta_user.user.id]
-  action                       = "ISOLATION"
+  action                       = "ISOLATE"
   advanced_threat_protection   = false
   forbidden_content_categories = [pfptmeta_content_category.cc.id]
   priority                     = 50
@@ -100,7 +100,7 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
 resource "pfptmeta_url_filtering_rule" "high_risk" {
   name              = "ufr 2 2"
   sources           = [pfptmeta_user.user.id]
-  action            = "ISOLATION"
+  action            = "ISOLATE"
   cloud_apps        = [pfptmeta_cloud_app.salesforce.id]
   priority          = 51
   warn_ttl          = 15
@@ -117,7 +117,7 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
   name                         = "data source ufr"
   description                  = "data source ufr desc"
   apply_to_org                 = true
-  action                       = "ISOLATION"
+  action                       = "ISOLATE"
   advanced_threat_protection   = false
   forbidden_content_categories = [pfptmeta_content_category.cc.id]
   priority                     = 50
@@ -175,7 +175,7 @@ func TestAccResourceURLFilteringRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "apply_to_org", "false"),
 					resource.TestCheckResourceAttrPair("pfptmeta_url_filtering_rule.default_rule", "sources.0",
 						"pfptmeta_user.user", "id"),
-					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "action", "ISOLATION"),
+					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "action", "ISOLATE"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "threat_categories.#", "0"),
 					resource.TestCheckResourceAttrPair("pfptmeta_url_filtering_rule.default_rule", "forbidden_content_categories.0",
 						"pfptmeta_content_category.cc", "id"),
@@ -189,7 +189,7 @@ func TestAccResourceURLFilteringRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.high_risk", "apply_to_org", "false"),
 					resource.TestCheckResourceAttrPair("pfptmeta_url_filtering_rule.high_risk", "sources.0",
 						"pfptmeta_user.user", "id"),
-					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.high_risk", "action", "ISOLATION"),
+					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.high_risk", "action", "ISOLATE"),
 					resource.TestCheckResourceAttrPair("pfptmeta_url_filtering_rule.high_risk", "cloud_apps.0",
 						"pfptmeta_cloud_app.salesforce", "id"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.high_risk", "priority", "51"),
@@ -241,7 +241,7 @@ func TestAccDataSourceURLFilteringRule(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "name", "data source ufr"),
 					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "description", "data source ufr desc"),
 					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "apply_to_org", "true"),
-					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "action", "ISOLATION"),
+					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "action", "ISOLATE"),
 					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "advanced_threat_protection", "false"),
 					resource.TestCheckResourceAttr("data.pfptmeta_url_filtering_rule.ufr", "threat_categories.#", "0"),
 					resource.TestCheckResourceAttrPair("data.pfptmeta_url_filtering_rule.ufr", "forbidden_content_categories.0",

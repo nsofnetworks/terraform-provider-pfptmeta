@@ -40,7 +40,7 @@ func Resource() *schema.Resource {
 				Description:      actionDesc,
 				Type:             schema.TypeString,
 				Required:         true,
-				ValidateDiagFunc: common.ValidateStringENUM("ISOLATION", "BLOCK", "LOG", "RESTRICT", "WARN"),
+				ValidateDiagFunc: common.ValidateStringENUM("ISOLATE", "BLOCK", "LOG", "RESTRICT", "WARN"),
 			},
 			"apply_to_org": {
 				Description:   applyToOrgDesc,

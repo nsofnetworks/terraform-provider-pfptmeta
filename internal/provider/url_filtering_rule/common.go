@@ -14,7 +14,7 @@ const (
 	description = `The Proofpoint Web Security solution protects against web-based security threats by defining URL filtering rules
 which include various content and threat categories, as well as cloud-based applications and tenant restrictions.
 With these measures, you can enforce company security policies and filter malicious internet traffic in real time.`
-	actionDesc = "Enum: `ISOLATION`, `BLOCK`, `LOG`, `RESTRICT`, `WARN`.\n" +
+	actionDesc = "Enum: `ISOLATE`, `BLOCK`, `LOG`, `RESTRICT`, `WARN`.\n" +
 		"This action determines what must be done according to this URL filtering rule if a user tries to reach a restricted URL."
 	applyToOrgDesc               = "indicates whether this URL filtering rule applies to the org."
 	sourcesDesc                  = "Users and groups on which the URL filtering rule should be applied."
