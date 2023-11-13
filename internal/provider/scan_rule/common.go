@@ -24,9 +24,9 @@ The CASB proxy Scan takes full advantage of Proofpoint’s robust Enterprise Sca
 	priorityDesc = "Determines the order in which the Scan rules are evaluated. " +
 		"The order is significant since among all the scan rules that are relevant to a specific user, " +
 		"the one with the highest priority (smaller priority value) is the one to determine the scan enforcement applied to that user."
-	sourcesDesc    = "Users and groups on which the Scan rule should be applied."
-	exemptSources  = "Subgroup of 'sources' on which the Scan rule should not be applied."
-	expressionDesc = `Defines filtering expressions to ensure granularity in Scan rule application.
+	sourcesDesc       = "Users and groups on which the Scan rule should be applied."
+	exemptSourcesDesc = "Subgroup of 'sources' on which the Scan rule should not be applied."
+	expressionDesc    = `Defines filtering expressions to ensure granularity in Scan rule application.
 These expressions consist of the **{Key:Value}** tags according to the internal and external risk factors obtained from the following sources:
 
 	- Proofpoint’s Nexus People Risk Explorer (NPRE).

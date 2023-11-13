@@ -38,7 +38,7 @@ func DataSource() *schema.Resource {
 				Computed:    true,
 			},
 			"exempt_sources": {
-				Description: exemptSources,
+				Description: exemptSourcesDesc,
 				Type:        schema.TypeList,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,

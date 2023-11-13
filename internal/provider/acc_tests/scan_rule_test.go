@@ -75,7 +75,7 @@ resource "pfptmeta_content_category" "cc" {
   confidence_level = "LOW"
   types = ["Sex Education"]
 }
-        
+
 resource "pfptmeta_scan_rule" "default_rule" {
   name                     = "rule for data-source"
   description              = "rule desc"

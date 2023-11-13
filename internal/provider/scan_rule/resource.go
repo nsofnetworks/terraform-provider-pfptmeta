@@ -52,7 +52,7 @@ func Resource() *schema.Resource {
 				ConflictsWith: []string{"apply_to_org"},
 			},
 			"exempt_sources": {
-				Description: exemptSources,
+				Description: exemptSourcesDesc,
 				Type:        schema.TypeList,
 				MaxItems:    200,
 				Elem: &schema.Schema{
