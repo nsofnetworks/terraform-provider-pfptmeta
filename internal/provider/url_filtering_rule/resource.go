@@ -97,12 +97,6 @@ func Resource() *schema.Resource {
 				},
 				Optional: true,
 			},
-			"catalog_app_risk": {
-				Description:      catalogAppRiskDesc,
-				Type:             schema.TypeInt,
-				ValidateDiagFunc: common.ValidateIntRange(1, 8),
-				Optional:         true,
-			},
 			"cloud_apps": {
 				Description:   cloudAppsDesc,
 				Type:          schema.TypeList,

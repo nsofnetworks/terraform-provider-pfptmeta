@@ -31,9 +31,8 @@ With these measures, you can enforce company security policies and filter malici
 		"`News and Media`, `Sales`, `Enterprise Resource Planning`, `Advertising`, `Travel and Transportation`, " +
 		"`Property Management`, `Government Services`, `Games`, `Code Hosting`.\n" +
 		"List of catalog app categories that the URL filtering rule must restrict."
-	catalogAppRiskDesc = "Risk threshold to be used to restrict all catalog apps which has that risk or higher."
-	cloudAppsDesc      = "List of [cloud app](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/cloud_app) IDs which the URL filtering rule should restrict. "
-	countriesDesc      = "A list of countries in which this rule should be applied. Each country should be represented by a Alpha-2 code (ISO-3166). " +
+	cloudAppsDesc = "List of [cloud app](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/cloud_app) IDs which the URL filtering rule should restrict. "
+	countriesDesc = "A list of countries in which this rule should be applied. Each country should be represented by a Alpha-2 code (ISO-3166). " +
 		"Enum: " + common.CountriesDoc
 	expiresAtDesc = "Defines the rule expiration time. " +
 		"This can be useful when creating exceptions for users who need them for a limited period of time as an alternative for full disconnection from the proxy. " +

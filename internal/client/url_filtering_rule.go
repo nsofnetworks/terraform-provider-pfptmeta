@@ -21,7 +21,6 @@ type UrlFilteringRule struct {
 	ExemptSources              []string `json:"exempt_sources,omitempty"`
 	AdvancedThreatProtection   bool     `json:"advanced_threat_protection"`
 	CatalogAppCategories       []string `json:"catalog_app_categories"`
-	CatalogAppRisk             int      `json:"catalog_app_risk,omitempty"`
 	CloudApps                  []string `json:"cloud_apps"`
 	Countries                  []string `json:"countries,omitempty"`
 	ExpiresAt                  string   `json:"expires_at,omitempty"`
@@ -48,7 +47,6 @@ func NewUrlFilteringRule(d *schema.ResourceData) *UrlFilteringRule {
 	res.ExemptSources = ConfigToStringSlice("exempt_sources", d)
 	res.AdvancedThreatProtection = d.Get("advanced_threat_protection").(bool)
 	res.CatalogAppCategories = ConfigToStringSlice("catalog_app_categories", d)
-	res.CatalogAppRisk = d.Get("catalog_app_risk").(int)
 	res.CloudApps = ConfigToStringSlice("cloud_apps", d)
 	res.Countries = ConfigToStringSlice("countries", d)
 	res.ExpiresAt = d.Get("expires_at").(string)

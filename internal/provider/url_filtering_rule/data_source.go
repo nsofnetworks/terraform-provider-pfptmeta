@@ -61,11 +61,6 @@ func DataSource() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
-			"catalog_app_risk": {
-				Description: catalogAppRiskDesc,
-				Type:        schema.TypeInt,
-				Computed:    true,
-			},
 			"cloud_apps": {
 				Description: cloudAppsDesc,
 				Type:        schema.TypeList,
