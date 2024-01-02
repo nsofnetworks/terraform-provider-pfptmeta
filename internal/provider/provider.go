@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/file_scanning_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/ssl_bypass_rule"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -20,7 +19,6 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_alias"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/device_settings"
-	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/dlp_rule"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/easylink"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/egress_route"
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/enterprise_dns"
@@ -135,10 +133,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_cloud_app":          cloud_app.DataSource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.DataSource(),
 				"pfptmeta_proxy_port_range":   proxy_port_range.DataSource(),
-				"pfptmeta_dlp_rule":           dlp_rule.DataSource(),
 				"pfptmeta_pac_file":           pac_file.DataSource(),
 				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.DataSource(),
-				"pfptmeta_file_scanning_rule": file_scanning_rule.DataSource(),
 				"pfptmeta_tunnel":             tunnel.DataSource(),
 				"pfptmeta_scan_rule":          scan_rule.DataSource(),
 			},
@@ -188,10 +184,8 @@ func New(version string) func() *schema.Provider {
 				"pfptmeta_cloud_app":          cloud_app.Resource(),
 				"pfptmeta_url_filtering_rule": url_filtering_rule.Resource(),
 				"pfptmeta_proxy_port_range":   proxy_port_range.Resource(),
-				"pfptmeta_dlp_rule":           dlp_rule.Resource(),
 				"pfptmeta_pac_file":           pac_file.Resource(),
 				"pfptmeta_ssl_bypass_rule":    ssl_bypass_rule.Resource(),
-				"pfptmeta_file_scanning_rule": file_scanning_rule.Resource(),
 				"pfptmeta_tunnel":             tunnel.Resource(),
 				"pfptmeta_scan_rule":          scan_rule.Resource(),
 			},
