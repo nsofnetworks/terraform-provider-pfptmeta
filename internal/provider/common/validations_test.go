@@ -322,6 +322,8 @@ var validPrivs = []string{
 	"dlp_rules:write",
 	"tenant_restrictions:read",
 	"tenant_restrictions:write",
+	"scan_rules:read",
+	"scan_rules:write",
 }
 
 var nonValidPrivs = []string{
