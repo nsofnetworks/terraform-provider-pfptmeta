@@ -77,29 +77,11 @@ func parseDLPRule(resp []byte) (*DLPRule, error) {
 }
 
 func CreateDLPRule(ctx context.Context, c *Client, rg *DLPRule) (*DLPRule, error) {
-	rgUrl := fmt.Sprintf("%s/%s", c.BaseURL, dlpRulesEndpoint)
-	body, err := json.Marshal(rg)
-	if err != nil {
-		return nil, fmt.Errorf("could not convert dlp rule to json: %v", err)
-	}
-	resp, err := c.Post(ctx, rgUrl, body)
-	if err != nil {
-		return nil, err
-	}
-	return parseDLPRule(resp)
+	return nil, fmt.Errorf("due to retirement of DLP rules, no new rules can be created")
 }
 
 func UpdateDLPRule(ctx context.Context, c *Client, rgID string, rg *DLPRule) (*DLPRule, error) {
-	rgUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, dlpRulesEndpoint, rgID)
-	body, err := json.Marshal(rg)
-	if err != nil {
-		return nil, fmt.Errorf("could not convert dlp rule to json: %v", err)
-	}
-	resp, err := c.Patch(ctx, rgUrl, body)
-	if err != nil {
-		return nil, err
-	}
-	return parseDLPRule(resp)
+	return nil, fmt.Errorf("due to retirement of DLP rules, no DLP rules can be updated")
 }
 
 func GetDLPRule(ctx context.Context, c *Client, rgID string) (*DLPRule, error) {

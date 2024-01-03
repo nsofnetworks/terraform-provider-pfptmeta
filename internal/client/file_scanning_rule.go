@@ -75,29 +75,11 @@ func parseFileScanningRule(resp []byte) (*FileScanningRule, error) {
 }
 
 func CreateFileScanningRule(ctx context.Context, c *Client, rg *FileScanningRule) (*FileScanningRule, error) {
-	rgUrl := fmt.Sprintf("%s/%s", c.BaseURL, fileScanningRulesEndpoint)
-	body, err := json.Marshal(rg)
-	if err != nil {
-		return nil, fmt.Errorf("could not convert file scanning rule to json: %v", err)
-	}
-	resp, err := c.Post(ctx, rgUrl, body)
-	if err != nil {
-		return nil, err
-	}
-	return parseFileScanningRule(resp)
+	return nil, fmt.Errorf("due to retirement of FSR rules, no new rules can be created")
 }
 
 func UpdateFileScanningRule(ctx context.Context, c *Client, rgID string, rg *FileScanningRule) (*FileScanningRule, error) {
-	rgUrl := fmt.Sprintf("%s/%s/%s", c.BaseURL, fileScanningRulesEndpoint, rgID)
-	body, err := json.Marshal(rg)
-	if err != nil {
-		return nil, fmt.Errorf("could not convert file scanning rule to json: %v", err)
-	}
-	resp, err := c.Patch(ctx, rgUrl, body)
-	if err != nil {
-		return nil, err
-	}
-	return parseFileScanningRule(resp)
+	return nil, fmt.Errorf("due to retirement of FSR rules, no FSR rules can be updated")
 }
 
 func GetFileScanningRule(ctx context.Context, c *Client, rgID string) (*FileScanningRule, error) {
