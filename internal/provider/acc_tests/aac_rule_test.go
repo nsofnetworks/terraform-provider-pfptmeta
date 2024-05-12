@@ -20,7 +20,6 @@ resource "pfptmeta_aac_rule" "rule" {
   priority         = 1
   action           = "allow"
   apply_all_apps   = true
-  suspicious_login = "suspicious"
   sources          = [data.pfptmeta_user.aac_user_by_email.id]
   ip_reputations   = ["tor"]
 }
@@ -46,7 +45,6 @@ func TestAccDataSourceAacRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "apply_all_apps", "true"),
 					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "action", "allow"),
 					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "priority", "1"),
-					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "suspicious_login", "suspicious"),
 					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "sources.0", "usr-xN6MCvzmWyvJYdk"),
 					resource.TestCheckResourceAttr("pfptmeta_aac_rule.rule", "ip_reputations.0", "tor"),
 				),
@@ -60,7 +58,6 @@ func TestAccDataSourceAacRule(t *testing.T) {
 					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "apply_all_apps", "true"),
 					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "action", "allow"),
 					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "priority", "1"),
-					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "suspicious_login", "suspicious"),
 					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "sources.0", "usr-xN6MCvzmWyvJYdk"),
 					resource.TestCheckResourceAttr("data.pfptmeta_aac_rule.rule", "ip_reputations.0", "tor"),
 				),

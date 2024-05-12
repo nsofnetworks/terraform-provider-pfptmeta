@@ -21,7 +21,6 @@ type AacRule struct {
 	ApplyAllApps         bool      `json:"apply_all_apps"`
 	Sources              []string  `json:"sources,omitempty"`
 	ExemptSources        []string  `json:"exempt_sources,omitempty"`
-	SuspiciousLogin      *bool     `json:"suspicious_login"`
 	FilterExpression     *string   `json:"filter_expression"`
 	Networks             []string  `json:"networks,omitempty"`
 	Locations            *[]string `json:"locations"`
@@ -75,31 +74,7 @@ func NewAacRule(d *schema.ResourceData) *AacRule {
 	} else {
 		res.FilterExpression = nil
 	}
-	res.SuspiciousLogin = suspiciousLoginStrToBool(d.Get("suspicious_login").(string))
 	return res
-}
-
-func suspiciousLoginStrToBool(suspiciousLogin string) *bool {
-	res := new(bool)
-	switch suspiciousLogin {
-	case "suspicious":
-		*res = true
-	case "safe":
-		*res = false
-	default:
-		return nil
-	}
-	return res
-}
-
-func ParseAacSuspiciousLoginBoolToStr(aac_rule *AacRule) string {
-	if aac_rule.SuspiciousLogin == nil {
-		return "any"
-	}
-	if *aac_rule.SuspiciousLogin {
-		return "suspicious"
-	}
-	return "safe"
 }
 
 func parseAacRule(resp []byte) (*AacRule, error) {

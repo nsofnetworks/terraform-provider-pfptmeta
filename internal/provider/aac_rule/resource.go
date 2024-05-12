@@ -81,12 +81,6 @@ func Resource() *schema.Resource {
 					ValidateDiagFunc: common.ValidateID(false, "usr", "grp"),
 				},
 			},
-			"suspicious_login": {
-				Description:      suspiciousLoginDesc,
-				Type:             schema.TypeString,
-				Required:         true,
-				ValidateDiagFunc: common.ValidateStringENUM("suspicious", "safe", "any"),
-			},
 			"filter_expression": {
 				Description: expressionDesc,
 				Type:        schema.TypeString,

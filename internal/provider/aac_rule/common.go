@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-var excludedKeys = []string{"id", "suspicious_login"}
+var excludedKeys = []string{"id"}
 
 const (
 	description = "Adaptive access control rule for protecting users connecting to service provider application " +
@@ -23,7 +23,6 @@ const (
 		"apps are specified in app_ids. Note: this attribute overrides app_ids"
 	sourcesDesc              = "Users and groups that the rule is applied to"
 	exemptSources            = "Subgroup of 'sources' to which the AAC rule is not applied"
-	suspiciousLoginDesc      = "Determines if the rule applies at suspicious or non-suspicious login. Options: any, suspicious, safe"
 	expressionDesc           = "Defines filtering expressions to to provide user granularity in AAC rule application"
 	networksDesc             = "List of IP network IDs that the rule is applied to"
 	locationsDesc            = "List of locations that the rule is applied to. Each country is represented by an Alpha-2 code (ISO-3166). Enum: " + common.CountriesDoc
@@ -51,7 +50,6 @@ func aacRuleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) 
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.Set("suspicious_login", client.ParseAacSuspiciousLoginBoolToStr(a))
 	return
 }
 
@@ -68,7 +66,6 @@ func aacRuleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.Set("suspicious_login", client.ParseAacSuspiciousLoginBoolToStr(a))
 	return
 }
 
@@ -85,7 +82,6 @@ func aacRuleUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	d.Set("suspicious_login", client.ParseAacSuspiciousLoginBoolToStr(a))
 	return
 }
 

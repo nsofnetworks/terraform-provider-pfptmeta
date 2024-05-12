@@ -43,4 +43,3 @@ output "aac_rule" {
 - `notification_channels` (List of String) List of notification channel IDs
 - `priority` (Number) Determines the order in which the aac rules are being matched. Lower priority indicates that the AAC rule is matched earlier
 - `sources` (List of String) Users and groups that the rule is applied to
-- `suspicious_login` (String) Determines if the rule applies at suspicious or non-suspicious login. Options: any, suspicious, safe

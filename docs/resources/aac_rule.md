@@ -14,17 +14,16 @@ Adaptive access control rule for protecting users connecting to service provider
 
 ```terraform
 resource "pfptmeta_aac_rule" "aac_rule" {
-  name             = "aac rule name"
-  description      = "aac rule description"
-  enabled          = true
-  priority         = 555
-  action           = "allow"
-  app_ids          = ["app-abcd1234"]
-  sources          = ["usr-abcd1234"]
-  certificate_id   = "crt-abcd1234"
-  suspicious_login = "safe"
-  locations        = ["US", "IL"]
-  ip_reputations   = ["tor", "vpn"]
+  name           = "aac rule name"
+  description    = "aac rule description"
+  enabled        = true
+  priority       = 555
+  action         = "allow"
+  app_ids        = ["app-abcd1234"]
+  sources        = ["usr-abcd1234"]
+  certificate_id = "crt-abcd1234"
+  locations      = ["US", "IL"]
+  ip_reputations = ["tor", "vpn"]
 }
 ```
 
@@ -36,7 +35,6 @@ resource "pfptmeta_aac_rule" "aac_rule" {
 - `action` (String) The action to enforce when rule is matched to a connection
 - `name` (String)
 - `priority` (Number) Determines the order in which the aac rules are being matched. Lower priority indicates that the AAC rule is matched earlier
-- `suspicious_login` (String) Determines if the rule applies at suspicious or non-suspicious login. Options: any, suspicious, safe
 
 ### Optional
 

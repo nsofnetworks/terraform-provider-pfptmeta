@@ -61,11 +61,6 @@ func DataSource() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
-			"suspicious_login": {
-				Description: suspiciousLoginDesc,
-				Type:        schema.TypeString,
-				Computed:    true,
-			},
 			"filter_expression": {
 				Description: expressionDesc,
 				Type:        schema.TypeString,
