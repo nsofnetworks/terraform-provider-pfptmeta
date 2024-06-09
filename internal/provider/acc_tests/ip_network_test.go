@@ -12,6 +12,7 @@ resource "pfptmeta_ip_network" "in" {
   name        = "in"
   description = "in desc"
   cidrs       = ["0.0.0.0/32"]
+  countries   = ["US"]
 }
 `
 	ipNetworkStep2 = `
@@ -19,6 +20,7 @@ resource "pfptmeta_ip_network" "in" {
   name        = "in 1"
   description = "in desc 1"
   cidrs       = ["192.5.0.0/16"]
+  countries   = ["UZ"]
 }
 `
 	ipNetworkDataSource = `
@@ -41,6 +43,7 @@ func TestAccResourceIPNetwork(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "name", "in"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "description", "in desc"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "cidrs.0", "0.0.0.0/32"),
+					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "countries.0", "US"),
 				),
 			},
 			{
@@ -50,6 +53,7 @@ func TestAccResourceIPNetwork(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "name", "in 1"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "description", "in desc 1"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "cidrs.0", "192.5.0.0/16"),
+					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "countries.0", "UZ"),
 				),
 			},
 		},
@@ -68,6 +72,7 @@ func TestAccDataSourceIPNetwork(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "name", "in"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "description", "in desc"),
 					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "cidrs.0", "0.0.0.0/32"),
+					resource.TestCheckResourceAttr("pfptmeta_ip_network.in", "countries.0", "US"),
 				),
 			},
 		},

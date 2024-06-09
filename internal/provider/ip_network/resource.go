@@ -39,6 +39,17 @@ func Resource() *schema.Resource {
 				MaxItems: 50,
 				Optional: true,
 			},
+			"countries": {
+				Description: countriesDesc,
+				Type:        schema.TypeList,
+				MaxItems:    10,
+				MinItems:    1,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: common.ValidateStringENUM(common.Countries...),
+				},
+				Optional: true,
+			},
 		},
 	}
 }

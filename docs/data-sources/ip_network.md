@@ -28,6 +28,7 @@ output "ip_network" {
 ### Read-Only
 
 - `cidrs` (List of String) list of cidrs included in the network
+- `countries` (List of String) list of countries included in the network
 - `description` (String)
 - `id` (String) The ID of this resource.
 - `name` (String)

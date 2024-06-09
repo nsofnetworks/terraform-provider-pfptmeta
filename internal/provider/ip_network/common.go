@@ -14,7 +14,8 @@ var excludedKeys = []string{"id", "org_id"}
 const (
 	description = "You can define ranges of IP addresses to be used as indicators of user location. " +
 		"These ranges are intended for use as determining conditions in other resources."
-	cirdsDesc = "list of cidrs included in the network"
+	cirdsDesc     = "list of cidrs included in the network"
+	countriesDesc = "list of countries included in the network"
 )
 
 func ipNetworkRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {

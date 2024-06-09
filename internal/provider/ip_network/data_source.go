@@ -32,6 +32,14 @@ func DataSource() *schema.Resource {
 				},
 				Computed: true,
 			},
+			"countries": {
+				Description: countriesDesc,
+				Type:        schema.TypeList,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Computed: true,
+			},
 		},
 	}
 }

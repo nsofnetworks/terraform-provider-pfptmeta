@@ -17,6 +17,7 @@ resource "pfptmeta_ip_network" "in" {
   name        = "ip network name"
   description = "ip network description"
   cidrs       = ["0.0.0.0/32"]
+  countries   = ["US"]
 }
 ```
 
@@ -30,6 +31,7 @@ resource "pfptmeta_ip_network" "in" {
 ### Optional
 
 - `cidrs` (List of String) list of cidrs included in the network
+- `countries` (List of String) list of countries included in the network
 - `description` (String)
 
 ### Read-Only

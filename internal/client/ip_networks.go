@@ -14,6 +14,7 @@ type IPNetwork struct {
 	Name        string   `json:"name,omitempty"`
 	Description string   `json:"description"`
 	Cidrs       []string `json:"cidrs"`
+	Countries   []string `json:"countries,omitempty"`
 }
 
 func NewIPNetwork(d *schema.ResourceData) *IPNetwork {
@@ -23,6 +24,7 @@ func NewIPNetwork(d *schema.ResourceData) *IPNetwork {
 	}
 	res.Description = d.Get("description").(string)
 	res.Cidrs = ConfigToStringSlice("cidrs", d)
+	res.Countries = ConfigToStringSlice("countries", d)
 
 	return res
 }
