@@ -95,6 +95,7 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
   priority                     = 50
   warn_ttl                     = 15
   filter_expression            = "crwdzta:high"
+  access_ids	               = ["-LWPEQeNERIJ-479TKyq3a9sffEWXf6n6yf99M8VWFT"]
 }
 
 resource "pfptmeta_url_filtering_rule" "high_risk" {
@@ -181,6 +182,8 @@ func TestAccResourceURLFilteringRule(t *testing.T) {
 						"pfptmeta_content_category.cc", "id"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "priority", "50"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "warn_ttl", "15"),
+					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "access_ids.0",
+						"-LWPEQeNERIJ-479TKyq3a9sffEWXf6n6yf99M8VWF"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "filter_expression", "crwdzta:high"),
 					resource.TestCheckResourceAttr("pfptmeta_url_filtering_rule.default_rule", "schedule.#", "0"),
 

@@ -192,6 +192,16 @@ func Resource() *schema.Resource {
 				ValidateDiagFunc: common.ValidateIntRange(1, 43800),
 				Optional:         true,
 			},
+			"access_ids": {
+				Description: AccessIdsDesc,
+				Type:        schema.TypeList,
+				MaxItems:    200,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: common.ValidatePattern(common.AccessIdPattern),
+				},
+				Optional: true,
+			},
 		},
 	}
 }
