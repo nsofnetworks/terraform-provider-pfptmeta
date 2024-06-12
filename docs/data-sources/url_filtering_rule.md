@@ -31,6 +31,7 @@ output "catalog_app" {
 
 ### Read-Only
 
+- `access_ids` (List of String) Devices on which the URL-filtering rule should be applied
 - `action` (String) Enum: `ISOLATE`, `BLOCK`, `LOG`, `RESTRICT`, `WARN`.
 This action determines what must be done according to this URL filtering rule if a user tries to reach a restricted URL.
 - `advanced_threat_protection` (Boolean) Enables the first-rate security engine based on up-to-date web threat intelligence gathered from two decades of protecting the world's largest organizations from email-borne attacks.

@@ -130,6 +130,16 @@ func TestValidatePattern(t *testing.T) {
 			pattern:     regexp.MustCompile("[\\d]+"),
 			ShouldError: true,
 		},
+		"access-id-fail-because-too-long": {
+			Input:       "-kALWPEQeNEFtRIJ-479TKyq3a9sffEWXf6nRKEmpEpxHf6yf99M8VWFJ4FT",
+			pattern:     AccessIdPattern,
+			ShouldError: true,
+		},
+		"access-id-success": {
+			Input:       "-LWPEQeNERIJ-479TKyq3a9sffEWXf6n6yf99M8VWFT",
+			pattern:     AccessIdPattern,
+			ShouldError: false,
+		},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {

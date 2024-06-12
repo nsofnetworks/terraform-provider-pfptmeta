@@ -23,6 +23,7 @@ var TagPattern = regexp.MustCompile("^[a-zA-Z0-9-_]+$")
 var PrivilegesPattern = regexp.MustCompile("^[a-z_]+:(read|write)$")
 var HttpHeaderPattern = regexp.MustCompile("^([\\w\\-]+):(.*)$")
 var DomainPattern = regexp.MustCompile("^(?:[a-z0-9](?:[a-z0-9-_]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-_]{0,61}[a-z]$")
+var AccessIdPattern = regexp.MustCompile("^([A-Za-z0-9_-]={0,2}){40,50}$")
 
 func containsString(v string, a []string) bool {
 	for _, i := range a {

@@ -30,4 +30,5 @@ resource "pfptmeta_url_filtering_rule" "default_rule" {
   forbidden_content_categories = [pfptmeta_content_category.strict.id]
   priority                     = 94
   warn_ttl                     = 15
+  access_ids                   = []
 }

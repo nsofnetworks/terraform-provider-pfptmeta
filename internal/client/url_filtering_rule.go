@@ -32,6 +32,7 @@ type UrlFilteringRule struct {
 	TenantRestriction          string   `json:"tenant_restriction,omitempty"`
 	ThreatCategories           []string `json:"threat_categories"`
 	WarnTtl                    int      `json:"warn_ttl"`
+	AccessIds                  []string `json:"access_ids,omitempty"`
 }
 
 func NewUrlFilteringRule(d *schema.ResourceData) *UrlFilteringRule {
@@ -58,6 +59,7 @@ func NewUrlFilteringRule(d *schema.ResourceData) *UrlFilteringRule {
 	res.TenantRestriction = d.Get("tenant_restriction").(string)
 	res.ThreatCategories = ConfigToStringSlice("threat_categories", d)
 	res.WarnTtl = d.Get("warn_ttl").(int)
+	res.AccessIds = ConfigToStringSlice("access_ids", d)
 
 	return res
 }

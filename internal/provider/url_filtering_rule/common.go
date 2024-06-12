@@ -57,6 +57,7 @@ These expressions consist of the **{Key:Value}** tags according to the internal 
 		"Only the `RESTRICT` action is allowed when this option is set."
 	threatCategoriesDesc = "List of [threat category](https://registry.terraform.io/providers/nsofnetworks/pfptmeta/latest/docs/resources/threat_category) IDs the URL filtering rule will protect against"
 	warnTtlDesc          = "Time in minutes during which the warning page is not shown again after user proceeds to URL"
+	AccessIdsDesc        = "Devices on which the URL-filtering rule should be applied"
 )
 
 var excludedKeys = []string{"id"}

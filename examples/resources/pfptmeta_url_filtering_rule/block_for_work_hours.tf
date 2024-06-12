@@ -33,4 +33,5 @@ resource "pfptmeta_url_filtering_rule" "work_time" {
   priority                     = 80
   warn_ttl                     = 15
   schedule                     = [pfptmeta_time_frame.work_hours.id]
+  access_ids                   = []
 }
