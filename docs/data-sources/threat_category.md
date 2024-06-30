@@ -33,4 +33,5 @@ output "threat_category" {
 - `id` (String) The ID of this resource.
 - `name` (String)
 - `risk_level` (String) Indicates the risk level that the security engines have for any particular site. By enabling this feature, the administrator sets a tolerance threshold (low, medium or high). When the threshold is crossed, a rule violation is triggered. ENUM: `LOW`, `MEDIUM`, `HIGH`.
+- `third_party_app` (String) Prevent third party app autherization from malicious applications. When value is None the feature is disabled. ENUM: `MALICIOUS`
 - `types` (List of String) A list of predefined threat types to protect against. Enum:`Abused TLD`,`Bitcoin Related`,`Blackhole`,`Botnets`,`Brute Forcer`,`Chat Server`,`CnC`,`Compromised`,`DDoS Target`,`Drop`,`DynDNS`,`EXE Source`,`Fake AV`,`IP Check`,`Keyloggers and Monitoring`,`Malware Sites`,`Mobile CnC`,`Mobile Spyware CnC`,`Online Gaming`,`P2P CnC`,`Peer to Peer`,`Parking`,`Phishing and Other Frauds`,`Private IP Addresses`,`Proxy Avoidance and Anonymizers`,`Remote Access Service`,`Scanner`,`Self Signed SSL`,`SPAM URLs`,`Spyware and Adware`,`Tor`,`Undesirable`,`Utility`,`VPN`

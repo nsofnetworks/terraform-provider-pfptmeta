@@ -50,6 +50,11 @@ func DataSource() *schema.Resource {
 				},
 				Computed: true,
 			},
+			"third_party_app": {
+				Description: thirdPartyAppDesc,
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 		},
 	}
 }

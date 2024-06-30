@@ -37,6 +37,9 @@ const (
 		"`Malware Sites`,`Mobile CnC`,`Mobile Spyware CnC`,`Online Gaming`,`P2P CnC`,`Peer to Peer`,`Parking`," +
 		"`Phishing and Other Frauds`,`Private IP Addresses`,`Proxy Avoidance and Anonymizers`,`Remote Access Service`," +
 		"`Scanner`,`Self Signed SSL`,`SPAM URLs`,`Spyware and Adware`,`Tor`,`Undesirable`,`Utility`,`VPN`"
+	thirdPartyAppDesc = "Prevent third party app autherization from malicious applications. When value is None the " +
+		"feature is disabled. " +
+		"ENUM: `MALICIOUS`"
 )
 
 func threatCategoryRead(ctx context.Context, d *schema.ResourceData, meta interface{}) (diags diag.Diagnostics) {

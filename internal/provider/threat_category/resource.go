@@ -67,6 +67,12 @@ func Resource() *schema.Resource {
 				Optional:     true,
 				AtLeastOneOf: []string{"types", "countries"},
 			},
+			"third_party_app": {
+				Description:      thirdPartyAppDesc,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ValidateDiagFunc: common.ValidateStringENUM("MALICIOUS"),
+			},
 		},
 	}
 }
