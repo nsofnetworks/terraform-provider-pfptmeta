@@ -30,6 +30,7 @@ The CASB proxy Scan takes full advantage of Proofpoint’s robust Enterprise Sca
 
 ### Read-Only
 
+- `access_ids` (List of String) Devices on which the Scan rule should be applied
 - `action` (String) Enum: `BLOCK`, `LOG`.
 This action determines what should be done in case a user performs a user action on files based on this Scan rule.
 - `all_supported_file_types` (Boolean) Indicates whether all supported file types should get scanned.

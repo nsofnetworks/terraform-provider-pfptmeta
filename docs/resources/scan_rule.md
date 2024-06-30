@@ -38,6 +38,7 @@ This action determines what should be done in case a user performs a user action
 
 ### Optional
 
+- `access_ids` (List of String) Devices on which the Scan rule should be applied
 - `all_supported_file_types` (Boolean) Indicates whether all supported file types should get scanned.
 - `antivirus` (Boolean) Indicates whether files should be scanned by antivirus. Only relevant if malware is enabled.
 - `apply_to_org` (Boolean) Indicates whether this scan rule applies to the org.

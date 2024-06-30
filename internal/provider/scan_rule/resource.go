@@ -257,6 +257,12 @@ func Resource() *schema.Resource {
 				Required:         true,
 				ValidateDiagFunc: common.ValidateStringENUM("BLOCK", "LOG"),
 			},
+			"access_ids": {
+				Description: AccessIdsDesc,
+				Type:        schema.TypeList,
+				Elem:        &schema.Schema{Type: schema.TypeString},
+				Optional:    true,
+			},
 		},
 	}
 }
