@@ -160,6 +160,12 @@ func DataSource() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
+			"access_ids": {
+				Description: AccessIdsDesc,
+				Type:        schema.TypeList,
+				Elem:        &schema.Schema{Type: schema.TypeString},
+				Computed:    true,
+			},
 		},
 	}
 }

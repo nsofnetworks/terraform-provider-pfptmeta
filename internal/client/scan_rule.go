@@ -39,6 +39,7 @@ type ScanRule struct {
 	Sandbox                bool     `json:"sandbox,omitempty"`
 	Antivirus              bool     `json:"antivirus,omitempty"`
 	Action                 string   `json:"action"`
+	AccessIds              []string `json:"access_ids,omitempty"`
 }
 
 func NewScanRule(d *schema.ResourceData) *ScanRule {
@@ -77,6 +78,7 @@ func NewScanRule(d *schema.ResourceData) *ScanRule {
 	res.Sandbox = d.Get("sandbox").(bool)
 	res.Antivirus = d.Get("antivirus").(bool)
 	res.Action = d.Get("action").(string)
+	res.AccessIds = ConfigToStringSlice("access_ids", d)
 
 	return res
 }

@@ -77,6 +77,7 @@ These expressions consist of the **{Key:Value}** tags according to the internal 
 	antivirusDesc              = "Indicates whether files should be scanned by antivirus. Only relevant if malware is enabled."
 	actionDesc                 = "Enum: `BLOCK`, `LOG`.\n" +
 		"This action determines what should be done in case a user performs a user action on files based on this Scan rule."
+	AccessIdsDesc = "Devices on which the Scan rule should be applied"
 )
 
 var excludedKeys = []string{"id"}

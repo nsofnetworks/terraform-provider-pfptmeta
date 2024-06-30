@@ -76,6 +76,7 @@ Meaning, in order for the rule to be evaluated, the user agent that was used to 
 
 ### Read-Only
 
+- `access_ids` (List of String) Devices on which the Scan rule should be applied
 - `id` (String) The ID of this resource.
 
 

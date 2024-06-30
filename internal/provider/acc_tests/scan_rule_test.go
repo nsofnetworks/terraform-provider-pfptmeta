@@ -52,6 +52,7 @@ resource "pfptmeta_scan_rule" "default_rule" {
   user_actions             = ["UPLOAD", "DOWNLOAD"]
   priority                 = 15
   filter_expression        = "test:pass"
+  access_ids	           = ["-LWPEQeNERIJ-479TKyq3a9sffEWXf6n6yf99M8VWFT"]
 }
 `
 	scanResourceStep2 = `
@@ -116,6 +117,8 @@ func TestAccResourceScanRule(t *testing.T) {
 					resource.TestCheckResourceAttr("pfptmeta_scan_rule.default_rule", "user_actions.0", "UPLOAD"),
 					resource.TestCheckResourceAttr("pfptmeta_scan_rule.default_rule", "user_actions.1", "DOWNLOAD"),
 					resource.TestCheckResourceAttr("pfptmeta_scan_rule.default_rule", "filter_expression", "test:pass"),
+					resource.TestCheckResourceAttr("pfptmeta_scan_rule.default_rule", "access_ids.0",
+						"-LWPEQeNERIJ-479TKyq3a9sffEWXf6n6yf99M8VWFT"),
 				),
 			},
 			{
