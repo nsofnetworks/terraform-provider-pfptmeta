@@ -84,9 +84,10 @@ func DataSource() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
-			"certificate_id": {
-				Description: CertificateIdDesc,
-				Type:        schema.TypeString,
+			"certificate_ids": {
+				Description: CertificateIdsDesc,
+				Type:        schema.TypeList,
+				Elem:        &schema.Schema{Type: schema.TypeString},
 				Computed:    true,
 			},
 			"notification_channels": {

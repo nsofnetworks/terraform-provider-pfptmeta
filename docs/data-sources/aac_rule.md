@@ -30,7 +30,7 @@ output "aac_rule" {
 - `action` (String) The action to enforce when rule is matched to a connection
 - `app_ids` (List of String) IDs of the apps that the AAC rule is applied to
 - `apply_all_apps` (Boolean) Indicates whether this rule applies to all apps of the org, regardless whether such apps are specified in app_ids. Note: this attribute overrides app_ids
-- `certificate_id` (String) The root/intermediate certificate ID of managed devices that the rule is applied to
+- `certificate_ids` (List of String) List of root/intermediate certificate IDs of managed devices that the rule is applied to
 - `description` (String)
 - `enabled` (Boolean)
 - `exempt_sources` (List of String) Subgroup of 'sources' to which the AAC rule is not applied

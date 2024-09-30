@@ -116,11 +116,14 @@ func Resource() *schema.Resource {
 						"proxy", "vpn", "undistinguished"),
 				},
 			},
-			"certificate_id": {
-				Description:      CertificateIdDesc,
-				Type:             schema.TypeString,
-				Optional:         true,
-				ValidateDiagFunc: common.ValidateID(false, "crt"),
+			"certificate_ids": {
+				Description: CertificateIdsDesc,
+				Type:        schema.TypeSet,
+				Optional:    true,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					ValidateDiagFunc: common.ValidateID(false, "crt"),
+				},
 			},
 			"notification_channels": {
 				Description: notificationChannelsDesc,

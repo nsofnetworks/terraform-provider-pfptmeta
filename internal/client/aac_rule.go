@@ -25,7 +25,7 @@ type AacRule struct {
 	Networks             []string  `json:"networks,omitempty"`
 	Locations            *[]string `json:"locations"`
 	IpReputations        *[]string `json:"ip_reputations"`
-	CertificateId        *string   `json:"certificate_id"`
+	CertificateIds       *[]string `json:"certificate_ids"`
 	NotificationChannels []string  `json:"notification_channels,omitempty"`
 }
 
@@ -62,11 +62,11 @@ func NewAacRule(d *schema.ResourceData) *AacRule {
 	} else {
 		res.IpReputations = nil
 	}
-	cert_id := d.Get("certificate_id").(string)
-	if cert_id != "" {
-		res.CertificateId = &cert_id
+	cert_ids := ResourceTypeSetToStringSlice(d.Get("certificate_ids").(*schema.Set))
+	if len(cert_ids) > 0 {
+		res.CertificateIds = &cert_ids
 	} else {
-		res.CertificateId = nil
+		res.CertificateIds = nil
 	}
 	fe := d.Get("filter_expression").(string)
 	if fe != "" {

@@ -27,7 +27,7 @@ const (
 	networksDesc             = "List of IP network IDs that the rule is applied to"
 	locationsDesc            = "List of locations that the rule is applied to. Each country is represented by an Alpha-2 code (ISO-3166). Enum: " + common.CountriesDoc
 	IPDeputationsDesc        = "List of IP reputations that the rule is applied to"
-	CertificateIdDesc        = "The root/intermediate certificate ID of managed devices that the rule is applied to"
+	CertificateIdsDesc       = "List of root/intermediate certificate IDs of managed devices that the rule is applied to"
 	notificationChannelsDesc = "List of notification channel IDs"
 )
 

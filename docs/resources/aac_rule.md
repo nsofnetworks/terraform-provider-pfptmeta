@@ -14,16 +14,16 @@ Adaptive access control rule for protecting users connecting to service provider
 
 ```terraform
 resource "pfptmeta_aac_rule" "aac_rule" {
-  name           = "aac rule name"
-  description    = "aac rule description"
-  enabled        = true
-  priority       = 555
-  action         = "allow"
-  app_ids        = ["app-abcd1234"]
-  sources        = ["usr-abcd1234"]
-  certificate_id = "crt-abcd1234"
-  locations      = ["US", "IL"]
-  ip_reputations = ["tor", "vpn"]
+  name            = "aac rule name"
+  description     = "aac rule description"
+  enabled         = true
+  priority        = 555
+  action          = "allow"
+  app_ids         = ["app-abcd1234"]
+  sources         = ["usr-abcd1234"]
+  certificate_ids = ["crt-abcd1234"]
+  locations       = ["US", "IL"]
+  ip_reputations  = ["tor", "vpn"]
 }
 ```
 
@@ -40,7 +40,7 @@ resource "pfptmeta_aac_rule" "aac_rule" {
 
 - `app_ids` (Set of String) IDs of the apps that the AAC rule is applied to
 - `apply_all_apps` (Boolean) Indicates whether this rule applies to all apps of the org, regardless whether such apps are specified in app_ids. Note: this attribute overrides app_ids
-- `certificate_id` (String) The root/intermediate certificate ID of managed devices that the rule is applied to
+- `certificate_ids` (Set of String) List of root/intermediate certificate IDs of managed devices that the rule is applied to
 - `description` (String)
 - `enabled` (Boolean)
 - `exempt_sources` (Set of String) Subgroup of 'sources' to which the AAC rule is not applied
