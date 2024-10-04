@@ -62,10 +62,9 @@ func Resource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"certificate": {
-							Description:      samlCertDesc,
-							Type:             schema.TypeString,
-							Required:         true,
-							ValidateDiagFunc: common.ValidatePEMCert(),
+							Description: samlCertDesc,
+							Type:        schema.TypeString,
+							Required:    true,
 						},
 						"issuer": {
 							Description: issuerDesc,
