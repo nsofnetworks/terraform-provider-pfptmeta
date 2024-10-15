@@ -470,14 +470,13 @@ func GetApp(ctx context.Context, c *Client, appID string, protocol string) (*App
 		app_resp.Saml = saml_resp
 		DomainFedUrl := fmt.Sprintf("%s/%s/%s/domain_federation", c.BaseURL, appEndpoint, app_resp.ID)
 		resp, err = c.Get(ctx, DomainFedUrl, nil)
-		if err != nil {
-			return nil, err
+		if err == nil {
+			domain_federation_resp, err := parseAppDomainFederation(resp)
+			if err != nil {
+				return nil, err
+			}
+			app_resp.DomainFederation = domain_federation_resp
 		}
-		domain_federation_resp, err := parseAppDomainFederation(resp)
-		if err != nil {
-			return nil, err
-		}
-		app_resp.DomainFederation = domain_federation_resp
 	} else if protocol == "OIDC" {
 		oidcUrl := fmt.Sprintf("%s/%s/%s/oidc", c.BaseURL, appEndpoint, app_resp.ID)
 		resp, err = c.Get(ctx, oidcUrl, nil)
