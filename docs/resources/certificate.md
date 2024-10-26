@@ -13,10 +13,16 @@ SSL certificate. It is used mostly to allow EasyLinks to utilize HTTPS, when ope
 ## Example Usage
 
 ```terraform
-resource "pfptmeta_certificate" "cert" {
+resource "pfptmeta_certificate" "managed_cert" {
   name        = "certificate name"
   description = "certificate description"
   sans        = ["test.example.com"]
+}
+
+resource "pfptmeta_certificate" "byo_cert" {
+  name        = "certificate name"
+  description = "certificate description"
+  certificate = file("my_cert.pem")
 }
 ```
 
@@ -26,11 +32,12 @@ resource "pfptmeta_certificate" "cert" {
 ### Required
 
 - `name` (String)
-- `sans` (Set of String) List of certificate SANs
 
 ### Optional
 
+- `certificate` (String) SSL certificate in PEM format used for BYO CA
 - `description` (String)
+- `sans` (Set of String) List of certificate SANs
 
 ### Read-Only
 

@@ -20,6 +20,7 @@ type Certificate struct {
 	StatusDescription string   `json:"status_description,omitempty"`
 	ValidNotAfter     string   `json:"valid_not_after,omitempty"`
 	ValidNotBefore    string   `json:"valid_not_before,omitempty"`
+	Certificate       string   `json:"certificate,omitempty"`
 }
 
 func NewCertificate(d *schema.ResourceData) *Certificate {
@@ -28,6 +29,9 @@ func NewCertificate(d *schema.ResourceData) *Certificate {
 		res.Name = d.Get("name").(string)
 	}
 	res.Description = d.Get("description").(string)
+	if d.HasChange("certificate") {
+		res.Certificate = d.Get("certificate").(string)
+	}
 	if d.HasChange("sans") {
 		res.Sans = ResourceTypeSetToStringSlice(d.Get("sans").(*schema.Set))
 	}
@@ -44,7 +48,12 @@ func parseCertificate(resp []byte) (*Certificate, error) {
 }
 
 func CreateCertificate(ctx context.Context, c *Client, cert *Certificate) (*Certificate, error) {
-	url := fmt.Sprintf("%s/%s", c.BaseURL, certificateEndpoint)
+	var url string
+	if cert.Certificate != "" {
+		url = fmt.Sprintf("%s/%s/upload", c.BaseURL, certificateEndpoint)
+	} else {
+		url = fmt.Sprintf("%s/%s", c.BaseURL, certificateEndpoint)
+	}
 	body, err := json.Marshal(cert)
 	if err != nil {
 		return nil, fmt.Errorf("could not convert certificate to json: %v", err)

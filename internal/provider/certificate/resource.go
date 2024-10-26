@@ -5,6 +5,10 @@ import (
 	"github.com/nsofnetworks/terraform-provider-pfptmeta/internal/provider/common"
 )
 
+const (
+	certDesc = "SSL certificate in PEM format used for BYO CA"
+)
+
 func Resource() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
@@ -29,16 +33,24 @@ func Resource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"certificate": {
+				Description:  certDesc,
+				ForceNew:     true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				ExactlyOneOf: []string{"certificate", "sans"},
+			},
 			"sans": {
 				Description: sansDesc,
 				Type:        schema.TypeSet,
-				Required:    true,
+				Optional:    true,
 				Elem: &schema.Schema{
 					Type:             schema.TypeString,
 					ValidateDiagFunc: common.ValidateDNS(),
 				},
-				ForceNew: true,
-				MinItems: 1,
+				ForceNew:     true,
+				MinItems:     1,
+				ExactlyOneOf: []string{"certificate", "sans"},
 			},
 			"serial_number": {
 				Type:     schema.TypeString,
